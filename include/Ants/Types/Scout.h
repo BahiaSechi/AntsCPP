@@ -13,8 +13,8 @@ private:
     int minor_lifespan;
 
 public:
-    Scout(bool major, int minor_lifespan);
-    ~Scout();
+    Scout(bool major, int minorLifespan);
+    ~Scout() override;
 };
 
 

@@ -2,4 +2,13 @@
 // Created by kyojin on 23/11/2020.
 //
 
-#include "Ants/Colony.h"
+#include <Ants/Colony.h>
+
+Colony::Colony(int food_stock, std::vector<Ant> ants,
+               std::vector<Tile> colony_kingdom) {
+
+}
+
+Colony::~Colony() {
+
+}

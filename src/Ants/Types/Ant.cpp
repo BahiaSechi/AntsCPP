@@ -19,3 +19,10 @@
  */
 
 #include <Ants/Types/Ant.h>
+
+Ant::Ant(int lifespan, const Position &position,
+         const Alimentation &alimentation) : lifespan(lifespan),
+                                             position(position),
+                                             alimentation(alimentation) {}
+
+Ant::~Ant() {}

@@ -31,8 +31,10 @@ protected:
     Alimentation alimentation;
 
 public:
-    Ant(int lifespan, Position position, Alimentation alimentation);
-    virtual ~Ant() = 0;
+    Ant(int lifespan, const Position &position,
+        const Alimentation &alimentation);
+
+    virtual ~Ant();
 };
 
 

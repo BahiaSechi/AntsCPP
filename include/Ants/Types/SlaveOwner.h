@@ -13,7 +13,7 @@ private:
 
 public:
     SlaveOwner(bool has_larva);
-    ~SlaveOwner();
+    ~SlaveOwner() override;
 };
 
 

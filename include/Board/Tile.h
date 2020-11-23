@@ -14,6 +14,7 @@ private:
 
 public:
     Tile(int ant_count, sf::Vector2i position);
+    ~Tile();
 };
 
 

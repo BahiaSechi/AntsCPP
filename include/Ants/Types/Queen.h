@@ -17,9 +17,9 @@ protected:
 
 public:
     Queen(bool can_give_birth, int lifespan, float production_chance);
-    ~Queen();
+    ~Queen() override;
+
     void giveBirth() const;
-    void abstractMethod();
 };
 
 

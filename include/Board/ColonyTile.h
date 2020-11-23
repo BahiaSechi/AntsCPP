@@ -9,5 +9,4 @@
 
 class ColonyTile : public Tile { };
 
-
 #endif //ANTS_COLONYTILE_H

@@ -12,8 +12,9 @@ private:
     int diet_time;
 
 public:
-    void eat();
     Alimentation(int diet, int diet_time);
+    ~Alimentation();
+    void eat();
 };
 
 

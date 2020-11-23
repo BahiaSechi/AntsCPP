@@ -18,4 +18,16 @@
  * @brief Blabla
  */
 
-#include "Ants/Alimentation.h"
+#include <Ants/Alimentation.h>
+
+Alimentation::Alimentation(int diet, int diet_time) {
+
+}
+
+Alimentation::~Alimentation() {
+
+}
+
+void Alimentation::eat() {
+
+}

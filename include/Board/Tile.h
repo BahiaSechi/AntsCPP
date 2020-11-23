@@ -11,6 +11,9 @@ class Tile {
 private:
     int ant_count;
     sf::Vector2i pos;
+
+public:
+    Tile(int ant_count, sf::Vector2i position);
 };
 
 

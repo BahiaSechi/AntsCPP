@@ -7,9 +7,7 @@
 
 #include <Board/Tile.h>
 
-class FoodTile : public Tile {
-
-};
+class FoodTile : public Tile { };
 
 
 #endif //ANTS_FOODTILE_H

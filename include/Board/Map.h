@@ -15,6 +15,11 @@ private:
     sf::Vector2i dimension;
     int tile_size;
     std::vector<Tile> tiles;
+
+public:
+    Map(sf::Vector2i dimension, int tile_size,
+        std::vector<Tile> tiles);
+    ~Map();
 };
 
 

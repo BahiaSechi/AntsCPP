@@ -13,6 +13,7 @@ private:
 
 public:
     void eat();
+    Alimentation(int diet, int diet_time);
 };
 
 

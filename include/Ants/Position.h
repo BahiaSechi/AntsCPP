@@ -17,6 +17,9 @@ protected:
 
 public:
     void move();
+    Position(sf::Vector2i position, std::stack<int> pos_stack,
+             bool register_post);
+    ~Position();
 };
 
 

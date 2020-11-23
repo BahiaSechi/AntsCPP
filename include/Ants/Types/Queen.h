@@ -16,8 +16,8 @@ protected:
     float production_chance;
 
 public:
-    Queen();
-
+    Queen(bool can_give_birth, int lifespan, float production_chance);
+    ~Queen();
     void giveBirth() const;
     void abstractMethod();
 };

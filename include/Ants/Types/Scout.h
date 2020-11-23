@@ -10,10 +10,11 @@
 class Scout : public Ant {
 private:
     bool major;
-    int minor_lifepsan;
+    int minor_lifespan;
 
 public:
     Scout(bool major, int minor_lifespan);
+    ~Scout();
 };
 
 

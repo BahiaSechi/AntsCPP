@@ -7,9 +7,7 @@
 
 #include <Board/Tile.h>
 
-class ColonyTile : public Tile {
-
-};
+class ColonyTile : public Tile { };
 
 
 #endif //ANTS_COLONYTILE_H

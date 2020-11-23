@@ -13,7 +13,9 @@ private:
     int expedition_time;
 
 public:
-    void attack(SlaveOwner &slave_wner) const;
+    Soldier(int expedition_time);
+    ~Soldier();
+    void attack(SlaveOwner &slave_owner) const;
 };
 
 #endif //ANTSPROJECT_SOLDIER_H

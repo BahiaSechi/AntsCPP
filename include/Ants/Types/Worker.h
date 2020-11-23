@@ -13,6 +13,10 @@ private:
     bool major;
     int pheromones_stock;
     int minor_lifespan;
+
+public:
+    Worker(bool has_food, bool major,
+           int pheromones_stock, int minor_lifespan);
 };
 
 

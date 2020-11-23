@@ -7,9 +7,7 @@
 
 #include <Board/Tile.h>
 
-class ObstacleTile : public Tile {
-
-};
+class ObstacleTile : public Tile { };
 
 
 #endif //ANTS_OBSTACLETILE_H

@@ -10,6 +10,10 @@
 class SlaveOwner : public Ant {
 private:
     bool has_larva;
+
+public:
+    SlaveOwner(bool has_larva);
+    ~SlaveOwner();
 };
 
 

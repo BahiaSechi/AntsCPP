@@ -1,0 +1,16 @@
+image: rikorose/gcc-cmake
+
+before_script:
+  - apt update
+
+stages:
+  - build
+
+compile-software:
+  stage: build
+  variables:
+    CC: gcc
+    CXX: g++
+  script:
+    - mkdir cmake-build && cd cmake-build
+    - cmake --target ants ../ -o ants

@@ -19,3 +19,6 @@
  */
 
 #include <Board/ColonyTile.h>
+
+ColonyTile::ColonyTile(int antCount, const sf::Vector2i &position) : Tile(antCount, position, tile_type::COLONY)
+{}

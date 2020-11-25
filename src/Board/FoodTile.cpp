@@ -19,3 +19,12 @@
  */
 
 #include <Board/FoodTile.h>
+
+FoodTile::FoodTile(int antCount, const sf::Vector2i &position) : Tile(antCount, position, tile_type::FOOD)
+{
+}
+
+FoodTile::~FoodTile()
+{
+
+}

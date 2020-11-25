@@ -7,7 +7,11 @@
 
 #include <Board/Tile.h>
 
-class FoodTile : public Tile { };
+class FoodTile : public Tile {
+public:
+    FoodTile(int antCount, const sf::Vector2i &position);
+    virtual ~FoodTile();
+};
 
 
 #endif //ANTS_FOODTILE_H

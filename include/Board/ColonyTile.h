@@ -7,6 +7,9 @@
 
 #include <Board/Tile.h>
 
-class ColonyTile : public Tile { };
+class ColonyTile : public Tile {
+public:
+    ColonyTile(int antCount, const sf::Vector2i &position);
+};
 
 #endif //ANTS_COLONYTILE_H

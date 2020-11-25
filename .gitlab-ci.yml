@@ -1,8 +1,5 @@
 image: rikorose/gcc-cmake
 
-before_script:
-  - apt update
-
 stages:
   - build
 

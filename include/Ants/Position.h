@@ -9,17 +9,21 @@
 
 #include <SFML/System/Vector2.hpp>
 
+#include <Board/Tile.h>
+
 class Position {
 protected:
-    sf::Vector2i pos;
+    Tile position;
     std::stack<int> pos_stack;
     bool register_post;
 
 public:
-    Position(sf::Vector2i position, std::stack<int> pos_stack,
-             bool register_post);
+    Position(const Tile &position, const std::stack<int> &pos_stack, bool register_post);
     ~Position();
-    void move();
+
+    // Getters & setters
+    const Tile &getPosition() const;
+    void setPosition(const Tile &pos);
 };
 
 

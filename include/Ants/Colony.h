@@ -16,8 +16,8 @@ private:
     std::vector<Tile> colony_kingdom;
 
 public:
-    Colony(int food_stock, std::vector<Ant> ants,
-           std::vector<Tile> colony_kingdom);
+    Colony(int food_stock, const std::vector<Ant> &ants,
+           const std::vector<Tile> &colony_kingdom);
     ~Colony();
 };
 

@@ -4,6 +4,8 @@
 
 #include <Ants/Types/SlaveOwner.h>
 
-SlaveOwner::SlaveOwner(bool has_larva) { }
+SlaveOwner::SlaveOwner(bool has_larva) : Ant(1, position, alimentation) {
+
+}
 
 SlaveOwner::~SlaveOwner() { }

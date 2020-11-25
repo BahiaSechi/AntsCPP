@@ -19,9 +19,12 @@
  */
 
 #include <iostream>
+#include <Board/Map.h>
 
 int main()
 {
-    std::cout << "Hello World!" << std::endl;
+    Map map(211, 201, 16, 2);
+    std::cout << map << std::endl;
+
     return 0;
 }

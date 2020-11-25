@@ -8,36 +8,23 @@ Tile::~Tile() {
 
 }
 
-Tile::Tile(int ant_count, const sf::Vector2i &position, tile_type type) : ant_count(ant_count), pos(position), type(type)
+Tile::Tile(sf::Vector2<*Ant> ants, const sf::Vector2i &position, tile_type
+type) : ants (ants), pos(position), type(type)
 {
 }
 
-int Tile::getAntCount() const
-{
-    return ant_count;
+const sf::Vector2<*Ant> &Tile::getAnts() const {
+    return ants;
 }
 
-void Tile::setAntCount(int antCount)
-{
-    ant_count = antCount;
+void Tile::setAnts(const sf::Vector2<*Ant> &ants) {
+    Tile::ants = ants;
 }
 
-const sf::Vector2i &Tile::getPos() const
-{
-    return pos;
-}
-
-void Tile::setPos(const sf::Vector2i &pos)
-{
-    Tile::pos = pos;
-}
-
-tile_type Tile::getType() const
-{
+tile_type Tile::getType() const {
     return type;
 }
 
-void Tile::setType(tile_type type)
-{
+void Tile::setType(tile_type type) {
     Tile::type = type;
 }

@@ -4,6 +4,7 @@
 
 #include <Board/EmptyTile.h>
 
-EmptyTile::EmptyTile(int antCount, const sf::Vector2i &position) : Tile(antCount, position, tile_type::EMPTY)
+EmptyTile::EmptyTile(sf::Vector2<*Ant> ants, const sf::Vector2i &position) :
+Tile (ants, position, tile_type::EMPTY)
 {
 }

@@ -20,7 +20,8 @@
 
 #include <Board/FoodTile.h>
 
-FoodTile::FoodTile(int antCount, const sf::Vector2i &position) : Tile(antCount, position, tile_type::FOOD)
+FoodTile::FoodTile(sf::Vector2<*Ant> ants, const sf::Vector2i &position) :
+Tile (ants, position, tile_type::FOOD)
 {
 }
 

@@ -6,7 +6,10 @@
 #define ANTSPROJECT_TILE_H
 
 #include <SFML/System/Vector2.hpp>
+#include <vector>
 #include <Ants/Types/Ant.h>
+
+class Ant;
 
 enum class tile_type {
     EMPTY, OBSTACLE, FOOD, COLONY
@@ -14,21 +17,17 @@ enum class tile_type {
 
 class Tile {
 private:
-    sf::Vector2<*Ant> ants;
+    std::vector<Ant> ants;
     sf::Vector2i pos;
     tile_type type;
 
 public:
-    Tile(sf::Vector2<*Ant> ants, const sf::Vector2i &position, tile_type type);
+    Tile(std::vector<Ant> ants, const sf::Vector2i &position, tile_type type);
+
+    Tile();
+
     ~Tile();
 
-    const sf::Vector2<*Ant> &getAnts() const;
-
-    void setAnts(const sf::Vector2<*Ant> &ants);
-
-    tile_type getType() const;
-
-    void setType(tile_type type);
 };
 
 #endif //ANTSPROJECT_TILE_H

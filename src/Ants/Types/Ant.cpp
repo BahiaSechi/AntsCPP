@@ -22,10 +22,8 @@
 #include <ctime>
 #include <cstdlib>
 
-Ant::Ant(int lifespan, const Position &position,
-         const Alimentation &alimentation) : lifespan(lifespan),
-                                             position(position),
-                                             alimentation(alimentation) {}
+Ant::Ant(int lifespan, const Position &position, const Alimentation &alimentation):
+lifespan(lifespan), alimentation(alimentation), position(position){}
 
 Ant::~Ant() {}
 

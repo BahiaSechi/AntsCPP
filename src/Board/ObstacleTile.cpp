@@ -4,10 +4,10 @@
 
 #include <Board/ObstacleTile.h>
 
-ObstacleTile::ObstacleTile(sf::Vector2<*Ant> ants, const sf::Vector2i
-&position) : Tile (ants, position, tile_type::OBSTACLE)
-{}
-
 ObstacleTile::~ObstacleTile() {
+
+}
+
+ObstacleTile::ObstacleTile(int antCount, const sf::Vector2i &position) {
 
 }

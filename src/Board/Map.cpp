@@ -24,8 +24,8 @@ Map::~Map()
     tiles = nullptr;
 }
 
-Map::Map(int height, int width, int tile_size, int big_food_source_count)
-        : tile_size(tile_size), big_food_source_count(big_food_source_count)
+Map::Map(int height, int width, int colony_food, int big_food_source_count)
+        : colony_food(colony_food), big_food_source_count(big_food_source_count)
 {
     dimension = {width, height};
     tiles = new Tile **[height];
@@ -40,7 +40,9 @@ Map::Map(int height, int width, int tile_size, int big_food_source_count)
 
         for (int x = 0; x < width; ++x) {
             if (y == height / 2 && x == width / 2) {
-                tiles[y][x] = new ColonyTile(0, {x, y});
+                tiles[y][x] = new ColonyTile(std::vector<Ant>(),
+                                             <#initializer#>, tile_type::COLONY,
+                                             0, {x, y});
             } else {
                 float tile_type_prob = dis(gen);
 

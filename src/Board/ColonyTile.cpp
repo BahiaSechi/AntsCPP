@@ -20,6 +20,6 @@
 
 #include <Board/ColonyTile.h>
 
-ColonyTile::ColonyTile(sf::Vector2<*Ant> ants, const sf::Vector2i &position) : Tile
-(ants, position, tile_type::COLONY)
-{}
+ColonyTile::ColonyTile(std::vector<Ant> ants, const sf::Vector2i &position1,
+                       tile_type type, int antCount,
+                       const sf::Vector2i &position) : Tile(ants, position, type) {}

@@ -14,12 +14,12 @@
 class Map {
 private:
     sf::Vector2i dimension;
-    int tile_size;
     Tile ***tiles;
+    int colony_food;
     int big_food_source_count;
 
 public:
-    Map(int height, int width, int tile_size, int big_food_source_count);
+    Map(int height, int width, int colony_food, int big_food_source_count);
     ~Map();
 
     friend std::ostream &operator<<(std::ostream &os, const Map &map);

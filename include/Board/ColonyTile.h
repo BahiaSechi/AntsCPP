@@ -9,7 +9,9 @@
 
 class ColonyTile : public Tile {
 public:
-    ColonyTile(int antCount, const sf::Vector2i &position);
+    ColonyTile(std::vector<Ant> ants, const sf::Vector2i &position1,
+               tile_type type, int antCount,
+               const sf::Vector2i &position);
 };
 
 #endif //ANTS_COLONYTILE_H

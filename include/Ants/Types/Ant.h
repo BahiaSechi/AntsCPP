@@ -24,6 +24,8 @@
 #include <Ants/Alimentation.h>
 #include <Ants/Position.h>
 
+class Position;
+
 class Ant {
 protected:
     int lifespan;

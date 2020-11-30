@@ -11,6 +11,8 @@
 
 #include <Board/Tile.h>
 
+class Tile;
+
 class Position {
 protected:
     Tile position;

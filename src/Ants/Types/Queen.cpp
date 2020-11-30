@@ -20,9 +20,8 @@
 
 #include <Ants/Types/Queen.h>
 
-Queen::Queen(bool can_give_birth, int lifespan, float production_chance) : Ant(10, position, alimentation) {
-
-}
+Queen::Queen(bool can_give_birth, int lifespan, float production_chance) :
+Ant(10, position,Alimentation(1,1)) {}
 
 Queen::~Queen() { }
 

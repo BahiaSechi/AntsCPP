@@ -25,7 +25,7 @@ void Game::onUpdate()
 
     // TODO: Mettre à jour les données
     for (Ant *ant : ants)
-        (*ant).move();
+        ant->move();
 
     // TODO: mettre à jour l'affichage
     // graphic_thread.join();

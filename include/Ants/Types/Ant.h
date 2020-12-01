@@ -32,7 +32,7 @@ protected:
 
 public:
     Ant(int lifespan, const Position &position, const Alimentation &alimentation);
-    void move();
+    virtual void move() = 0;
     virtual ~Ant();
 
 };

@@ -28,7 +28,7 @@ void Game::onUpdate()
         (*ant).move();
 
     // TODO: mettre à jour l'affichage
-//    graphic_thread.join();
+    // graphic_thread.join();
 
 }
 

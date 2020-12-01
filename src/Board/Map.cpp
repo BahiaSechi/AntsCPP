@@ -95,7 +95,26 @@ std::ostream &operator<<(std::ostream &os, const Map &map)
     return os;
 }
 
-int Map::getColonyFood() const
-{
+const sf::Vector2i &Map::getDimension() const {
+    return dimension;
+}
+
+void Map::setDimension(const sf::Vector2i &dimension) {
+    Map::dimension = dimension;
+}
+
+Tile ***Map::getTiles() const {
+    return tiles;
+}
+
+void Map::setTiles(Tile ***tiles) {
+    Map::tiles = tiles;
+}
+
+int Map::getColonyFood() const {
     return colony_food;
+}
+
+void Map::setColonyFood(int colonyFood) {
+    colony_food = colonyFood;
 }

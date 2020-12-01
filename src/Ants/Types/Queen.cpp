@@ -36,7 +36,7 @@ void Queen::giveBirth() const {
 
 void Queen::move(Game *game)
 {
-    std::cout << "queen" << std::endl;
+    // The queen does not move.
 }
 
 

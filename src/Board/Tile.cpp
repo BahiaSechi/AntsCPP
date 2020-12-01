@@ -4,11 +4,32 @@
 
 #include <Board/Tile.h>
 
-Tile::~Tile() {
+Tile::~Tile()
+{
 
 }
 
-Tile::Tile(std::vector<Ant> ants, const sf::Vector2i &position, tile_type
-type) : ants (ants), pos(position), type(type)
+Tile::Tile(std::vector<Ant> ants, const sf::Vector2i &position, tile_type type)
+        : ants(ants), pos(position), type(type)
 {
+}
+
+tile_type Tile::getType() const
+{
+    return type;
+}
+
+const std::vector<Ant> &Tile::getAnts() const
+{
+    return ants;
+}
+
+void Tile::setAnts(const std::vector<Ant> &ants)
+{
+    Tile::ants = ants;
+}
+
+const sf::Vector2i &Tile::getPos() const
+{
+    return pos;
 }

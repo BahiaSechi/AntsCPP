@@ -4,7 +4,7 @@
 
 #include <Ants/Types/Soldier.h>
 
-Soldier::Soldier(int expedition_time) :
+Soldier::Soldier(int expedition_time, const Position &position) :
 Ant(1, position, Alimentation(0.1,1)) {}
 
 Soldier::~Soldier() {

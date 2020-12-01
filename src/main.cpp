@@ -19,12 +19,13 @@
  */
 
 #include <iostream>
-#include <Board/Map.h>
+#include <Game.h>
 
 int main()
 {
-    Map map(211, 201, 16, 2);
-    std::cout << map << std::endl;
+    Game game(211, 201);
+
+    std::cout << game.getMap() << std::endl;
 
     return 0;
 }

@@ -7,7 +7,7 @@
 
 #include <Ants/Types/Ant.h>
 
-class Worker : public Ant {
+class Worker : public virtual Ant {
 private:
     bool has_food;
     bool major;
@@ -15,8 +15,7 @@ private:
     int minor_lifespan;
 
 public:
-    Worker(bool has_food, bool major,
-           int pheromones_stock, int minor_lifespan);
+    Worker(bool has_food, bool major, int pheromones_stock, int minor_lifespan, const Position &position);
     ~Worker();
 };
 

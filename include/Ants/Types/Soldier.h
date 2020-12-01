@@ -8,12 +8,12 @@
 #include <Ants/Types/Ant.h>
 #include <Ants/Types/SlaveOwner.h>
 
-class Soldier : public Ant {
+class Soldier : public virtual Ant {
 private:
     int expedition_time;
 
 public:
-    Soldier(int expedition_time);
+    Soldier(int expedition_time, const Position &position);
     ~Soldier() override;
     void attack(SlaveOwner &slave_owner) const;
 };

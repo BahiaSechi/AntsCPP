@@ -7,13 +7,13 @@
 
 #include <Ants/Types/Ant.h>
 
-class Scout : public Ant {
+class Scout : public virtual Ant {
 private:
     bool major;
     int minor_lifespan;
 
 public:
-    Scout(bool major, int minorLifespan);
+    Scout(bool major, int minorLifespan, const Position &position);
     ~Scout() override;
 };
 

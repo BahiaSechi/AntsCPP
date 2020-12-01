@@ -40,21 +40,19 @@ Map::Map(int height, int width, int colony_food, int big_food_source_count)
 
         for (int x = 0; x < width; ++x) {
             if (y == height / 2 && x == width / 2) {
-                tiles[y][x] = new ColonyTile(std::vector<Ant>(),
-                                             <#initializer#>, tile_type::COLONY,
-                                             0, {x, y});
+                tiles[y][x] = new ColonyTile({x, y});
             } else {
                 float tile_type_prob = dis(gen);
 
                 if (tile_type_prob <= 3.0) {
                     // TODO: implement every type of obstacle
                     // 30% chance of small food tile
-                    tiles[y][x] = new ObstacleTile(0, {x, y});
+                    tiles[y][x] = new ObstacleTile({x, y});
                 } else if (tile_type_prob <= 3.002) {
                     // 0.02% chance of small food tile
-                    tiles[y][x] = new FoodTile(0, {x, y});
+                    tiles[y][x] = new FoodTile({x, y});
                 } else {
-                    tiles[y][x] = new EmptyTile(0, {x, y});
+                    tiles[y][x] = new EmptyTile({x, y});
                 }
             }
 
@@ -65,13 +63,13 @@ Map::Map(int height, int width, int colony_food, int big_food_source_count)
     for (int i = 0; i < big_food_source_count; ++i) {
         int x = rand() % width;
         int y = rand() % height;
-        tiles[y][x] = new FoodTile(0, {x, y});
+        tiles[y][x] = new FoodTile({x, y});
     }
 }
 
 std::ostream &operator<<(std::ostream &os, const Map &map)
 {
-    os << "dimension: (" << map.dimension.x << ", " << map.dimension.y << ") tile_size: " << map.tile_size;
+    os << "dimension: (" << map.dimension.x << ", " << map.dimension.y;
 
     for (int y = 0; y < map.dimension.y; ++y) {
         os << "\n";

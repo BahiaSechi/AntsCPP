@@ -35,7 +35,7 @@ void Ant::move() {
 
     /*switch (moving_chance) {
         case 1:
-        this->position.getPosition().get
+        this->position.getTile().get
             break;
         case 2: // N
             this->position.setPos(this->position.getPos().x,

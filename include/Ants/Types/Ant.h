@@ -24,8 +24,6 @@
 #include <Ants/Alimentation.h>
 #include <Ants/Position.h>
 
-class Position;
-
 class Ant {
 protected:
     int lifespan;
@@ -33,8 +31,7 @@ protected:
     Alimentation alimentation;
 
 public:
-    Ant(int lifespan, const Position &position,
-        const Alimentation &alimentation);
+    Ant(int lifespan, const Position &position, const Alimentation &alimentation);
     void move();
     virtual ~Ant();
 

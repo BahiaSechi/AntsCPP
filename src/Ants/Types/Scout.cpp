@@ -5,7 +5,7 @@
 #include <Ants/Types/Scout.h>
 
 
-Scout::Scout(bool major, int minorLifespan) :
+Scout::Scout(bool major, int minorLifespan, const Position &position) :
 Ant(1, position,Alimentation(0.1,1)) {}
 
 Scout::~Scout() { }

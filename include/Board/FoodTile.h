@@ -7,9 +7,9 @@
 
 #include <Board/Tile.h>
 
-class FoodTile : public Tile {
+class FoodTile : public virtual Tile {
 public:
-    FoodTile(int antCount, const sf::Vector2i &position);
+    FoodTile(const sf::Vector2i &position);
     virtual ~FoodTile();
 };
 

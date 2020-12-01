@@ -7,16 +7,15 @@
 
 #include <Ants/Types/Ant.h>
 
-class Queen : public Ant {
+class Queen : public virtual Ant
+{
 private:
     bool can_give_birth;
-
-protected:
     int lifespan;
     float production_chance;
 
 public:
-    Queen(bool can_give_birth, int lifespan, float production_chance);
+    Queen(bool can_give_birth, int lifespan, float production_chance, const Position &position);
     ~Queen() override;
 
     void giveBirth() const;

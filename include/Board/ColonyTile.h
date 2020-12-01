@@ -7,11 +7,10 @@
 
 #include <Board/Tile.h>
 
-class ColonyTile : public Tile {
+class ColonyTile : public virtual Tile
+{
 public:
-    ColonyTile(std::vector<Ant> ants, const sf::Vector2i &position1,
-               tile_type type, int antCount,
-               const sf::Vector2i &position);
+    ColonyTile(const sf::Vector2i &position);
 };
 
 #endif //ANTS_COLONYTILE_H

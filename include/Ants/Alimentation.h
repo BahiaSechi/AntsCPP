@@ -8,7 +8,7 @@
 
 class Alimentation {
 private:
-    int diet;
+    float diet;
     int diet_time;
 
 public:

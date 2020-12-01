@@ -5,21 +5,17 @@
 #include <Ants/Position.h>
 
 
-Position::Position(const Tile &position, const std::stack<int> &pos_stack, bool register_post)
-: position(position), pos_stack(pos_stack), register_post(register_post)
+Position::Position(const sf::Vector2i &pos, const std::stack<int> &pos_stack, bool register_post)
+: pos(pos), pos_stack(pos_stack), register_post(register_post)
 {
 }
 
-Position::~Position() {
-
+const sf::Vector2i &Position::getPos() const
+{
+    return pos;
 }
 
-const Tile &Position::getPosition() const
+void Position::setPos(const sf::Vector2i &pos)
 {
-    return position;
-}
-
-void Position::setPosition(const Tile &pos)
-{
-    position = pos;
+    Position::pos = pos;
 }

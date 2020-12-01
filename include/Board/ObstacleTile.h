@@ -7,9 +7,9 @@
 
 #include <Board/Tile.h>
 
-class ObstacleTile : public Tile {
+class ObstacleTile : public virtual Tile {
 public:
-    ObstacleTile(int antCount, const sf::Vector2i &position);
+    ObstacleTile(const sf::Vector2i &position);
     virtual ~ObstacleTile();
 };
 

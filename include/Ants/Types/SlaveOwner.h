@@ -7,12 +7,12 @@
 
 #include <Ants/Types/Ant.h>
 
-class SlaveOwner : public Ant {
+class SlaveOwner : public virtual Ant {
 private:
     bool has_larva;
 
 public:
-    SlaveOwner(bool has_larva);
+    SlaveOwner(bool has_larva, const Position &position);
     ~SlaveOwner() override;
 };
 

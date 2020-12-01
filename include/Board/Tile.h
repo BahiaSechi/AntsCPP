@@ -23,11 +23,16 @@ private:
 
 public:
     Tile(std::vector<Ant> ants, const sf::Vector2i &position, tile_type type);
-
-    Tile();
-
     ~Tile();
 
+    const sf::Vector2i &getPos() const;
+
+    const std::vector<Ant> &getAnts() const;
+
+    void setAnts(const std::vector<Ant> &ants);
+
+    tile_type getType() const;
 };
 
-#endif //ANTSPROJECT_TILE_H
+#endif //ANTS00.
+// PROJECT_TILE_H

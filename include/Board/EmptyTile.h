@@ -6,10 +6,10 @@
 
 #include <Board/Tile.h>
 
-class EmptyTile : public Tile
+class EmptyTile : public virtual Tile
 {
 public:
-    EmptyTile(int antCount, const sf::Vector2i &position);
+    EmptyTile(const sf::Vector2i &position);
 };
 
 #endif //ANTS_EMPTYTILE_H

@@ -8,6 +8,6 @@ ObstacleTile::~ObstacleTile() {
 
 }
 
-ObstacleTile::ObstacleTile(int antCount, const sf::Vector2i &position) {
-
-}
+ObstacleTile::ObstacleTile(const sf::Vector2i &position)
+        : Tile(std::vector<Ant>(), position, tile_type::OBSTACLE)
+{}

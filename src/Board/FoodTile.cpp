@@ -25,4 +25,6 @@ FoodTile::~FoodTile()
 
 }
 
-FoodTile::FoodTile(int antCount, const sf::Vector2i &position) {}
+FoodTile::FoodTile(const sf::Vector2i &position)
+        : Tile(std::vector<Ant>(), position, tile_type::FOOD)
+{}

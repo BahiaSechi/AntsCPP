@@ -24,6 +24,7 @@
 int main()
 {
     Game game(211, 201);
+    game.start();
 
     std::cout << game.getMap() << std::endl;
 

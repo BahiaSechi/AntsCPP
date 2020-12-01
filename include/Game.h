@@ -16,13 +16,17 @@ private:
 //    std::thread graphic_thread;
 
 public:
-    [[noreturn]] Game(int width, int height);
+    Game(int width, int height);
 
     void updateGraphics();
 
     void onCreate();
 
-    void onUpdate();
+    void onUpdate(float elapsed_time);
+
+    void saveToFile(const std::string &filename) const;
+
+    [[noreturn]] void start();
 
     const Map &getMap() const;
 

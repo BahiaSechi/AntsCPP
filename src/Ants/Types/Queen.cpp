@@ -33,7 +33,7 @@ void Queen::giveBirth() const {
 
 }
 
-void Queen::move()
+void Queen::move(Map map)
 {
     // The queen does not move.
 }

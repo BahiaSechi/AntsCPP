@@ -14,7 +14,7 @@ private:
 public:
     SlaveOwner(bool has_larva, const Position &position);
 
-    void move() override;
+    void move(Map map) override;
 
     ~SlaveOwner() override;
 };

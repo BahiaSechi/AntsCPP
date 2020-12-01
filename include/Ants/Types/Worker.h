@@ -11,13 +11,13 @@ class Worker : public virtual Ant {
 private:
     bool has_food;
     bool major;
-    int pheromones_stock;
+    float pheromones_stock;
     int minor_lifespan;
 
 public:
     Worker(bool has_food, bool major, int pheromones_stock, int minor_lifespan, const Position &position);
 
-    void move() override;
+    void move(Map map) override;
 
     ~Worker();
 };

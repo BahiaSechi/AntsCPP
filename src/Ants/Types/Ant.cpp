@@ -19,8 +19,7 @@
  */
 
 #include <Ants/Types/Ant.h>
-#include <ctime>
-#include <cstdlib>
+
 
 Ant::Ant(int lifespan, const Position &position, const Alimentation &alimentation):
 lifespan(lifespan), alimentation(alimentation), position(position){}

@@ -6,6 +6,7 @@
 #define ANTSPROJECT_QUEEN_H
 
 #include <Ants/Types/Ant.h>
+#include <Board/Map.h>
 
 class Queen : public virtual Ant
 {
@@ -17,7 +18,7 @@ private:
 public:
     Queen(bool can_give_birth, int lifespan, float production_chance, const Position &position);
 
-    void move() override;
+    void move(Map map) override;
 
     ~Queen() override;
 

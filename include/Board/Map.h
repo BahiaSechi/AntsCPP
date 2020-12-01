@@ -6,10 +6,11 @@
 #define ANTSPROJECT_MAP_H
 
 #include <vector>
-
+#include <ostream>
 #include <SFML/System/Vector2.hpp>
 #include <Board/Tile.h>
-#include <ostream>
+
+class Tile;
 
 class Map {
 private:
@@ -25,7 +26,16 @@ public:
     int getColonyFood() const;
 
     friend std::ostream &operator<<(std::ostream &os, const Map &map);
-};
 
+    const sf::Vector2i &getDimension() const;
+
+    void setDimension(const sf::Vector2i &dimension);
+
+    Tile ***getTiles() const;
+
+    void setTiles(Tile ***tiles);
+
+    void setColonyFood(int colonyFood);
+};
 
 #endif //ANTSPROJECT_MAP_H

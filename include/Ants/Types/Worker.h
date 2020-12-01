@@ -12,7 +12,7 @@ class Worker : public virtual Ant {
 private:
     bool has_food;
     bool major;
-    int pheromones_stock;
+    float pheromones_stock;
     int minor_lifespan;
 
 public:

@@ -8,8 +8,8 @@
 
 void Game::onCreate()
 {
-    Queen queen = Queen(true, 100, 0.4, Position({0, 0}, std::stack<int>(), false));
-    ants.push_back(&queen);
+    Queen *queen = new Queen(true, 100, 0.4, Position({0, 0}, std::stack<int>(), false));
+    ants.push_back(queen);
 
     std::cout << getMap() << std::endl;
 }

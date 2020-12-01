@@ -66,21 +66,7 @@ Ant::~Ant() {}
 //            break;
 //    }
 //
-//
 //    // Toute fourmi possede une memoire de son chemin est du centre de la colonie
-//
-//    //SOLDAT
-//    // Verifier pas de fourmi esclavagiste
-//    // Peut se deplacer en zone connue
-//    //Si ca fait cent jours, il veut repasser par le centre de la colonie
-//
-//    //OUVRIERE
-//    // Si majeure, déplacement lié aux pheromon
-//    // Chercher la nourriture dans une direction donnee (has_food = true)
-//    // Se dirige dans une case en fonction de la dose de pheromone
-//    // Prendre la nourriture et faire demi tour vers le centre puis deposer
-//    // Dans chaque case dans laquelle elle passe au retour, depot pheromone
-//    // Centre de la colonie : has_food = false ; pheromones = 500
 //
 //}
 

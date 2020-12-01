@@ -90,6 +90,5 @@ void Worker::move(Game *game)
             map.setColonyFood(map.getColonyFood()+1);
             this->has_food = false;
         }
-
     }
 }

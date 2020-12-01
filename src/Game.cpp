@@ -17,7 +17,10 @@ void Game::onCreate()
     Queen *queen = new Queen(true, 100, 0.4, Position({0, 0}, std::stack<int>(), false));
     ants.push_back(queen);
 
-    std::cout << getMap() << std::endl;
+    std::ofstream stat_file;
+    stat_file.open("evolution.txt", std::ios::out | std::ios::trunc);
+
+    stat_file << "x acount cfood\n";
 }
 
 void Game::updateGraphics() const
@@ -34,19 +37,23 @@ void Game::onUpdate(float elapsed_time)
     for (Ant *ant : ants)
         ant->move();
 
+    Queen *queen = new Queen(true, 100, 0.4, Position({0, 0}, std::stack<int>(), false));
+    ants.push_back(queen);
+
     // TODO: Update graphics
     // graphic_thread.join();
 }
 
-void Game::saveToFile(const std::string &filename = "evolution.txt") const
+void Game::saveToFile(int loop_count)
 {
     std::ofstream stat_file;
-    stat_file.open(filename, std::ios::out | std::ios::trunc);
+    stat_file.open("evolution.txt", std::ios::out | std::ios::app);
 
     if (stat_file.is_open()) {
-        stat_file << ants.size() << '\n';
-        stat_file << map.getColonyFood() << '\n';
+        stat_file << loop_count << ' ' << ants.size() << ' ' << std::to_string(map.getColonyFood()) << '\n';
     }
+
+    stat_file.close();
 }
 
 void Game::start()
@@ -60,6 +67,7 @@ void Game::start()
     system_clock::time_point b = system_clock::now();
 
     float time_between_frame = 1000.0;
+    int loop_count = 0;
 
     while (true) {
 
@@ -77,7 +85,7 @@ void Game::start()
         duration<double, std::milli> sleep_time = b - a;
 
         onUpdate(work_time.count());
-        saveToFile();
+        saveToFile(++loop_count);
     }
 }
 
@@ -100,4 +108,8 @@ const std::vector<Ant *> &Game::getAnts() const
 void Game::setAnts(const std::vector<Ant *> &ants)
 {
     Game::ants = ants;
+}
+
+Game::~Game()
+{
 }

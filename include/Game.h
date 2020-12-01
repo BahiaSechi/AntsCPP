@@ -7,6 +7,7 @@
 
 #include <Board/Map.h>
 #include <thread>
+#include <fstream>
 
 class Game
 {
@@ -24,7 +25,7 @@ public:
 
     void onUpdate(float elapsed_time);
 
-    void saveToFile(const std::string &filename) const;
+    void saveToFile(int loop_count);
 
     [[noreturn]] void start();
 
@@ -35,6 +36,8 @@ public:
     const std::vector<Ant *> &getAnts() const;
 
     void setAnts(const std::vector<Ant *> &ants);
+
+    virtual ~Game();
 };
 
 

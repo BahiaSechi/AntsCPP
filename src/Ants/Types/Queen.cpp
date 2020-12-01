@@ -32,4 +32,9 @@ void Queen::giveBirth() const {
 
 }
 
+void Queen::move()
+{
+
+}
+
 

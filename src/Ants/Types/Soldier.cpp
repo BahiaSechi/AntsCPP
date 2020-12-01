@@ -14,3 +14,8 @@ Soldier::~Soldier() {
 void Soldier::attack(SlaveOwner &slave_owner) const {
 
 }
+
+void Soldier::move()
+{
+
+}

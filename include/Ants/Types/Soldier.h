@@ -15,6 +15,9 @@ private:
 public:
     Soldier(int expedition_time, const Position &position);
     ~Soldier() override;
+
+    void move() override;
+
     void attack(SlaveOwner &slave_owner) const;
 };
 

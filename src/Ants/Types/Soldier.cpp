@@ -18,5 +18,11 @@ void Soldier::attack(SlaveOwner &slave_owner) const {
 
 void Soldier::move(Map map)
 {
-
+    //TODO Verifier pas de fourmi esclavagiste avant de bouger
+    //TODO Peut se deplacer si Tile decouverte
+    //TODO Rajouter boolean tile decouverte
+    //TODO A 100 jours, retour centre colonie
+    if (expedition_time == 100) {
+        //BLOU
+    }
 }

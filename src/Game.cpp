@@ -20,7 +20,7 @@ void Game::onCreate()
     std::cout << getMap() << std::endl;
 }
 
-void Game::updateGraphics()
+void Game::updateGraphics() const
 {
     // TODO: Voir ça plus tard
 }
@@ -44,7 +44,8 @@ void Game::saveToFile(const std::string &filename = "evolution.txt") const
     stat_file.open(filename, std::ios::out | std::ios::trunc);
 
     if (stat_file.is_open()) {
-        // TODO: append stats to stat_file
+        stat_file << ants.size() << '\n';
+        stat_file << map.getColonyFood() << '\n';
     }
 }
 

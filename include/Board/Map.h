@@ -22,6 +22,8 @@ public:
     Map(int height, int width, int colony_food, int big_food_source_count);
     ~Map();
 
+    int getColonyFood() const;
+
     friend std::ostream &operator<<(std::ostream &os, const Map &map);
 };
 

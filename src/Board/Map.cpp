@@ -94,3 +94,8 @@ std::ostream &operator<<(std::ostream &os, const Map &map)
 
     return os;
 }
+
+int Map::getColonyFood() const
+{
+    return colony_food;
+}

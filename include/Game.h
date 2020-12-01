@@ -18,7 +18,7 @@ private:
 public:
     Game(int width, int height);
 
-    void updateGraphics();
+    void updateGraphics() const;
 
     void onCreate();
 

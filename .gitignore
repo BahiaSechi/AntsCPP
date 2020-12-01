@@ -108,3 +108,6 @@ dkms.conf
 *.iml
 out
 gen
+
+### Project specific
+/cmake-build-debug/

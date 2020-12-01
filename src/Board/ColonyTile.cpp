@@ -21,5 +21,5 @@
 #include <Board/ColonyTile.h>
 
 ColonyTile::ColonyTile(const sf::Vector2i &position)
-        : Tile(std::vector<Ant>(), position, tile_type::COLONY)
+        : Tile(std::vector<Ant *>(), position, tile_type::COLONY)
 {}

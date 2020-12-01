@@ -9,5 +9,5 @@ ObstacleTile::~ObstacleTile() {
 }
 
 ObstacleTile::ObstacleTile(const sf::Vector2i &position)
-        : Tile(std::vector<Ant>(), position, tile_type::OBSTACLE)
+        : Tile(std::vector<Ant *>(), position, tile_type::OBSTACLE)
 {}

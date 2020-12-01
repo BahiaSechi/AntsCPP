@@ -17,19 +17,19 @@ enum class tile_type {
 
 class Tile {
 private:
-    std::vector<Ant> ants;
+    std::vector<Ant *> ants;
     sf::Vector2i pos;
     tile_type type;
 
 public:
-    Tile(std::vector<Ant> ants, const sf::Vector2i &position, tile_type type);
+    Tile(std::vector<Ant *> ants, const sf::Vector2i &position, tile_type type);
     ~Tile();
 
     const sf::Vector2i &getPos() const;
 
-    const std::vector<Ant> &getAnts() const;
+    const std::vector<Ant *> &getAnts() const;
 
-    void setAnts(const std::vector<Ant> &ants);
+    void setAnts(const std::vector<Ant *> &ants);
 
     tile_type getType() const;
 };

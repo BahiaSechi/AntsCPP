@@ -5,5 +5,5 @@
 #include <Board/EmptyTile.h>
 
 EmptyTile::EmptyTile(const sf::Vector2i &position)
-        : Tile(std::vector<Ant>(), position, tile_type::EMPTY)
+        : Tile(std::vector<Ant *>(), position, tile_type::EMPTY)
 {}

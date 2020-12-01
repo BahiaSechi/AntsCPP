@@ -7,6 +7,7 @@
 
 #include <Board/Map.h>
 #include <thread>
+#include <fstream>
 
 class Game
 {
@@ -16,13 +17,17 @@ private:
 //    std::thread graphic_thread;
 
 public:
-    [[noreturn]] Game(int width, int height);
+    Game(int width, int height);
 
-    void updateGraphics();
+    void updateGraphics() const;
 
     void onCreate();
 
-    void onUpdate();
+    void onUpdate(float elapsed_time);
+
+    void saveToFile(int loop_count);
+
+    [[noreturn]] void start();
 
     const Map &getMap() const;
 
@@ -31,6 +36,8 @@ public:
     const std::vector<Ant *> &getAnts() const;
 
     void setAnts(const std::vector<Ant *> &ants);
+
+    virtual ~Game();
 };
 
 

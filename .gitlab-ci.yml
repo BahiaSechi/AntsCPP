@@ -19,7 +19,6 @@ compile-software:
 test-software:
   stage: test
   script:
-    script:
-      - cmake -H. -Bbuild
-      - cmake --build build -- -j3 --target ants_test
-      - ./build/ants_test
+    - cmake -H. -Bbuild
+    - cmake --build build -- -j3 --target ants_test
+    - ./build/ants_test

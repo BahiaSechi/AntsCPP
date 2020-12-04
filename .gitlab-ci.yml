@@ -9,5 +9,17 @@ compile-software:
     CC: gcc
     CXX: g++
   script:
-    - mkdir cmake-build && cd cmake-build
-    - cmake --target ants ../ -o ants
+    - cmake -H. -Bbuild
+    - cmake --build build -- -j3
+  artifacts:
+    paths:
+      - ./build/ants
+      - ./build/ants_test
+
+test-software:
+  stage: test
+  script:
+    script:
+      - cmake -H. -Bbuild
+      - cmake --build build -- -j3 --target ants_test
+      - ./build/ants_test

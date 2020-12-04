@@ -4,6 +4,7 @@
 
 #include <Ants/Types/SlaveOwner.h>
 #include <iostream>
+#include <Game.h>
 
 SlaveOwner::SlaveOwner(bool has_larva, const Position &position) :
 Ant(1, position,Alimentation(10, 0.1)) {}

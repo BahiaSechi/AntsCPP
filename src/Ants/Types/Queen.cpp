@@ -58,7 +58,7 @@ Ant *Queen::giveBirth(bool enforce_scout = false) const
     }
 }
 
-void Queen::move(Game *game)
+void Queen::play_turn(Game *game)
 {
     if (can_give_birth) {
         for (int i : {1, 2}) {

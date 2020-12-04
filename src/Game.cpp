@@ -89,6 +89,36 @@ void Game::handleEvent(const sf::Event &event, float elapsed_time)
 void Game::saveToFile(int loop_count)
 {
     std::ofstream stat_file;
+    stat_file.open("evolution.txt", std::ios::out | std::ios::trunc);
+
+    stat_file << "x acount cfood\n";
+}
+
+void Game::updateGraphics() const
+{
+    // TODO: Voir ça plus tard
+}
+
+void Game::onUpdate(float elapsed_time)
+{
+    std::cout << elapsed_time << std::endl;
+    // TODO: Handle events
+
+    // TODO: Update data
+    for (Ant *ant : ants)
+        ant->play_turn(this);
+
+    Queen *queen = new Queen(true, 100, 0.4, Position({0, 0}, std::stack<int>(), false));
+    ants.push_back(queen);
+
+    // TODO: Update graphics
+    // graphic_thread.join();
+}
+
+void Game::saveToFile(int loop_count)
+{
+    std::ofstream stat_file;
+    stat_file.open("evolution.txt", std::ios::out | std::ios::app);
 
     if (loop_count < 0) {
         stat_file.open("evolution.txt", std::ios::out | std::ios::trunc);

@@ -15,7 +15,7 @@ private:
 public:
     SlaveOwner(bool has_larva, const Position &position);
 
-    void move(Game *game) override;
+    void play_turn(Game *game) override;
 
     ~SlaveOwner() override;
 };

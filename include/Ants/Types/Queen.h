@@ -18,7 +18,7 @@ private:
 public:
     Queen(bool can_give_birth, int lifespan, float production_chance, const Position &position);
 
-    void move(Game *game) override;
+    void play_turn(Game *game) override;
 
     ~Queen() override;
 

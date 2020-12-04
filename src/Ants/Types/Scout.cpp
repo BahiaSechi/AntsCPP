@@ -12,7 +12,7 @@ Ant(1, position,Alimentation(0.1,1)) {}
 
 Scout::~Scout() { }
 
-void Scout::move(Game *game)
+void Scout::play_turn(Game *game)
 {
     /* Initialize random seed: */
     srand (time(NULL));

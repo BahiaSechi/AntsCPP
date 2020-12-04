@@ -15,7 +15,7 @@ void Soldier::attack(SlaveOwner &slave_owner) const {
 
 }
 
-void Soldier::move(Game *game)
+void Soldier::play_turn(Game *game)
 {
     //TODO Verifier pas de fourmi esclavagiste avant de bouger
     //TODO Peut se deplacer si Tile decouverte

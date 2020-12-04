@@ -37,7 +37,7 @@ void Game::onUpdate(float elapsed_time)
 
     // TODO: Update data
     for (Ant *ant : ants)
-        ant->move(this);
+        ant->play_turn(this);
 
     Queen *queen = new Queen(true, 100, 0.4, Position({0, 0}, std::stack<int>(), false));
     ants.push_back(queen);

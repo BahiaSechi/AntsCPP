@@ -13,7 +13,7 @@ Worker::~Worker() {
 
 }
 
-void Worker::move(Game *game)
+void Worker::play_turn(Game *game)
 {
     /* Initialize random seed: */
     srand (time(NULL));
@@ -81,7 +81,7 @@ void Worker::move(Game *game)
             //TODO Se diriger vers le centre de la colonie
             this->pheromones_stock -= 0.002;
         }
-
+/*
         if (this->position.getPos().x == game.getMap().getDimension().x / 2 &&
             this->position.getPos().y == game.getMap().getDimension().y / 2)
         {
@@ -99,7 +99,5 @@ void Worker::move(Game *game)
             this->has_food = false;
         }
         */
-
-
     }
 }

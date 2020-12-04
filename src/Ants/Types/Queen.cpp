@@ -34,7 +34,7 @@ void Queen::giveBirth() const {
 
 }
 
-void Queen::move(Game *game)
+void Queen::play_turn(Game *game)
 {
     // The queen does not move.
 }

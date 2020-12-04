@@ -11,7 +11,7 @@ Ant(1, position,Alimentation(10, 0.1)) {}
 
 SlaveOwner::~SlaveOwner() { }
 
-void SlaveOwner::move(Game *game)
+void SlaveOwner::play_turn(Game *game)
 {
     /* Initialize random seed: */
     srand (time(NULL));

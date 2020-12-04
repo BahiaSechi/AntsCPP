@@ -38,6 +38,7 @@ public:
     virtual void play_turn(Game *game) = 0;
     virtual ~Ant();
 
+    Tile * look_around(Game *game);
 };
 
 

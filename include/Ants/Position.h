@@ -12,16 +12,19 @@
 class Position {
 protected:
     sf::Vector2i pos;
-    std::stack<int> pos_stack;
+    std::stack<sf::Vector2i> pos_stack;
     bool register_post;
 
 public:
-    Position(const sf::Vector2i &pos, const std::stack<int> &pos_stack, bool register_post);
+    Position(const sf::Vector2i &pos, const std::stack<sf::Vector2i> &pos_stack,
+             bool register_post);
 
     // Getters & setters
     const sf::Vector2i &getPos() const;
 
     void setPos(const sf::Vector2i &pos);
+
+    std::stack<sf::Vector2i> &getPosStack();
 };
 
 

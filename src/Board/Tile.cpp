@@ -33,3 +33,11 @@ const sf::Vector2i &Tile::getPos() const
 {
     return pos;
 }
+
+float Tile::getPheromones() const {
+    return pheromones;
+}
+
+void Tile::setPheromones(float pheromones) {
+    Tile::pheromones = pheromones;
+}

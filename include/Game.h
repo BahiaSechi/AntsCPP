@@ -34,7 +34,7 @@ public:
 
     [[noreturn]] void start();
 
-    const Map * getMap() const;
+    Map * getMap() const;
 
     void setMap(Map &map);
 

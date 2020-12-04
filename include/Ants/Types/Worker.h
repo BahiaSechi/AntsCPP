@@ -20,6 +20,8 @@ public:
 
     void play_turn(Game *game) override;
 
+    static Tile pheromone_around(Tile * tiles_around);
+
     ~Worker();
 };
 

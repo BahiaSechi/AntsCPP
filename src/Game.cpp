@@ -92,7 +92,7 @@ void Game::start()
 }
 
 // Getters and setters
-const Map *Game::getMap() const
+Map *Game::getMap() const
 {
     return map;
 }

@@ -2,6 +2,7 @@ image: rikorose/gcc-cmake
 
 stages:
   - build
+  - test
 
 compile-software:
   stage: build

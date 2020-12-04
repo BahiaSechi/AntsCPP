@@ -20,8 +20,9 @@
 
 #include <Ants/Alimentation.h>
 
-Alimentation::Alimentation(float diet, int diet_time) {
-
+Alimentation::Alimentation(float diet, int diet_time)
+:diet(diet), diet_time(diet_time)
+{
 }
 
 Alimentation::~Alimentation() {

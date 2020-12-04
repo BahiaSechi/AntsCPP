@@ -6,6 +6,7 @@
 #define ANTS_GAME_H
 
 #include <Board/Map.h>
+#include <Ants/Types/Ant.h>
 #include <thread>
 #include <fstream>
 

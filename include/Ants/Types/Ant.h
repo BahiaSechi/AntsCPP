@@ -23,10 +23,7 @@
 
 #include <Ants/Alimentation.h>
 #include <Ants/Position.h>
-#include <Board/Map.h>
 #include <Game.h>
-
-class Map;
 
 class Ant {
 protected:

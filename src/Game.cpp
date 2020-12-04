@@ -103,7 +103,7 @@ void Game::setMap(Map &map)
     this->map = &map;
 }
 
-const std::vector<Ant *> &Game::getAnts() const
+std::vector<Ant *> &Game::getAnts()
 {
     return ants;
 }

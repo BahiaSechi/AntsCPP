@@ -38,7 +38,7 @@ public:
 
     void setMap(Map &map);
 
-    const std::vector<Ant *> &getAnts() const;
+    std::vector<Ant *> &getAnts();
 
     void setAnts(const std::vector<Ant *> &ants);
 

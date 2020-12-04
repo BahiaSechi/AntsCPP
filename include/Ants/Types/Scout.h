@@ -7,6 +7,7 @@
 
 #include <Ants/Types/Ant.h>
 #include <Board/Map.h>
+#include <Game.h>
 
 class Scout : public virtual Ant {
 private:
@@ -16,7 +17,7 @@ private:
 public:
     Scout(bool major, int minorLifespan, const Position &position);
 
-    void move(Map map) override;
+    void play_turn(Game game) override;
 
     ~Scout() override;
 };

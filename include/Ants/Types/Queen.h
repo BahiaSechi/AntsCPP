@@ -7,6 +7,7 @@
 
 #include <Ants/Types/Ant.h>
 #include <Board/Map.h>
+#include <Game.h>
 
 class Queen : public virtual Ant
 {
@@ -18,7 +19,7 @@ private:
 public:
     Queen(bool can_give_birth, int lifespan, float production_chance, const Position &position);
 
-    void move(Map map) override;
+    void play_turn(Game game) override;
 
     ~Queen() override;
 

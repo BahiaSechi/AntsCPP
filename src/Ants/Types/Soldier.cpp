@@ -4,6 +4,7 @@
 
 #include <Ants/Types/Soldier.h>
 #include <Board/Map.h>
+#include <Game.h>
 
 Soldier::Soldier(int expedition_time, const Position &position) :
 Ant(1, position, Alimentation(0.1,1)) {}
@@ -16,7 +17,7 @@ void Soldier::attack(SlaveOwner &slave_owner) const {
 
 }
 
-void Soldier::move(Map map)
+void Soldier::play_turn(Game game)
 {
     //TODO Verifier pas de fourmi esclavagiste avant de bouger
     //TODO Peut se deplacer si Tile decouverte

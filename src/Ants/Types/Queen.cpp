@@ -33,7 +33,7 @@ void Queen::giveBirth() const {
 
 }
 
-void Queen::move(Map map)
+void Queen::play_turn(Game game)
 {
     // The queen does not move.
 }

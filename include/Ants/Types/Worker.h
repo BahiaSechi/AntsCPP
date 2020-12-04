@@ -17,7 +17,7 @@ private:
 public:
     Worker(bool has_food, bool major, int pheromones_stock, int minor_lifespan, const Position &position);
 
-    void move(Map map) override;
+    void play_turn(Game game) override;
 
     ~Worker();
 };

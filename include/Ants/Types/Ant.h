@@ -24,6 +24,7 @@
 #include <Ants/Alimentation.h>
 #include <Ants/Position.h>
 #include <Board/Map.h>
+#include <Game.h>
 
 class Map;
 
@@ -35,7 +36,7 @@ protected:
 
 public:
     Ant(int lifespan, const Position &position, const Alimentation &alimentation);
-    virtual void move(Map map) = 0;
+    virtual void play_turn(Game game) = 0;
     virtual ~Ant();
 
 };

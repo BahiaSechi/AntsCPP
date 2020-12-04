@@ -83,16 +83,15 @@ void Worker::play_turn(Game *game)
                     tiles[x_pos][y_pos]->getPheromones()+1);
             /* Move to the previous position and continue while popping the
              * stack. */
-            this->position.setPos(stack.top());
-            stack.pop();
-            this->pheromones_stock -= 1;
-        }
-
-        //TODO Changer centre de la colonie dans if.
-        if (x_pos == dimension.x / 2 && y_pos == dimension.y / 2) {
-            this->pheromones_stock = 500;
-            map->setColonyFood(map->getColonyFood()+1);
-            this->has_food = false;
+            if (!stack.empty()) {
+                this->position.setPos(stack.top());
+                stack.pop();
+                this->pheromones_stock -= 1;
+            } else {
+                this->pheromones_stock = 500;
+                map->setColonyFood(map->getColonyFood()+1);
+                this->has_food = false;
+            }
         }
     }
 }

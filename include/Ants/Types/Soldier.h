@@ -18,7 +18,7 @@ public:
 
     void play_turn(Game *game) override;
 
-    void attack(SlaveOwner &slave_owner) const;
+    void attac(SlaveOwner &slave_owner) const;
 };
 
 #endif //ANTSPROJECT_SOLDIER_H

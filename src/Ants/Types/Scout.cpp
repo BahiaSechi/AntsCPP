@@ -3,6 +3,7 @@
 //
 
 #include <Ants/Types/Scout.h>
+#include <iostream>
 
 
 Scout::Scout(bool major, int minorLifespan, const Position &position) :
@@ -12,5 +13,6 @@ Scout::~Scout() { }
 
 void Scout::move(Game *game)
 {
+    std::cout << "I'm a scout" << std::endl;
 
 }

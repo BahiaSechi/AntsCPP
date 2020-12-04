@@ -16,7 +16,12 @@ Game::Game(int width, int height)
 
 void Game::onCreate()
 {
-    Queen *queen = new Queen(true, 100, 0.4, Position({0, 0}, std::stack<int>(), false));
+    Queen *queen = new Queen(
+            true,
+            100,
+            0.4,
+            Position({0, 0}, std::stack<int>(), false)
+    );
     ants.push_back(queen);
 
     std::ofstream stat_file;
@@ -32,15 +37,15 @@ void Game::updateGraphics() const
 
 void Game::onUpdate(float elapsed_time)
 {
-    std::cout << elapsed_time << std::endl;
+    std::cout << "Elapsed time: " << elapsed_time << std::endl;
     // TODO: Handle events
 
     // TODO: Update data
-    for (Ant *ant : ants)
+    for (auto ant : ants)
         ant->move(this);
 
-    Queen *queen = new Queen(true, 100, 0.4, Position({0, 0}, std::stack<int>(), false));
-    ants.push_back(queen);
+//    Queen *queen = new Queen(true, 100, 0.4, Position({0, 0}, std::stack<int>(), false));
+//    ants.push_back(queen);
 
     // TODO: Update graphics
     // graphic_thread.join();
@@ -58,7 +63,7 @@ void Game::saveToFile(int loop_count)
     stat_file.close();
 }
 
-void Game::start()
+void Game::start(int turn_count = -1)
 {
     using namespace std;
     using namespace std::chrono;
@@ -69,17 +74,16 @@ void Game::start()
     system_clock::time_point b = system_clock::now();
 
     float time_between_frame = 1000.0;
-    int loop_count = 0;
+    int   loop_count         = 0;
 
-    while (true) {
+    while (turn_count == -1 || --turn_count >= 0) {
 
         a = system_clock::now();
         duration<double, std::milli> work_time = a - b;
 
-        if (work_time.count() < time_between_frame)
-        {
+        if (work_time.count() < time_between_frame) {
             duration<double, std::milli> delta_ms(time_between_frame - work_time.count());
-            auto delta_ms_duration = duration_cast<milliseconds>(delta_ms);
+            auto                         delta_ms_duration = duration_cast<milliseconds>(delta_ms);
             std::this_thread::sleep_for(milliseconds(delta_ms_duration.count()));
         }
 

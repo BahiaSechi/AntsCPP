@@ -32,7 +32,7 @@ public:
 
     void saveToFile(int loop_count);
 
-    [[noreturn]] void start();
+    void start(int turn_count);
 
     const Map * getMap() const;
 

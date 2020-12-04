@@ -3,6 +3,7 @@
 //
 
 #include <Ants/Types/Worker.h>
+#include <iostream>
 
 Worker::Worker(bool has_food, bool major, int pheromones_stock,int minor_lifespan, const Position &position) :
 Ant(1, position, Alimentation(0.1,1)) {}
@@ -13,5 +14,5 @@ Worker::~Worker() {
 
 void Worker::move(Game *game)
 {
-
+    std::cout << "I'm a worker" << std::endl;
 }

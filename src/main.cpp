@@ -21,6 +21,7 @@
 #include <iostream>
 #include <Game.h>
 
+#ifndef ANTS_TEST
 int main()
 {
     Game game(211, 201);
@@ -30,3 +31,4 @@ int main()
 
     return 0;
 }
+#endif

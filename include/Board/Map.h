@@ -12,8 +12,6 @@
 
 class Tile;
 
-class Tile;
-
 class Map {
 private:
     sf::Vector2i dimension;

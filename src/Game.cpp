@@ -3,12 +3,14 @@
 //
 
 #include <Game.h>
-#include <Ants/Types/Queen.h>
+
 #include <iostream>
 #include <fstream>
 
+#include <Ants/Types/Queen.h>
+
 Game::Game(int width, int height)
-        : map(height, width, 16, 2), ants(std::vector<Ant *>())
+        : map(new Map(height, width, 16, 2)), ants(std::vector<Ant *>())
 {
 }
 
@@ -35,7 +37,7 @@ void Game::onUpdate(float elapsed_time)
 
     // TODO: Update data
     for (Ant *ant : ants)
-        ant->move();
+        ant->move(this);
 
     Queen *queen = new Queen(true, 100, 0.4, Position({0, 0}, std::stack<int>(), false));
     ants.push_back(queen);
@@ -50,7 +52,7 @@ void Game::saveToFile(int loop_count)
     stat_file.open("evolution.txt", std::ios::out | std::ios::app);
 
     if (stat_file.is_open()) {
-        stat_file << loop_count << ' ' << ants.size() << ' ' << std::to_string(map.getColonyFood()) << '\n';
+        stat_file << loop_count << ' ' << ants.size() << ' ' << std::to_string(map->getColonyFood()) << '\n';
     }
 
     stat_file.close();
@@ -90,14 +92,15 @@ void Game::start()
 }
 
 // Getters and setters
-const Map &Game::getMap() const
+const Map *Game::getMap() const
 {
     return map;
 }
 
-void Game::setMap(const Map &map)
+void Game::setMap(Map &map)
 {
-    Game::map = map;
+    delete this->map;
+    this->map = &map;
 }
 
 const std::vector<Ant *> &Game::getAnts() const
@@ -112,4 +115,9 @@ void Game::setAnts(const std::vector<Ant *> &ants)
 
 Game::~Game()
 {
+    for (auto ant : ants) {
+        delete ant;
+    }
+
+    delete map;
 }

@@ -5,14 +5,19 @@
 #ifndef ANTS_GAME_H
 #define ANTS_GAME_H
 
-#include <Board/Map.h>
 #include <thread>
 #include <fstream>
+
+#include <Ants/Types/Ant.h>
+#include <Board/Map.h>
+
+class Ant;
+class Map;
 
 class Game
 {
 private:
-    Map map;
+    Map *map;
     std::vector<Ant *> ants;
 //    std::thread graphic_thread;
 
@@ -29,9 +34,9 @@ public:
 
     [[noreturn]] void start();
 
-    const Map &getMap() const;
+    const Map * getMap() const;
 
-    void setMap(const Map &map);
+    void setMap(Map &map);
 
     const std::vector<Ant *> &getAnts() const;
 

@@ -6,6 +6,7 @@
 #define ANTSPROJECT_WORKER_H
 
 #include <Ants/Types/Ant.h>
+#include <Game.h>
 
 class Worker : public virtual Ant {
 private:
@@ -17,7 +18,7 @@ private:
 public:
     Worker(bool has_food, bool major, int pheromones_stock, int minor_lifespan, const Position &position);
 
-    void move() override;
+    void move(Game *game) override;
 
     ~Worker();
 };

@@ -9,7 +9,7 @@ Ant(1, position,Alimentation(10, 0.1)) {}
 
 SlaveOwner::~SlaveOwner() { }
 
-void SlaveOwner::move()
+void SlaveOwner::move(Game *game)
 {
 
 }

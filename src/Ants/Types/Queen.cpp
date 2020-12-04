@@ -20,6 +20,7 @@
 
 #include <Ants/Types/Queen.h>
 #include <iostream>
+#include <Game.h>
 
 Queen::Queen(bool can_give_birth, int lifespan, float production_chance, const Position &position)
         : can_give_birth(can_give_birth), lifespan(lifespan), production_chance(production_chance),
@@ -33,7 +34,7 @@ void Queen::giveBirth() const {
 
 }
 
-void Queen::move()
+void Queen::move(Game *game)
 {
     std::cout << "queen" << std::endl;
 }

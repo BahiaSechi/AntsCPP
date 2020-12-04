@@ -10,7 +10,7 @@ Ant(1, position,Alimentation(0.1,1)) {}
 
 Scout::~Scout() { }
 
-void Scout::move()
+void Scout::move(Game *game)
 {
 
 }

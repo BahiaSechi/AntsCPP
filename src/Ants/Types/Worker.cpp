@@ -11,7 +11,7 @@ Worker::~Worker() {
 
 }
 
-void Worker::move()
+void Worker::move(Game *game)
 {
 
 }

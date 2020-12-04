@@ -11,6 +11,8 @@
 #include <Board/Tile.h>
 #include <ostream>
 
+class Tile;
+
 class Map {
 private:
     sf::Vector2i dimension;

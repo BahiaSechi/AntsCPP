@@ -6,6 +6,7 @@
 #define ANTSPROJECT_SLAVEOWNER_H
 
 #include <Ants/Types/Ant.h>
+#include <Game.h>
 
 class SlaveOwner : public virtual Ant {
 private:
@@ -14,7 +15,7 @@ private:
 public:
     SlaveOwner(bool has_larva, const Position &position);
 
-    void move() override;
+    void move(Game *game) override;
 
     ~SlaveOwner() override;
 };

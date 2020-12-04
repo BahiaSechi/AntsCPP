@@ -15,7 +15,7 @@ private:
 public:
     Scout(bool major, int minorLifespan, const Position &position);
 
-    void move() override;
+    void move(Game *game) override;
 
     ~Scout() override;
 };

@@ -81,6 +81,14 @@ void Worker::move(Game *game)
             //TODO Se diriger vers le centre de la colonie
             this->pheromones_stock -= 0.002;
         }
+
+        if (this->position.getPos().x == game.getMap().getDimension().x / 2 &&
+            this->position.getPos().y == game.getMap().getDimension().y / 2)
+        {
+            this->pheromones_stock = 500;
+            //TODO Set colony food avec +1
+            this->has_food = false;
+        }
 /**
         //TODO Changer centre de la colonie dans if.
         if (this->position.getPos().x == game.getDimension().x / 2 &&
@@ -91,5 +99,7 @@ void Worker::move(Game *game)
             this->has_food = false;
         }
         */
+
+
     }
 }

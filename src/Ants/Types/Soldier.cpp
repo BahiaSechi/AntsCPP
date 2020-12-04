@@ -21,6 +21,7 @@ void Soldier::play_turn(Game *game)
     //TODO Peut se deplacer si Tile decouverte
     //TODO Rajouter boolean tile decouverte
     //TODO A 100 jours, retour centre colonie
+
     if (expedition_time == 100) {
         //BLOU
     }

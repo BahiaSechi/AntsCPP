@@ -5,7 +5,8 @@
 #include <Ants/Position.h>
 
 
-Position::Position(const sf::Vector2i &pos, const std::stack<int> &pos_stack, bool register_post)
+Position::Position(const sf::Vector2i &pos, const std::stack<sf::Vector2i>
+        &pos_stack, bool register_post)
 : pos(pos), pos_stack(pos_stack), register_post(register_post)
 {
 }
@@ -18,4 +19,12 @@ const sf::Vector2i &Position::getPos() const
 void Position::setPos(const sf::Vector2i &pos)
 {
     Position::pos = pos;
+}
+
+std::stack<int> &Position::getPosStack() {
+    return pos_stack;
+}
+
+void Position::setPosStack(const std::stack<int> &posStack) {
+    pos_stack = posStack;
 }

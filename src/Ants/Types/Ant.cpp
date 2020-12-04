@@ -26,6 +26,27 @@ lifespan(lifespan), alimentation(alimentation), position(position){}
 
 Ant::~Ant() {}
 
+Tile *Ant::look_around(Game *game) {
+
+    int x_pos = this->position.getPos().x;
+    int y_pos = this->position.getPos().y;
+
+    auto tiles = *(game->getMap()->getTiles());
+
+    Tile around[8] = {
+            tiles[x_pos-1][y_pos-1],
+            tiles[x_pos][y_pos-1],
+            tiles[x_pos+1][y_pos-1],
+            tiles[x_pos-1][y_pos],
+            tiles[x_pos+1][y_pos],
+            tiles[x_pos-1][y_pos+1],
+            tiles[x_pos][y_pos+1],
+            tiles[x_pos+1][y_pos+1],
+    };
+
+    return around;
+}
+
 //void Ant::move() {
 //
 //    /* Initialize random seed: */

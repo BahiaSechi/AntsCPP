@@ -19,7 +19,6 @@ class Game
 private:
     Map *map;
     std::vector<Ant *> ants;
-//    std::thread graphic_thread;
 
 public:
     Game(int width, int height);

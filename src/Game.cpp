@@ -6,6 +6,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <future>
 
 #include <Ants/Types/Queen.h>
 
@@ -45,7 +46,7 @@ void Game::onUpdate(float elapsed_time)
         ants[i]->move(this);
 
     // Then the queen has the opportunity to give birth
-
+    ants[0]->move(this);
 
     // TODO: Update graphics
     // graphic_thread.join();

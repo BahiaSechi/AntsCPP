@@ -10,6 +10,8 @@
 
 #include <Ants/Types/Queen.h>
 
+#include <SFML/Window.hpp>
+
 Game::Game(int width, int height)
         : map(new Map(height, width, 16, 2)), ants(std::vector<Ant *>())
 {
@@ -17,6 +19,8 @@ Game::Game(int width, int height)
 
 void Game::onCreate()
 {
+    sf::Window window(sf::VideoMode(800, 600), "Yurei");
+
     Queen *queen = new Queen(
             true,
             100,

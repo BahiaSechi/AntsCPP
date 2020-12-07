@@ -5,102 +5,100 @@
 #include <Game.h>
 
 #include <iostream>
-#include <fstream>
-#include <future>
-
 #include <Ants/Types/Queen.h>
 
-#include <SFML/Window.hpp>
+////////////////////////////////////////////////////////////
+// Main methods
+////////////////////////////////////////////////////////////
 
 Game::Game(int width, int height)
         : map(new Map(height, width, 16, 2)), ants(std::vector<Ant *>())
 {
 }
 
+void Game::start(int turn_count = -1)
+{
+    onCreate();
+
+    std::chrono::system_clock::time_point t1 = std::chrono::system_clock::now();
+    std::chrono::system_clock::time_point t2 = std::chrono::system_clock::now();
+
+    float elapsed_time = 0.0;
+    int   loop_count   = 0;
+
+    sf::RenderWindow window;
+    window.create(sf::VideoMode(800, 600), "Cool");
+    window.setVerticalSyncEnabled(true);
+    std::thread gthread(updateGraphics, std::ref(window));
+    gthread.detach();
+
+    while (window.isOpen() && (turn_count == -1 || --turn_count >= 0)) {
+        sf::Event event{};
+        while (window.pollEvent(event)) {
+            // "close requested" event: we close the window
+            if (event.type == sf::Event::Closed)
+                window.close();
+        }
+
+        elapsed_time = wait(t1, t2);
+        onLogicUpdate(elapsed_time);
+        saveToFile(++loop_count);
+    }
+}
+
 void Game::onCreate()
 {
-    sf::Window window(sf::VideoMode(800, 600), "Yurei");
-
-    Queen *queen = new Queen(
+    ants.push_back(new Queen(
             true,
             100,
             0.4,
             Position({0, 0}, std::stack<int>(), false)
-    );
-    ants.push_back(queen);
+    ));
 
-    std::ofstream stat_file;
-    stat_file.open("evolution.txt", std::ios::out | std::ios::trunc);
-
-    stat_file << "x acount cfood\n";
+    saveToFile(-1);
 }
 
-void Game::updateGraphics() const
+void Game::onLogicUpdate(float elapsed_time)
 {
-    // TODO: Voir ça plus tard
-}
-
-void Game::onUpdate(float elapsed_time)
-{
-    std::cout << "Elapsed time: " << elapsed_time << std::endl;
-    // TODO: Handle events
-
     // Firstly, update data for every ant except the queen
     for (int i = 1; i < ants.size(); ++i)
         ants[i]->move(this);
 
     // Then the queen has the opportunity to give birth
     ants[0]->move(this);
-
-    // TODO: Update graphics
-    // graphic_thread.join();
 }
 
 void Game::saveToFile(int loop_count)
 {
     std::ofstream stat_file;
-    stat_file.open("evolution.txt", std::ios::out | std::ios::app);
 
-    if (stat_file.is_open()) {
-        stat_file << loop_count << ' ' << ants.size() << ' ' << std::to_string(map->getColonyFood()) << '\n';
+    if (loop_count < 0) {
+        stat_file.open("evolution.txt", std::ios::out | std::ios::trunc);
+        stat_file << "x acount cfood\n";
+    } else {
+        stat_file.open("evolution.txt", std::ios::out | std::ios::app);
+
+        if (stat_file.is_open()) {
+            stat_file << loop_count << ' ' << ants.size() << ' ' << std::to_string(map->getColonyFood()) << '\n';
+        }
     }
 
     stat_file.close();
 }
 
-void Game::start(int turn_count = -1)
+Game::~Game()
 {
-    using namespace std;
-    using namespace std::chrono;
-
-    onCreate();
-
-    system_clock::time_point a = system_clock::now();
-    system_clock::time_point b = system_clock::now();
-
-    float time_between_frame = 1000.0;
-    int   loop_count         = 0;
-
-    while (turn_count == -1 || --turn_count >= 0) {
-
-        a = system_clock::now();
-        duration<double, std::milli> work_time = a - b;
-
-        if (work_time.count() < time_between_frame) {
-            duration<double, std::milli> delta_ms(time_between_frame - work_time.count());
-            auto                         delta_ms_duration = duration_cast<milliseconds>(delta_ms);
-            std::this_thread::sleep_for(milliseconds(delta_ms_duration.count()));
-        }
-
-        b = system_clock::now();
-        duration<double, std::milli> sleep_time = b - a;
-
-        onUpdate(work_time.count());
-        saveToFile(++loop_count);
+    for (Ant *ant : ants) {
+        delete ant;
     }
+
+    delete map;
 }
 
+////////////////////////////////////////////////////////////
 // Getters and setters
+////////////////////////////////////////////////////////////
+
 const Map *Game::getMap() const
 {
     return map;
@@ -122,11 +120,47 @@ void Game::setAnts(const std::vector<Ant *> &ants)
     Game::ants = ants;
 }
 
-Game::~Game()
+////////////////////////////////////////////////////////////
+// Non-member functions
+////////////////////////////////////////////////////////////
+
+void updateGraphics(sf::RenderWindow &window)
 {
-    for (auto ant : ants) {
-        delete ant;
+    // activate the window's context
+    window.setActive(true);
+
+    sf::CircleShape shape(50.f);
+    shape.setFillColor(sf::Color(100, 250, 50));
+
+    // the rendering loop
+    while (window.isOpen()) {
+        window.clear(sf::Color::Black);
+
+        // draw...
+        window.draw(shape);
+
+        // end the current frame
+        window.display();
     }
 
-    delete map;
+}
+
+float wait(std::chrono::system_clock::time_point t1, std::chrono::system_clock::time_point t2)
+{
+    using namespace std::chrono;
+
+    float time_between_frame = 1000.0;
+    t1 = system_clock::now();
+    duration<double, std::milli> work_time = t1 - t2;
+
+    if (work_time.count() < time_between_frame) {
+        duration<double, std::milli> delta_ms(time_between_frame - work_time.count());
+        auto                         delta_ms_duration = duration_cast<milliseconds>(delta_ms);
+        std::this_thread::sleep_for(milliseconds(delta_ms_duration.count()));
+    }
+
+    t2 = system_clock::now();
+    duration<double, std::milli> sleep_time = t2 - t1;
+
+    return work_time.count();
 }

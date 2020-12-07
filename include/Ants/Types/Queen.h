@@ -11,8 +11,8 @@
 class Queen : public virtual Ant
 {
 private:
-    bool can_give_birth;
-    int lifespan;
+    bool  can_give_birth;
+    int   lifespan;
     float production_chance;
 
 public:
@@ -22,7 +22,13 @@ public:
 
     ~Queen() override;
 
-    void giveBirth() const;
+    /**
+     * Birth type chance : Worker 80%, Soldier 15%, Scout 5%
+     *
+     * @param enforce_scout
+     * @return A new Ant of one of the three types above
+     */
+    Ant *giveBirth(bool enforce_scout) const;
 };
 
 

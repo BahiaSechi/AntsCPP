@@ -19,7 +19,6 @@ class Game
 private:
     Map *map;
     std::vector<Ant *> ants;
-//    std::thread graphic_thread;
 
 public:
     Game(int width, int height);
@@ -32,13 +31,13 @@ public:
 
     void saveToFile(int loop_count);
 
-    [[noreturn]] void start();
+    void start(int turn_count);
 
     const Map * getMap() const;
 
     void setMap(Map &map);
 
-    const std::vector<Ant *> &getAnts() const;
+    std::vector<Ant *> &getAnts();
 
     void setAnts(const std::vector<Ant *> &ants);
 

@@ -40,12 +40,12 @@ void Game::onUpdate(float elapsed_time)
     std::cout << "Elapsed time: " << elapsed_time << std::endl;
     // TODO: Handle events
 
-    // TODO: Update data
-    for (auto ant : ants)
-        ant->move(this);
+    // Firstly, update data for every ant except the queen
+    for (int i = 1; i < ants.size(); ++i)
+        ants[i]->move(this);
 
-//    Queen *queen = new Queen(true, 100, 0.4, Position({0, 0}, std::stack<int>(), false));
-//    ants.push_back(queen);
+    // Then the queen has the opportunity to give birth
+
 
     // TODO: Update graphics
     // graphic_thread.join();

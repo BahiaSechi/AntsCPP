@@ -21,10 +21,6 @@ void Position::setPos(const sf::Vector2i &pos)
     Position::pos = pos;
 }
 
-std::stack<int> &Position::getPosStack() {
+const std::stack<sf::Vector2i> &Position::getPosStack() const {
     return pos_stack;
-}
-
-void Position::setPosStack(const std::stack<int> &posStack) {
-    pos_stack = posStack;
 }

@@ -24,7 +24,8 @@ public:
 
     void setPos(const sf::Vector2i &pos);
 
-    std::stack<sf::Vector2i> &getPosStack();
+    const std::stack<sf::Vector2i> &getPosStack() const;
+
 };
 
 

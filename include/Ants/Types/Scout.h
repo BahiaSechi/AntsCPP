@@ -18,6 +18,8 @@ public:
     void play_turn(Game *game) override;
 
     ~Scout() override;
+
+    static void tileDiscovered(Game *game, int pos_x, int pos_y);
 };
 
 

@@ -26,6 +26,7 @@
 #include <Game.h>
 
 class Game;
+class Tile;
 
 class Ant {
 protected:

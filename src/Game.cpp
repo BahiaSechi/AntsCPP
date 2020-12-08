@@ -16,7 +16,7 @@ Game::Game(int width, int height)
 
 void Game::onCreate()
 {
-    Queen *queen = new Queen(true, 100, 0.4, Position({0, 0}, std::stack<int>(), false));
+    Queen *queen = new Queen(true, 100, 0.4, Position({0, 0}, std::stack<sf::Vector2i>(), false));
     ants.push_back(queen);
 
     std::ofstream stat_file;
@@ -39,7 +39,7 @@ void Game::onUpdate(float elapsed_time)
     for (Ant *ant : ants)
         ant->play_turn(this);
 
-    Queen *queen = new Queen(true, 100, 0.4, Position({0, 0}, std::stack<int>(), false));
+    Queen *queen = new Queen(true, 100, 0.4, Position({0, 0}, std::stack<sf::Vector2i>(), false));
     ants.push_back(queen);
 
     // TODO: Update graphics

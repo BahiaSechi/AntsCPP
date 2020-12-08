@@ -38,20 +38,20 @@ Ant *Queen::giveBirth(bool enforce_scout = false) const
         return new Scout(
                 false,
                 2,
-                Position(this->position.getPos(), std::stack<int>(), false)
+                Position(this->position.getPos(), std::stack<sf::Vector2i>(), false)
         );
     }
 
     float birth_proba = rand() % 100 + 1;
 
     if (birth_proba <= 80) {
-        Position pos = Position(this->position.getPos(), std::stack<int>(), true);
+        Position pos = Position(this->position.getPos(), std::stack<sf::Vector2i>(), true);
         return new Worker(false, false, 500, 15, pos);
     } else if (birth_proba <= 95) {
-        Position pos = Position(this->position.getPos(), std::stack<int>(), false);
+        Position pos = Position(this->position.getPos(), std::stack<sf::Vector2i>(), false);
         return new Soldier(100, pos);
     } else {
-        Position pos = Position(this->position.getPos(), std::stack<int>(), false);
+        Position pos = Position(this->position.getPos(), std::stack<sf::Vector2i>(), false);
         return new Scout(false, 2, pos);
     }
 }

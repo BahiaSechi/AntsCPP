@@ -116,5 +116,5 @@ int Map::getColonyFood() const {
 }
 
 void Map::setColonyFood(int colonyFood) {
-    colony_food = colonyFood;
+    this->colony_food = colonyFood;
 }

@@ -50,7 +50,7 @@ void Game::onCreate()
             true,
             100,
             0.4,
-            Position({0, 0}, std::stack<sf::Vector2i>(), false)
+            Position({51, 51}, std::stack<sf::Vector2i>(), false)
     ));
 
     saveToFile(-1);
@@ -81,6 +81,42 @@ void Game::handleEvent(const sf::Event &event, float elapsed_time)
         if (event.key.code == sf::Keyboard::Subtract) {
             sf::View view = window.getView();
             view.zoom(view_zoom + 0.02f);
+            window.setView(view);
+        }
+
+        if (event.key.code == sf::Keyboard::Left) {
+            sf::View     view    = window.getView();
+            sf::Vector2f vcenter = view_center.load();
+            vcenter = {vcenter.x - 50.0f, vcenter.y};
+            view.setCenter(vcenter);
+            view_center = vcenter;
+            window.setView(view);
+        }
+
+        if (event.key.code == sf::Keyboard::Right) {
+            sf::View     view    = window.getView();
+            sf::Vector2f vcenter = view_center.load();
+            vcenter = {vcenter.x + 50.0f, vcenter.y};
+            view.setCenter(vcenter);
+            view_center = vcenter;
+            window.setView(view);
+        }
+
+        if (event.key.code == sf::Keyboard::Up) {
+            sf::View     view    = window.getView();
+            sf::Vector2f vcenter = view_center.load();
+            vcenter = {vcenter.x, vcenter.y - 50.0f};
+            view.setCenter(vcenter);
+            view_center = vcenter;
+            window.setView(view);
+        }
+
+        if (event.key.code == sf::Keyboard::Down) {
+            sf::View     view    = window.getView();
+            sf::Vector2f vcenter = view_center.load();
+            vcenter = {vcenter.x, vcenter.y + 50.0f};
+            view.setCenter(vcenter);
+            view_center = vcenter;
             window.setView(view);
         }
     }
@@ -147,7 +183,8 @@ Game::~Game()
 // Getters and setters
 ////////////////////////////////////////////////////////////
 
-Map * Game::getMap() const {
+Map *Game::getMap() const
+{
     return map;
 }
 
@@ -197,30 +234,61 @@ void Game::setViewZoom(float viewZoom)
     view_zoom = viewZoom;
 }
 
+int Game::getTileSize() const
+{
+    return tile_size;
+}
+
+void Game::setTileSize(int tileSize)
+{
+    tile_size = tileSize;
+}
+
 ////////////////////////////////////////////////////////////
 // Non-member functions
 ////////////////////////////////////////////////////////////
 
 void updateGraphics(sf::RenderWindow &window, Game *game)
 {
-    sf::Vector2f view_center = game->getViewCenter();
-    sf::Vector2f view_size = game->getViewSize();
-    sf::View mainView(sf::FloatRect(view_center.x, view_center.y, view_size.x, view_size.y));
+    sf::Vector2f    view_center   = game->getViewCenter().load();
+    sf::Vector2f    view_size     = game->getViewSize().load();
+    sf::View        main_view(sf::FloatRect(view_center.x, view_center.y, view_size.x, view_size.y));
+    sf::Vector2i    map_dimension = game->getMap()->getDimension();
 
     // activate the window's context
     window.setActive(true);
+    window.setView(main_view);
 
-    window.setView(mainView);
+    int hlines_count = map_dimension.y / game->getTileSize() + 1;
+    int vlines_count = map_dimension.x / game->getTileSize() + 1;
 
-    sf::CircleShape shape(50.f);
-    shape.setFillColor(sf::Color(100, 250, 50));
+//    sf::VertexArray hlines(sf::Lines, hlines_count);
+//    sf::VertexArray vlines(sf::Lines, vlines_count);
+//
+//    for (int i = 0; i < hlines_count; i+=1) {
+//        hlines[i].position = sf::Vector2f({0.0f, i * game->getTileSize() + 0.0f});
+//        hlines[i + 1].position = sf::Vector2f({map_dimension.y + 0.0f, i * game->getTileSize() + 0.0f});
+//    }
+//
+//    for (int j = 0; j < vlines_count; j+=1) {
+//        vlines[j].position = sf::Vector2f({j * game->getTileSize() + 0.0f, 0.0f});
+//        vlines[j + 1].position = sf::Vector2f({j * game->getTileSize() + 0.0f, map_dimension.x + 0.0f});
+//    }
+
+//    sf::Texture ant_texture;
+//    ant_texture.loadFromFile("../assets/ants/walk.png",
+//                             sf::IntRect(0, 0, 200, 250));
+//    sf::Sprite ant(ant_texture);
 
     // the rendering loop
     while (window.isOpen()) {
         window.clear(sf::Color::Black);
 
         // draw...
-        window.draw(shape);
+//        window.draw(shape);
+//        window.draw(hlines);
+//        window.draw(vlines);
+//        window.draw(ant);
 
         // end the current frame
         window.display();

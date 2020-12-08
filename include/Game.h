@@ -21,14 +21,17 @@ class Map;
 class Game
 {
 private:
-    Map                *map;
+    Map *map;
+
     std::vector<Ant *> ants;
 
     sf::RenderWindow window;
 
     std::atomic<sf::Vector2f> view_center = std::atomic<sf::Vector2f>(sf::Vector2f(0.0f, 0.0f));
-    std::atomic<sf::Vector2f> view_size   = std::atomic<sf::Vector2f>(sf::Vector2f(200.0f, 200.0f));
+    std::atomic<sf::Vector2f> view_size   = std::atomic<sf::Vector2f>(sf::Vector2f(500.0f, 500.0f));
     std::atomic<float>        view_zoom   = std::atomic<float>({1.0f});
+
+    int tile_size = 16;
 
 public:
     Game(int width, int height);
@@ -64,6 +67,10 @@ public:
     const std::atomic<float> &getViewZoom() const;
 
     void setViewZoom(float viewZoom);
+
+    int getTileSize() const;
+
+    void setTileSize(int tileSize);
 };
 
 /**

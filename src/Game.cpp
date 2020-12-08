@@ -52,7 +52,7 @@ void Game::onCreate()
             true,
             100,
             0.4,
-            Position({0, 0}, std::stack<int>(), false)
+            Position({0, 0}, std::stack<sf::Vector2i>(), false)
     ));
 
     saveToFile(-1);
@@ -62,10 +62,10 @@ void Game::onLogicUpdate(float elapsed_time)
 {
     // Firstly, update data for every ant except the queen
     for (int i = 1; i < ants.size(); ++i)
-        ants[i]->move(this);
+        ants[i]->play_turn(this);
 
     // Then the queen has the opportunity to give birth
-    ants[0]->move(this);
+    ants[0]->play_turn(this);
 }
 
 void Game::saveToFile(int loop_count)
@@ -99,8 +99,7 @@ Game::~Game()
 // Getters and setters
 ////////////////////////////////////////////////////////////
 
-const Map *Game::getMap() const
-{
+Map * Game::getMap() const {
     return map;
 }
 

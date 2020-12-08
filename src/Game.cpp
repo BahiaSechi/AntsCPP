@@ -39,7 +39,7 @@ void Game::start(int turn_count = -1)
         }
 
         elapsed_time = wait(t1, t2);
-        onLogicUpdate(elapsed_time);
+//        onLogicUpdate(elapsed_time);
         saveToFile(++loop_count);
     }
 }
@@ -120,35 +120,6 @@ void Game::handleEvent(const sf::Event &event, float elapsed_time)
             window.setView(view);
         }
     }
-}
-
-void Game::saveToFile(int loop_count)
-{
-    std::ofstream stat_file;
-    stat_file.open("evolution.txt", std::ios::out | std::ios::trunc);
-
-    stat_file << "x acount cfood\n";
-}
-
-void Game::updateGraphics() const
-{
-    // TODO: Voir ça plus tard
-}
-
-void Game::onUpdate(float elapsed_time)
-{
-    std::cout << elapsed_time << std::endl;
-    // TODO: Handle events
-
-    // TODO: Update data
-    for (Ant *ant : ants)
-        ant->play_turn(this);
-
-    Queen *queen = new Queen(true, 100, 0.4, Position({0, 0}, std::stack<int>(), false));
-    ants.push_back(queen);
-
-    // TODO: Update graphics
-    // graphic_thread.join();
 }
 
 void Game::saveToFile(int loop_count)
@@ -262,33 +233,32 @@ void updateGraphics(sf::RenderWindow &window, Game *game)
     int hlines_count = map_dimension.y / game->getTileSize() + 1;
     int vlines_count = map_dimension.x / game->getTileSize() + 1;
 
-//    sf::VertexArray hlines(sf::Lines, hlines_count);
-//    sf::VertexArray vlines(sf::Lines, vlines_count);
-//
-//    for (int i = 0; i < hlines_count; i+=1) {
-//        hlines[i].position = sf::Vector2f({0.0f, i * game->getTileSize() + 0.0f});
-//        hlines[i + 1].position = sf::Vector2f({map_dimension.y + 0.0f, i * game->getTileSize() + 0.0f});
-//    }
-//
-//    for (int j = 0; j < vlines_count; j+=1) {
-//        vlines[j].position = sf::Vector2f({j * game->getTileSize() + 0.0f, 0.0f});
-//        vlines[j + 1].position = sf::Vector2f({j * game->getTileSize() + 0.0f, map_dimension.x + 0.0f});
-//    }
+    sf::VertexArray hlines(sf::Lines, hlines_count);
+    sf::VertexArray vlines(sf::Lines, vlines_count);
 
-//    sf::Texture ant_texture;
-//    ant_texture.loadFromFile("../assets/ants/walk.png",
-//                             sf::IntRect(0, 0, 200, 250));
-//    sf::Sprite ant(ant_texture);
+    for (int i = 0; i < hlines_count - 1; i+=1) {
+        hlines[i].position = sf::Vector2f({0.0f, i * game->getTileSize() + 0.0f});
+        hlines[i + 1].position = sf::Vector2f({map_dimension.y + 0.0f, i * game->getTileSize() + 0.0f});
+    }
+
+    for (int j = 0; j < vlines_count - 1; j+=1) {
+        vlines[j].position = sf::Vector2f({j * game->getTileSize() + 0.0f, 0.0f});
+        vlines[j + 1].position = sf::Vector2f({j * game->getTileSize() + 0.0f, map_dimension.x + 0.0f});
+    }
+
+    sf::Texture ant_texture;
+    ant_texture.loadFromFile("../assets/ants/walk.png",
+                             sf::IntRect(0, 0, 200, 250));
+    sf::Sprite ant(ant_texture);
 
     // the rendering loop
     while (window.isOpen()) {
-        window.clear(sf::Color::Black);
+        window.clear(sf::Color::White);
 
         // draw...
-//        window.draw(shape);
 //        window.draw(hlines);
 //        window.draw(vlines);
-//        window.draw(ant);
+        window.draw(ant);
 
         // end the current frame
         window.display();

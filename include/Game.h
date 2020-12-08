@@ -46,7 +46,7 @@ public:
 
     void start(int turn_count);
 
-    const Map *getMap() const;
+    Map *getMap() const;
 
     void setMap(Map &map);
 

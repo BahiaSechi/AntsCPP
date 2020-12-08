@@ -26,7 +26,7 @@ const std::vector<Ant *> &Tile::getAnts() const
 
 void Tile::setAnts(const std::vector<Ant *> &ants)
 {
-    Tile::ants = ants;
+    this->ants = ants;
 }
 
 const sf::Vector2i &Tile::getPos() const
@@ -39,7 +39,7 @@ float Tile::getPheromones() const {
 }
 
 void Tile::setPheromones(float pheromones) {
-    Tile::pheromones = pheromones;
+    this->pheromones = pheromones;
 }
 
 bool Tile::isDiscovered() const {
@@ -47,5 +47,5 @@ bool Tile::isDiscovered() const {
 }
 
 void Tile::setDiscovered(bool discovered) {
-    Tile::discovered = discovered;
+    this->discovered = discovered;
 }

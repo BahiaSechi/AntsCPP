@@ -17,6 +17,7 @@ find_package(SFML COMPONENTS graphics window system)
 
 file(GLOB_RECURSE source_files src/*.cpp)
 file(GLOB_RECURSE test_files tests/*.cpp)
+file(COPY assets DESTINATION ${CMAKE_BINARY_DIR})
 
 add_executable(ants ${source_files})
 add_executable(ants_test ${test_files} ${source_files})

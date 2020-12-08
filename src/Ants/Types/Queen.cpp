@@ -16,6 +16,7 @@
  * @version 1.0
  *
  * @brief Blabla
+ *
  */
 
 #include <Ants/Types/Queen.h>

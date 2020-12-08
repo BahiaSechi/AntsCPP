@@ -16,12 +16,12 @@ enum class tile_type {
 };
 
 class Tile {
-private:
+protected:
     std::vector<Ant *> ants;
     sf::Vector2i pos;
     tile_type type;
-    float pheromones;
-    bool discovered;
+    float pheromones = 0.0f;
+    bool discovered = false;
 
 public:
     Tile(std::vector<Ant *> ants, const sf::Vector2i &position, tile_type type);

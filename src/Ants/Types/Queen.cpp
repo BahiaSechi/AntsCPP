@@ -27,9 +27,7 @@
 
 Queen::Queen(bool can_give_birth, int lifespan, float production_chance, const Position &position)
         : can_give_birth(can_give_birth), lifespan(lifespan), production_chance(production_chance),
-          Ant(10, position, Alimentation(1, 1))
-{
-}
+          Ant(10, position, Alimentation(1, 1)){}
 
 Queen::~Queen()
 {}

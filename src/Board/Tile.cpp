@@ -41,3 +41,11 @@ float Tile::getPheromones() const {
 void Tile::setPheromones(float pheromones) {
     Tile::pheromones = pheromones;
 }
+
+bool Tile::isDiscovered() const {
+    return discovered;
+}
+
+void Tile::setDiscovered(bool discovered) {
+    Tile::discovered = discovered;
+}

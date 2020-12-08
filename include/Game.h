@@ -5,8 +5,9 @@
 #ifndef ANTS_GAME_H
 #define ANTS_GAME_H
 
-#include <thread>
+#include <atomic>
 #include <fstream>
+#include <thread>
 
 #include <Ants/Types/Ant.h>
 #include <Board/Map.h>
@@ -23,12 +24,20 @@ private:
     Map                *map;
     std::vector<Ant *> ants;
 
+    sf::RenderWindow window;
+
+    std::atomic<sf::Vector2f> view_center = std::atomic<sf::Vector2f>(sf::Vector2f(0.0f, 0.0f));
+    std::atomic<sf::Vector2f> view_size   = std::atomic<sf::Vector2f>(sf::Vector2f(200.0f, 200.0f));
+    std::atomic<float>        view_zoom   = std::atomic<float>({1.0f});
+
 public:
     Game(int width, int height);
 
     void onCreate();
 
     void onLogicUpdate(float elapsed_time);
+
+    void handleEvent(const sf::Event &event, float elapsed_time);
 
     void saveToFile(int loop_count);
 
@@ -43,6 +52,18 @@ public:
     void setAnts(const std::vector<Ant *> &ants);
 
     virtual ~Game();
+
+    const std::atomic<sf::Vector2f> &getViewCenter() const;
+
+    void setViewCenter(const sf::Vector2f &viewCenter);
+
+    const std::atomic<sf::Vector2f> &getViewSize() const;
+
+    void setViewSize(const sf::Vector2f &viewSize);
+
+    const std::atomic<float> &getViewZoom() const;
+
+    void setViewZoom(float viewZoom);
 };
 
 /**
@@ -50,7 +71,7 @@ public:
  *
  * @param window
  */
-void updateGraphics(sf::RenderWindow &window);
+void updateGraphics(sf::RenderWindow &window, Game *game);
 
 /**
  * Given t1 and t2, wait a specific time to comply with the time between frame (value set in the definition)

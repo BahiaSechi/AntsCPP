@@ -21,20 +21,48 @@
 #include <Ants/Types/Queen.h>
 #include <iostream>
 #include <Game.h>
+#include <Ants/Types/Scout.h>
+#include <Ants/Types/Worker.h>
+#include <Ants/Types/Soldier.h>
 
 Queen::Queen(bool can_give_birth, int lifespan, float production_chance, const Position &position)
         : can_give_birth(can_give_birth), lifespan(lifespan), production_chance(production_chance),
           Ant(10, position, Alimentation(1, 1)){}
 
-Queen::~Queen() { }
+Queen::~Queen()
+{}
 
-void Queen::giveBirth() const {
+Ant *Queen::giveBirth(bool enforce_scout = false) const
+{
+    if (enforce_scout) {
+        return new Scout(
+                false,
+                2,
+                Position(this->position.getPos(), std::stack<int>(), false)
+        );
+    }
 
+    float birth_proba = rand() % 100 + 1;
+
+    if (birth_proba <= 80) {
+        Position pos = Position(this->position.getPos(), std::stack<int>(), true);
+        return new Worker(false, false, 500, 15, pos);
+    } else if (birth_proba <= 95) {
+        Position pos = Position(this->position.getPos(), std::stack<int>(), false);
+        return new Soldier(100, pos);
+    } else {
+        Position pos = Position(this->position.getPos(), std::stack<int>(), false);
+        return new Scout(false, 2, pos);
+    }
 }
 
 void Queen::play_turn(Game *game)
 {
-    // The queen does not move.
+    if (can_give_birth) {
+        for (int i : {1, 2}) {
+            game->getAnts().push_back(giveBirth(game->getAnts().empty()));
+        }
+    }
 }
 
 

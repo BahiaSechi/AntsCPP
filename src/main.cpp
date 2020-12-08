@@ -21,12 +21,14 @@
 #include <iostream>
 #include <Game.h>
 
+#ifndef ANTS_TEST
 int main()
 {
     Game game(211, 201);
-    game.start();
+    game.start(-1);
 
     std::cout << game.getMap() << std::endl;
 
     return 0;
 }
+#endif

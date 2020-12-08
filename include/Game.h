@@ -11,39 +11,55 @@
 #include <Ants/Types/Ant.h>
 #include <Board/Map.h>
 
+#include <SFML/Graphics.hpp>
+
 class Ant;
+
 class Map;
 
 class Game
 {
 private:
-    Map *map;
+    Map                *map;
     std::vector<Ant *> ants;
-//    std::thread graphic_thread;
 
 public:
     Game(int width, int height);
 
-    void updateGraphics() const;
-
     void onCreate();
 
-    void onUpdate(float elapsed_time);
+    void onLogicUpdate(float elapsed_time);
 
     void saveToFile(int loop_count);
 
-    [[noreturn]] void start();
+    void start(int turn_count);
 
     Map * getMap() const;
 
     void setMap(Map &map);
 
-    const std::vector<Ant *> &getAnts() const;
+    std::vector<Ant *> &getAnts();
 
     void setAnts(const std::vector<Ant *> &ants);
 
     virtual ~Game();
 };
+
+/**
+ * Function called by a delegated thread to update graphics
+ *
+ * @param window
+ */
+void updateGraphics(sf::RenderWindow &window);
+
+/**
+ * Given t1 and t2, wait a specific time to comply with the time between frame (value set in the definition)
+ *
+ * @param t1
+ * @param t2
+ * @return the work time
+ */
+float wait(std::chrono::system_clock::time_point t1, std::chrono::system_clock::time_point t2);
 
 
 #endif //ANTS_GAME_H

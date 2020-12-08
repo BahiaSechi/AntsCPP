@@ -16,9 +16,9 @@ public:
     Soldier(int expedition_time, const Position &position);
     ~Soldier() override;
 
-    void move(Game *game) override;
+    void play_turn(Game *game) override;
 
-    void attack(SlaveOwner &slave_owner) const;
+    void attac(SlaveOwner &slave_owner) const;
 };
 
 #endif //ANTSPROJECT_SOLDIER_H

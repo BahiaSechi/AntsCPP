@@ -20,6 +20,8 @@ private:
     std::vector<Ant *> ants;
     sf::Vector2i pos;
     tile_type type;
+    float pheromones;
+    bool discovered;
 
 public:
     Tile(std::vector<Ant *> ants, const sf::Vector2i &position, tile_type type);
@@ -32,6 +34,14 @@ public:
     void setAnts(const std::vector<Ant *> &ants);
 
     tile_type getType() const;
+
+    float getPheromones() const;
+
+    void setPheromones(float pheromones);
+
+    bool isDiscovered() const;
+
+    void setDiscovered(bool discovered);
 };
 
 #endif //ANTS00.

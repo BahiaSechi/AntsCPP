@@ -19,13 +19,33 @@
  */
 
 #include <Ants/Types/Ant.h>
-#include <ctime>
-#include <cstdlib>
+
 
 Ant::Ant(int lifespan, const Position &position, const Alimentation &alimentation):
 lifespan(lifespan), alimentation(alimentation), position(position){}
 
 Ant::~Ant() {}
+
+Tile *Ant::look_around(Game *game) {
+
+    int x_pos = this->position.getPos().x;
+    int y_pos = this->position.getPos().y;
+
+    auto tiles = *(game->getMap()->getTiles());
+
+    Tile around[8] = {
+            tiles[x_pos-1][y_pos-1],
+            tiles[x_pos][y_pos-1],
+            tiles[x_pos+1][y_pos-1],
+            tiles[x_pos-1][y_pos],
+            tiles[x_pos+1][y_pos],
+            tiles[x_pos-1][y_pos+1],
+            tiles[x_pos][y_pos+1],
+            tiles[x_pos+1][y_pos+1],
+    };
+
+    return around;
+}
 
 //void Ant::move() {
 //
@@ -67,21 +87,7 @@ Ant::~Ant() {}
 //            break;
 //    }
 //
-//
 //    // Toute fourmi possede une memoire de son chemin est du centre de la colonie
-//
-//    //SOLDAT
-//    // Verifier pas de fourmi esclavagiste
-//    // Peut se deplacer en zone connue
-//    //Si ca fait cent jours, il veut repasser par le centre de la colonie
-//
-//    //OUVRIERE
-//    // Si majeure, déplacement lié aux pheromon
-//    // Chercher la nourriture dans une direction donnee (has_food = true)
-//    // Se dirige dans une case en fonction de la dose de pheromone
-//    // Prendre la nourriture et faire demi tour vers le centre puis deposer
-//    // Dans chaque case dans laquelle elle passe au retour, depot pheromone
-//    // Centre de la colonie : has_food = false ; pheromones = 500
 //
 //}
 

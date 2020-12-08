@@ -27,9 +27,7 @@
 
 Queen::Queen(bool can_give_birth, int lifespan, float production_chance, const Position &position)
         : can_give_birth(can_give_birth), lifespan(lifespan), production_chance(production_chance),
-          Ant(10, position, Alimentation(1, 1))
-{
-}
+          Ant(10, position, Alimentation(1, 1)){}
 
 Queen::~Queen()
 {}
@@ -40,25 +38,25 @@ Ant *Queen::giveBirth(bool enforce_scout = false) const
         return new Scout(
                 false,
                 2,
-                Position(this->position.getPos(), std::stack<int>(), false)
+                Position(this->position.getPos(), std::stack<sf::Vector2i>(), false)
         );
     }
 
     float birth_proba = rand() % 100 + 1;
 
     if (birth_proba <= 80) {
-        Position pos = Position(this->position.getPos(), std::stack<int>(), true);
+        Position pos = Position(this->position.getPos(), std::stack<sf::Vector2i>(), true);
         return new Worker(false, false, 500, 15, pos);
     } else if (birth_proba <= 95) {
-        Position pos = Position(this->position.getPos(), std::stack<int>(), false);
+        Position pos = Position(this->position.getPos(), std::stack<sf::Vector2i>(), false);
         return new Soldier(100, pos);
     } else {
-        Position pos = Position(this->position.getPos(), std::stack<int>(), false);
+        Position pos = Position(this->position.getPos(), std::stack<sf::Vector2i>(), false);
         return new Scout(false, 2, pos);
     }
 }
 
-void Queen::move(Game *game)
+void Queen::play_turn(Game *game)
 {
     if (can_give_birth) {
         for (int i : {1, 2}) {

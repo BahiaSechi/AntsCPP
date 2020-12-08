@@ -12,13 +12,15 @@ class Worker : public virtual Ant {
 private:
     bool has_food;
     bool major;
-    int pheromones_stock;
+    float pheromones_stock;
     int minor_lifespan;
 
 public:
     Worker(bool has_food, bool major, int pheromones_stock, int minor_lifespan, const Position &position);
 
-    void move(Game *game) override;
+    void play_turn(Game *game) override;
+
+    static Tile pheromone_around(Tile * tiles_around);
 
     ~Worker();
 };

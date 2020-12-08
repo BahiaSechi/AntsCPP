@@ -26,6 +26,7 @@
 #include <Game.h>
 
 class Game;
+class Tile;
 
 class Ant {
 protected:
@@ -35,9 +36,10 @@ protected:
 
 public:
     Ant(int lifespan, const Position &position, const Alimentation &alimentation);
-    virtual void move(Game *game) = 0;
+    virtual void play_turn(Game *game) = 0;
     virtual ~Ant();
 
+    Tile * look_around(Game *game);
 };
 
 

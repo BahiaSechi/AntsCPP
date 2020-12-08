@@ -6,6 +6,7 @@
 
 #include <iostream>
 #include <Ants/Types/Queen.h>
+#include <mutex>
 
 ////////////////////////////////////////////////////////////
 // Main methods
@@ -26,18 +27,15 @@ void Game::start(int turn_count = -1)
     float elapsed_time = 0.0;
     int   loop_count   = 0;
 
-    sf::RenderWindow window;
     window.create(sf::VideoMode(800, 600), "Cool");
     window.setVerticalSyncEnabled(true);
-    std::thread gthread(updateGraphics, std::ref(window));
+    std::thread gthread(updateGraphics, std::ref(window), this);
     gthread.detach();
 
     while (window.isOpen() && (turn_count == -1 || --turn_count >= 0)) {
         sf::Event event{};
         while (window.pollEvent(event)) {
-            // "close requested" event: we close the window
-            if (event.type == sf::Event::Closed)
-                window.close();
+            handleEvent(event, elapsed_time);
         }
 
         elapsed_time = wait(t1, t2);
@@ -66,6 +64,26 @@ void Game::onLogicUpdate(float elapsed_time)
 
     // Then the queen has the opportunity to give birth
     ants[0]->move(this);
+}
+
+void Game::handleEvent(const sf::Event &event, float elapsed_time)
+{
+    if (event.type == sf::Event::Closed)
+        window.close();
+
+    if (event.type == sf::Event::KeyPressed) {
+        if (event.key.code == sf::Keyboard::Add) {
+            sf::View view = window.getView();
+            view.zoom(view_zoom - 0.02f);
+            window.setView(view);
+        }
+
+        if (event.key.code == sf::Keyboard::Subtract) {
+            sf::View view = window.getView();
+            view.zoom(view_zoom + 0.02f);
+            window.setView(view);
+        }
+    }
 }
 
 void Game::saveToFile(int loop_count)
@@ -120,14 +138,50 @@ void Game::setAnts(const std::vector<Ant *> &ants)
     Game::ants = ants;
 }
 
+const std::atomic<sf::Vector2f> &Game::getViewCenter() const
+{
+    return view_center;
+}
+
+void Game::setViewCenter(const sf::Vector2f &viewCenter)
+{
+    view_center = viewCenter;
+}
+
+const std::atomic<sf::Vector2f> &Game::getViewSize() const
+{
+    return view_size;
+}
+
+void Game::setViewSize(const sf::Vector2f &viewSize)
+{
+    view_size = viewSize;
+}
+
+const std::atomic<float> &Game::getViewZoom() const
+{
+    return view_zoom;
+}
+
+void Game::setViewZoom(float viewZoom)
+{
+    view_zoom = viewZoom;
+}
+
 ////////////////////////////////////////////////////////////
 // Non-member functions
 ////////////////////////////////////////////////////////////
 
-void updateGraphics(sf::RenderWindow &window)
+void updateGraphics(sf::RenderWindow &window, Game *game)
 {
+    sf::Vector2f view_center = game->getViewCenter();
+    sf::Vector2f view_size = game->getViewSize();
+    sf::View mainView(sf::FloatRect(view_center.x, view_center.y, view_size.x, view_size.y));
+
     // activate the window's context
     window.setActive(true);
+
+    window.setView(mainView);
 
     sf::CircleShape shape(50.f);
     shape.setFillColor(sf::Color(100, 250, 50));

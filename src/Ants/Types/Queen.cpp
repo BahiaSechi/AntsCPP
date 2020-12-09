@@ -17,6 +17,7 @@
  * YAS QUEEN YAAAS
  *
  * @brief Blabla
+ *
  */
 
 #include <Ants/Types/Queen.h>

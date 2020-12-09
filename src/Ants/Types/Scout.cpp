@@ -7,13 +7,15 @@
 #include <cstdlib>
 #include <iostream>
 
-
 Scout::Scout(bool major, int minorLifespan, const Position &position) :
-Ant(1, position,Alimentation(0.1,1)) {}
+        Ant(1, position, Alimentation(0.1, 1))
+{}
 
-Scout::~Scout() { }
+Scout::~Scout()
+{}
 
-void Scout::play_turn(Game *game) {
+void Scout::play_turn(Game *game)
+{
     /* Initialize random seed: */
     srand(time(NULL));
     int moving_chance = rand() % 8 + 1;
@@ -77,6 +79,7 @@ void Scout::play_turn(Game *game) {
     }
 }
 
-void Scout::tileDiscovered(Game *game, int x_pos, int y_pos) {
+void Scout::tileDiscovered(Game *game, int x_pos, int y_pos)
+{
     game->getMap()->getTiles()[x_pos][y_pos]->setDiscovered(true);
 }

@@ -97,13 +97,13 @@ void Worker::play_turn(Game *game) {
     if (this->has_food) {
         /* Put pheromones on actual position. */
         tiles[x_pos][y_pos]->setPheromones(
-                tiles[x_pos][y_pos]->getPheromones() + 1);
+                tiles[x_pos][y_pos]->getPheromones() * 0.08);
         /* Move to the previous position and continue while popping the
          * stack. */
         if (!stack.empty()) {
             this->position.setPos(stack.top());
             stack.pop();
-            this->pheromones_stock -= 1;
+            this->pheromones_stock *= 0.08;
         } else {
             this->pheromones_stock = 500;
             map->setColonyFood(map->getColonyFood() + 1);

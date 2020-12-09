@@ -5,8 +5,10 @@
 #include <Game.h>
 
 #include <iostream>
+#include <thread>
+
 #include <Ants/Types/Queen.h>
-#include <mutex>
+#include <Graphics/TileDraw.h>
 
 ////////////////////////////////////////////////////////////
 // Main methods
@@ -27,7 +29,9 @@ void Game::start(int turn_count = -1)
     float elapsed_time = 0.0;
     int   loop_count   = 0;
 
-    window.create(sf::VideoMode(800, 600), "Cool");
+    sf::Vector2f vsize = view_size.load();
+
+    window.create(sf::VideoMode(vsize.x, vsize.y), "Cool");
     window.setVerticalSyncEnabled(true);
     std::thread gthread(updateGraphics, std::ref(window), this);
     gthread.detach();
@@ -70,6 +74,17 @@ void Game::handleEvent(const sf::Event &event, float elapsed_time)
 {
     if (event.type == sf::Event::Closed)
         window.close();
+
+    if (event.type == sf::Event::Resized) {
+        // resize my view
+        sf::View view = window.getView();
+        view.setSize({
+                             static_cast<float>(event.size.width),
+                             static_cast<float>(event.size.height)
+                     });
+        window.setView(view);
+        // and align shape
+    }
 
     if (event.type == sf::Event::KeyPressed) {
         if (event.key.code == sf::Keyboard::Add) {
@@ -221,49 +236,72 @@ void Game::setTileSize(int tileSize)
 
 void updateGraphics(sf::RenderWindow &window, Game *game)
 {
-    sf::Vector2f    view_center   = game->getViewCenter().load();
-    sf::Vector2f    view_size     = game->getViewSize().load();
-    sf::View        main_view(sf::FloatRect(view_center.x, view_center.y, view_size.x, view_size.y));
-    sf::Vector2i    map_dimension = game->getMap()->getDimension();
+    sf::Vector2f view_center   = game->getViewCenter().load();
+    sf::Vector2f view_size     = game->getViewSize().load();
+    sf::View     main_view(sf::FloatRect(view_center.x, view_center.y, view_size.x, view_size.y));
+    Map          *map          = game->getMap();
+    sf::Vector2i map_dimension = map->getDimension();
+
+    while (map->getTiles() == nullptr) {}
+
+    TileDraw tdraw;
 
     // activate the window's context
     window.setActive(true);
-    window.setView(main_view);
+    window.setVerticalSyncEnabled(true);
 
-    int hlines_count = map_dimension.y / game->getTileSize() + 1;
-    int vlines_count = map_dimension.x / game->getTileSize() + 1;
+    sf::VertexArray tiles_vertices(sf::Quads, map_dimension.x * map_dimension.y * 4);
+    sf::Vector2i    ttexture_coord;
 
-    sf::VertexArray hlines(sf::Lines, hlines_count);
-    sf::VertexArray vlines(sf::Lines, vlines_count);
-
-    for (int i = 0; i < hlines_count - 1; i+=1) {
-        hlines[i].position = sf::Vector2f({0.0f, i * game->getTileSize() + 0.0f});
-        hlines[i + 1].position = sf::Vector2f({map_dimension.y + 0.0f, i * game->getTileSize() + 0.0f});
-    }
-
-    for (int j = 0; j < vlines_count - 1; j+=1) {
-        vlines[j].position = sf::Vector2f({j * game->getTileSize() + 0.0f, 0.0f});
-        vlines[j + 1].position = sf::Vector2f({j * game->getTileSize() + 0.0f, map_dimension.x + 0.0f});
-    }
-
-    sf::Texture ant_texture;
-    ant_texture.loadFromFile("../assets/ants/walk.png",
-                             sf::IntRect(0, 0, 200, 250));
-    sf::Sprite ant(ant_texture);
+    Tile *tile;
 
     // the rendering loop
     while (window.isOpen()) {
         window.clear(sf::Color::White);
 
-        // draw...
-//        window.draw(hlines);
-//        window.draw(vlines);
-        window.draw(ant);
+        view_center = game->getViewCenter().load();
+        view_size   = game->getViewSize().load();
+        int i = 0;
+
+        for (int y = 0; y < map_dimension.y - 1; ++y) {
+            for (int x = 0; x < map_dimension.x - 1; ++x) {
+                tile = map->getTiles()[y][x];
+
+                tiles_vertices[i].position     = {x * 16.f, y * 16.f};
+                tiles_vertices[i + 1].position = {(x + 1) * 16.f, y * 16.f};
+                tiles_vertices[i + 2].position = {(x + 1) * 16.f, (y + 1) * 16.f};
+                tiles_vertices[i + 3].position = {x * 16.f, (y + 1) * 16.f};
+
+                switch (tile->getType()) {
+                    case tile_type::EMPTY:
+                        ttexture_coord = (tile->isDiscovered() ? tdraw.empty_discovered_texture : tdraw.empty_texture);
+                        break;
+                    case tile_type::OBSTACLE:
+                        ttexture_coord = (tdraw.obstacle_texture);
+                        break;
+                    case tile_type::FOOD:
+                        ttexture_coord = (tile->isDiscovered() ? tdraw.food_discovered_texture : tdraw.food_texture);
+                        break;
+                    case tile_type::COLONY:
+                        ttexture_coord = (tdraw.colony_texture);
+                        break;
+                }
+
+                tiles_vertices[i].texCoords     = {ttexture_coord.x + 0.f, ttexture_coord.y + 0.f};
+                tiles_vertices[i + 1].texCoords = {ttexture_coord.x + 16.f, ttexture_coord.y + 0.f};
+                tiles_vertices[i + 2].texCoords = {ttexture_coord.x + 16.f, ttexture_coord.y + 16.f};
+                tiles_vertices[i + 3].texCoords = {ttexture_coord.x + 0.f, ttexture_coord.y + 16.f};
+
+                i += 4;
+            }
+        }
+
+        // draw map
+        window.draw(tiles_vertices, &tdraw.tile_texture);
 
         // end the current frame
         window.display();
     }
-
 }
 
 float wait(std::chrono::system_clock::time_point t1, std::chrono::system_clock::time_point t2)

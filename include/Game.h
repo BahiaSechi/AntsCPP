@@ -7,7 +7,6 @@
 
 #include <atomic>
 #include <fstream>
-#include <thread>
 
 #include <Ants/Types/Ant.h>
 #include <Board/Map.h>

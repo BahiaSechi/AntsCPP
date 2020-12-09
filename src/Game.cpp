@@ -5,7 +5,6 @@
 #include <Game.h>
 
 #include <iostream>
-#include <thread>
 
 #include <Ants/Types/Queen.h>
 #include <Graphics/TileDraw.h>

@@ -18,15 +18,18 @@ void Soldier::attac(SlaveOwner &slave_owner) const { }
 void Soldier::play_turn(Game *game) {
 
     /* Initialize variables. */
-    int x_pos = this->position.getPos().x;
-    int y_pos = this->position.getPos().y;
     sf::Vector2<int> ant_pos = this->position.getPos();
+    int x_pos = ant_pos.x;
+    int y_pos = ant_pos.y;
     std::stack<sf::Vector2i> stack = this->position.getPosStack();
     auto map = game->getMap();
     auto tiles = map->getTiles();
+    int x_dimension = map->getDimension().x;
+    int y_dimension = map->getDimension().y;
+    int future_x, future_y;
 
     //TODO Verifier pas de fourmi esclavagiste sur la case
-    auto whos_here = game->getMap()->getTiles()[x_pos][y_pos]->getAnts();
+    auto whos_here = tiles[x_pos][y_pos]->getAnts();
 
     const std::vector<Ant *>::iterator &is_slave_owner_here =
             std::find_if(whos_here.begin(), whos_here.end(),[whos_here](Ant * ant) {
@@ -44,59 +47,50 @@ void Soldier::play_turn(Game *game) {
 
         switch (moving_chance) {
             case 1: // NO
-                if (tiles[x_pos - 1][y_pos-1]->isDiscovered()) {
-                    this->position.setPos({x_pos - 1, y_pos - 1});
-                    stack.push(ant_pos);
-                    std::cout << "Nord ouest" << std::endl;
-                }
+                future_x = x_pos - 1;
+                future_y = y_pos - 1;
+                std::cout << "Nord ouest" << std::endl;
                 break;
             case 2: // N
-                if (tiles[x_pos][y_pos-1]->isDiscovered()) {
-                    this->position.setPos({x_pos, y_pos - 1});
-                    stack.push(ant_pos);
-                    std::cout << "Nord" << std::endl;
-                }
+                future_x = x_pos;
+                future_y = y_pos - 1;
+                std::cout << "Nord" << std::endl;
                 break;
             case 3: // NE
-                if (tiles[x_pos + 1][y_pos - 1]->isDiscovered()) {
-                    this->position.setPos({x_pos + 1, y_pos - 1});
-                    stack.push(ant_pos);
-                    std::cout << "Nord est" << std::endl;
-                }
+                future_x = x_pos + 1;
+                future_y = y_pos - 1;
+                std::cout << "Nord est" << std::endl;
                 break;
             case 4: // O
-                if (tiles[x_pos - 1][y_pos]->isDiscovered()) {
-                    this->position.setPos({x_pos - 1, y_pos});
-                    stack.push(ant_pos);
-                    std::cout << "Ouest" << std::endl;
-                }
+                future_x = x_pos - 1;
+                future_y = y_pos;
+                std::cout << "Ouest" << std::endl;
                 break;
             case 5: // E
-                if (tiles[x_pos + 1][y_pos]->isDiscovered()) {
-                    this->position.setPos({x_pos + 1, y_pos});
-                    stack.push(ant_pos);
-                    std::cout << "Est" << std::endl;
-                }
+                future_x = x_pos + 1;
+                future_y = y_pos;
+                std::cout << "Est" << std::endl;
                 break;
             case 6: // SO
-                if (tiles[x_pos - 1][y_pos + 1]->isDiscovered())
-                    this->position.setPos({x_pos - 1, y_pos + 1});
-                stack.push(ant_pos);
+                future_x = x_pos - 1;
+                future_y = y_pos + 1;
                 std::cout << "Sud ouest" << std::endl;
                 break;
             case 7: // S
-                if (tiles[x_pos][y_pos + 1]->isDiscovered()) {
-                    this->position.setPos({x_pos, y_pos + 1});
-                    stack.push(ant_pos);
-                    std::cout << "Sud" << std::endl;
-                }
+                future_x = x_pos;
+                future_y = y_pos + 1;
+                std::cout << "Sud" << std::endl;
                 break;
             case 8: // SE
-                if (tiles[x_pos + 1][y_pos + 1]->isDiscovered())
-                    this->position.setPos({x_pos + 1, y_pos + 1});
-                stack.push(ant_pos);
+                future_x = x_pos + 1;
+                future_y = y_pos + 1;
                 std::cout << "Sud est" << std::endl;
                 break;
+        }
+        if ((0 <= future_x && future_x < x_dimension && 0 <= future_y && future_y < y_dimension)
+        && tiles[future_x][future_y]->isDiscovered()){
+            this->position.setPos({future_x, future_y});
+            stack.push(ant_pos);
         }
     } else {
         //TODO Retour a la colonie

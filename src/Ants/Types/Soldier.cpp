@@ -29,7 +29,7 @@ void Soldier::play_turn(Game *game) {
     auto whos_here = game->getMap()->getTiles()[x_pos][y_pos]->getAnts();
 
     const std::vector<Ant *>::iterator &is_slave_owner_here =
-            std::find_if(whos_here.begin(), whos_here.end(),[whos_here](Ant * ant){
+            std::find_if(whos_here.begin(), whos_here.end(),[whos_here](Ant * ant) {
                 return typeid(*ant) == typeid(SlaveOwner);
             });
 

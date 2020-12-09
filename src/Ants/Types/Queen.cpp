@@ -14,6 +14,7 @@
  * @date November 2020
  * @file Queen.cpp
  * @version 1.0
+ * YAS QUEEN YAAAS
  *
  * @brief Blabla
  */

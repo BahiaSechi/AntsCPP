@@ -41,7 +41,7 @@ Tile *Ant::look_around(Game *game) {
             tiles[x_pos+1][y_pos],
             tiles[x_pos-1][y_pos+1],
             tiles[x_pos][y_pos+1],
-            tiles[x_pos+1][y_pos+1],
+            tiles[x_pos+1][y_pos+1]
     };
 
     return around;

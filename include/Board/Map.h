@@ -21,6 +21,8 @@ private:
     int colony_food;
     int big_food_source_count;
 
+    int nbNeighbors(int y, int x);
+
 public:
     Map(int height, int width, int colony_food, int big_food_source_count);
     ~Map();

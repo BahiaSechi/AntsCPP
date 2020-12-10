@@ -40,6 +40,18 @@ public:
     virtual ~Ant();
 
     Tile * look_around(Game *game);
+
+    int getLifespan() const;
+
+    void setLifespan(int lifespan);
+
+    const Position &getPosition() const;
+
+    void setPosition(const Position &position);
+
+    const Alimentation &getAlimentation() const;
+
+    void setAlimentation(const Alimentation &alimentation);
 };
 
 

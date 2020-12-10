@@ -8,6 +8,7 @@
 
 #include <Ants/Types/Queen.h>
 #include <Graphics/TileDraw.h>
+#include <Graphics/AntDraw.h>
 
 ////////////////////////////////////////////////////////////
 // Main methods
@@ -30,7 +31,9 @@ void Game::start(int turn_count = -1)
 
     sf::Vector2f vsize = view_size.load();
 
-    window.create(sf::VideoMode(vsize.x, vsize.y), "Cool");
+    sf::ContextSettings wsettings;
+    wsettings.antialiasingLevel = 8;
+    window.create(sf::VideoMode(vsize.x, vsize.y), "Cool", sf::Style::Default, wsettings);
     window.setVerticalSyncEnabled(true);
     std::thread gthread(updateGraphics, std::ref(window), this);
     gthread.detach();
@@ -42,7 +45,7 @@ void Game::start(int turn_count = -1)
         }
 
         elapsed_time = wait(t1, t2);
-//        onLogicUpdate(elapsed_time);
+        onLogicUpdate(elapsed_time);
         saveToFile(++loop_count);
     }
 }
@@ -165,6 +168,140 @@ Game::~Game()
 }
 
 ////////////////////////////////////////////////////////////
+// Non-member functions
+////////////////////////////////////////////////////////////
+
+sf::VertexArray tilesVertices(Tile ***tiles, int map_x, int map_y)
+{
+    sf::VertexArray tiles_vertices(sf::Quads, map_x * map_y * 4);
+    int             i = 0;
+    Tile            *tile;
+    TileDraw        tdraw;
+    sf::Vector2i    ttexture_coord;
+
+
+    for (int y = 0; y < map_y - 1; ++y) {
+        for (int x = 0; x < map_x - 1; ++x) {
+            tile = tiles[y][x];
+
+            tiles_vertices[i].position     = {x * 16.f, y * 16.f};
+            tiles_vertices[i + 1].position = {(x + 1) * 16.f, y * 16.f};
+            tiles_vertices[i + 2].position = {(x + 1) * 16.f, (y + 1) * 16.f};
+            tiles_vertices[i + 3].position = {x * 16.f, (y + 1) * 16.f};
+
+            switch (tile->getType()) {
+                case tile_type::EMPTY:
+                    ttexture_coord = (tile->isDiscovered() ? tdraw.empty_discovered_texture : tdraw.empty_texture);
+                    break;
+                case tile_type::OBSTACLE:
+                    ttexture_coord = (tdraw.obstacle_texture);
+                    break;
+                case tile_type::FOOD:
+                    ttexture_coord = (tile->isDiscovered() ? tdraw.food_discovered_texture : tdraw.food_texture);
+                    break;
+                case tile_type::COLONY:
+                    ttexture_coord = (tdraw.colony_texture);
+                    break;
+            }
+
+            tiles_vertices[i].texCoords     = {ttexture_coord.x + 0.f, ttexture_coord.y + 0.f};
+            tiles_vertices[i + 1].texCoords = {ttexture_coord.x + 16.f, ttexture_coord.y + 0.f};
+            tiles_vertices[i + 2].texCoords = {ttexture_coord.x + 16.f, ttexture_coord.y + 16.f};
+            tiles_vertices[i + 3].texCoords = {ttexture_coord.x + 0.f, ttexture_coord.y + 16.f};
+
+            i += 4;
+        }
+    }
+
+    return tiles_vertices;
+}
+
+sf::VertexArray antsVertices(std::vector<Ant *> ants, Tile ***tiles, int map_x, int map_y)
+{
+    sf::VertexArray ants_vertices(sf::Quads, ants.size() * 4);
+    int             i = 0;
+    Tile            *tile;
+    sf::Vector2i    atexture_coord;
+    sf::Vector2i    pos;
+
+    for (auto ant : ants) {
+        pos  = ant->getPosition().getPos();
+        tile = tiles[pos.y][pos.x];
+
+        ants_vertices[i].position     = {pos.x * 16.f, pos.y * 16.f};
+        ants_vertices[i + 1].position = {(pos.x + 1) * 16.f, pos.y * 16.f};
+        ants_vertices[i + 2].position = {(pos.x + 1) * 16.f, (pos.y + 1) * 16.f};
+        ants_vertices[i + 3].position = {pos.x * 16.f, (pos.y + 1) * 16.f};
+
+        ants_vertices[i].texCoords     = {atexture_coord.x + 0.f, atexture_coord.y + 0.f};
+        ants_vertices[i + 1].texCoords = {atexture_coord.x + 200.f, atexture_coord.y + 0.f};
+        ants_vertices[i + 2].texCoords = {atexture_coord.x + 200.f, atexture_coord.y + 250.f};
+        ants_vertices[i + 3].texCoords = {atexture_coord.x + 0.f, atexture_coord.y + 250.f};
+
+        i += 4;
+    }
+
+    return ants_vertices;
+}
+
+void updateGraphics(sf::RenderWindow &window, Game *game)
+{
+    sf::Vector2f view_center   = game->getViewCenter().load();
+    sf::Vector2f view_size     = game->getViewSize().load();
+    sf::View     main_view(sf::FloatRect(view_center.x, view_center.y, view_size.x, view_size.y));
+    Map          *map          = game->getMap();
+    sf::Vector2i map_dimension = map->getDimension();
+
+    TileDraw         tdraw;
+    AntDraw          adraw;
+    sf::RenderStates ants_render;
+    ants_render.texture   = &(adraw.ants_texture);
+
+    while (map->getTiles() == nullptr) {}
+
+    // activate the window's context
+    window.setActive(true);
+    window.setVerticalSyncEnabled(true);
+
+    Tile *tile;
+
+    // the rendering loop
+    while (window.isOpen()) {
+        window.clear(sf::Color::White);
+
+        view_center = game->getViewCenter().load();
+        view_size   = game->getViewSize().load();
+
+        // draw map
+        window.draw(tilesVertices(map->getTiles(), map_dimension.x, map_dimension.y), &tdraw.tile_texture);
+        window.draw(antsVertices(game->getAnts(), map->getTiles(), map_dimension.x, map_dimension.y), ants_render);
+
+        // end the current frame
+        window.display();
+    }
+}
+
+float wait(std::chrono::system_clock::time_point t1, std::chrono::system_clock::time_point t2)
+{
+    using namespace std::chrono;
+
+    float time_between_frame = 1000.0;
+    t1 = system_clock::now();
+    duration<double, std::milli> work_time = t1 - t2;
+
+    if (work_time.count() < time_between_frame) {
+        duration<double, std::milli> delta_ms(time_between_frame - work_time.count());
+        auto                         delta_ms_duration = duration_cast<milliseconds>(delta_ms);
+        std::this_thread::sleep_for(milliseconds(delta_ms_duration.count()));
+    }
+
+    t2 = system_clock::now();
+    duration<double, std::milli> sleep_time = t2 - t1;
+
+    return work_time.count();
+}
+
+////////////////////////////////////////////////////////////
 // Getters and setters
 ////////////////////////////////////////////////////////////
 
@@ -227,98 +364,4 @@ int Game::getTileSize() const
 void Game::setTileSize(int tileSize)
 {
     tile_size = tileSize;
-}
-
-////////////////////////////////////////////////////////////
-// Non-member functions
-////////////////////////////////////////////////////////////
-
-void updateGraphics(sf::RenderWindow &window, Game *game)
-{
-    sf::Vector2f view_center   = game->getViewCenter().load();
-    sf::Vector2f view_size     = game->getViewSize().load();
-    sf::View     main_view(sf::FloatRect(view_center.x, view_center.y, view_size.x, view_size.y));
-    Map          *map          = game->getMap();
-    sf::Vector2i map_dimension = map->getDimension();
-
-    while (map->getTiles() == nullptr) {}
-
-    TileDraw tdraw;
-
-    // activate the window's context
-    window.setActive(true);
-    window.setVerticalSyncEnabled(true);
-
-    sf::VertexArray tiles_vertices(sf::Quads, map_dimension.x * map_dimension.y * 4);
-    sf::Vector2i    ttexture_coord;
-
-    Tile *tile;
-
-    // the rendering loop
-    while (window.isOpen()) {
-        window.clear(sf::Color::White);
-
-        view_center = game->getViewCenter().load();
-        view_size   = game->getViewSize().load();
-        int i = 0;
-
-        for (int y = 0; y < map_dimension.y - 1; ++y) {
-            for (int x = 0; x < map_dimension.x - 1; ++x) {
-                tile = map->getTiles()[y][x];
-
-                tiles_vertices[i].position     = {x * 16.f, y * 16.f};
-                tiles_vertices[i + 1].position = {(x + 1) * 16.f, y * 16.f};
-                tiles_vertices[i + 2].position = {(x + 1) * 16.f, (y + 1) * 16.f};
-                tiles_vertices[i + 3].position = {x * 16.f, (y + 1) * 16.f};
-
-                switch (tile->getType()) {
-                    case tile_type::EMPTY:
-                        ttexture_coord = (tile->isDiscovered() ? tdraw.empty_discovered_texture : tdraw.empty_texture);
-                        break;
-                    case tile_type::OBSTACLE:
-                        ttexture_coord = (tdraw.obstacle_texture);
-                        break;
-                    case tile_type::FOOD:
-                        ttexture_coord = (tile->isDiscovered() ? tdraw.food_discovered_texture : tdraw.food_texture);
-                        break;
-                    case tile_type::COLONY:
-                        ttexture_coord = (tdraw.colony_texture);
-                        break;
-                }
-
-                tiles_vertices[i].texCoords     = {ttexture_coord.x + 0.f, ttexture_coord.y + 0.f};
-                tiles_vertices[i + 1].texCoords = {ttexture_coord.x + 16.f, ttexture_coord.y + 0.f};
-                tiles_vertices[i + 2].texCoords = {ttexture_coord.x + 16.f, ttexture_coord.y + 16.f};
-                tiles_vertices[i + 3].texCoords = {ttexture_coord.x + 0.f, ttexture_coord.y + 16.f};
-
-                i += 4;
-            }
-        }
-
-        // draw map
-        window.draw(tiles_vertices, &tdraw.tile_texture);
-
-        // end the current frame
-        window.display();
-    }
-}
-
-float wait(std::chrono::system_clock::time_point t1, std::chrono::system_clock::time_point t2)
-{
-    using namespace std::chrono;
-
-    float time_between_frame = 1000.0;
-    t1 = system_clock::now();
-    duration<double, std::milli> work_time = t1 - t2;
-
-    if (work_time.count() < time_between_frame) {
-        duration<double, std::milli> delta_ms(time_between_frame - work_time.count());
-        auto                         delta_ms_duration = duration_cast<milliseconds>(delta_ms);
-        std::this_thread::sleep_for(milliseconds(delta_ms_duration.count()));
-    }
-
-    t2 = system_clock::now();
-    duration<double, std::milli> sleep_time = t2 - t1;
-
-    return work_time.count();
 }

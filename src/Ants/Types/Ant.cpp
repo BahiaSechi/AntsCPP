@@ -47,6 +47,36 @@ Tile *Ant::look_around(Game *game) {
     return around;
 }
 
+int Ant::getLifespan() const
+{
+    return lifespan;
+}
+
+void Ant::setLifespan(int lifespan)
+{
+    Ant::lifespan = lifespan;
+}
+
+const Position &Ant::getPosition() const
+{
+    return position;
+}
+
+void Ant::setPosition(const Position &position)
+{
+    Ant::position = position;
+}
+
+const Alimentation &Ant::getAlimentation() const
+{
+    return alimentation;
+}
+
+void Ant::setAlimentation(const Alimentation &alimentation)
+{
+    Ant::alimentation = alimentation;
+}
+
 //void Ant::move() {
 //
 //    /* Initialize random seed: */

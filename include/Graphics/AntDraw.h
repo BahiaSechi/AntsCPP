@@ -16,7 +16,7 @@ public:
     sf::Vector2i soldier_texture;
     sf::Vector2i worker_texture;
 
-    std::string filepath;
+    sf::Texture ants_texture;
 
     AntDraw();
 };

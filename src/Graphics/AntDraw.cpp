@@ -6,7 +6,7 @@
 
 AntDraw::AntDraw()
 {
-    std::string filepath = "../../assets/ants/walk.png";
+    ants_texture.loadFromFile("assets/ants/walk.png");
 
     queen_texture = {0, 0};
     scoot_texture = {0, 0};

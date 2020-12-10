@@ -11,12 +11,13 @@
 
 #include <Ants/Types/Ant.h>
 #include <Board/Map.h>
+#include <Board/Tile.h>
 
 #include <SFML/Graphics.hpp>
 
 class Ant;
-
 class Map;
+class Tile;
 
 class Game
 {
@@ -72,6 +73,9 @@ public:
 
     void setTileSize(int tileSize);
 };
+
+sf::VertexArray tilesVertices(Tile ***tiles, int map_x, int map_y);
+sf::VertexArray antsVertices(std::vector<Ant *> ants, Tile ***tiles, int map_x, int map_y);
 
 /**
  * Function called by a delegated thread to update graphics

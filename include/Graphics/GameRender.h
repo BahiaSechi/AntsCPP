@@ -40,6 +40,10 @@ public:
 
     void startGraphics(Game *game);
 
+    void createText(const std::string &str, sf::Text &text) const;
+
+    void handleGraphicEvent(const sf::Event &event, float elapsed_time);
+
     const std::atomic<sf::Vector2f> &getViewCenter() const;
 
     void setViewCenter(const std::atomic<sf::Vector2f> &viewCenter);

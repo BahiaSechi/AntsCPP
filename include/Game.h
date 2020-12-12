@@ -35,7 +35,7 @@ public:
 
     void onLogicUpdate(float elapsed_time);
 
-    void handleEvent(const sf::Event &event, float elapsed_time);
+    void handleLogicEvent(const sf::Event &event, float elapsed_time);
 
     void saveToFile(int loop_count);
 
@@ -59,7 +59,7 @@ public:
  * @param t2
  * @return the work time
  */
-float wait(std::chrono::system_clock::time_point t1, std::chrono::system_clock::time_point t2);
+float wait(std::chrono::system_clock::time_point &t1, std::chrono::system_clock::time_point &t2, float frametime = 1000.0);
 
 
 #endif //ANTS_GAME_H

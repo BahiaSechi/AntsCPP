@@ -37,7 +37,7 @@ void Game::start(int turn_count = -1)
     while (window->isOpen() && (turn_count == -1 || --turn_count >= 0)) {
         sf::Event event{};
         while (window->pollEvent(event)) {
-            handleEvent(event, elapsed_time);
+            handleLogicEvent(event, elapsed_time);
         }
 
         elapsed_time = wait(t1, t2);
@@ -68,72 +68,14 @@ void Game::onLogicUpdate(float elapsed_time)
     ants[0]->play_turn(this);
 }
 
-void Game::handleEvent(const sf::Event &event, float elapsed_time)
+void Game::handleLogicEvent(const sf::Event &event, float elapsed_time)
 {
     sf::RenderWindow *window     = &renderer->getWindow();
     sf::Vector2f     view_size   = renderer->getViewSize().load();
     sf::Vector2f     view_center = renderer->getViewCenter().load();
     float            view_zoom   = renderer->getViewZoom().load();
 
-    if (event.type == sf::Event::Closed)
-        window->close();
 
-    if (event.type == sf::Event::Resized) {
-        // resize my view
-        sf::View view = window->getView();
-        view.setSize({
-                             static_cast<float>(event.size.width),
-                             static_cast<float>(event.size.height)
-                     });
-        window->setView(view);
-        // and align shape
-    }
-
-    if (event.type == sf::Event::KeyPressed) {
-        if (event.key.code == sf::Keyboard::Add) {
-            sf::View view = window->getView();
-            view.zoom(view_zoom - 0.02f);
-            window->setView(view);
-        }
-
-        if (event.key.code == sf::Keyboard::Subtract) {
-            sf::View view = window->getView();
-            view.zoom(view_zoom + 0.02f);
-            window->setView(view);
-        }
-
-        if (event.key.code == sf::Keyboard::Left) {
-            sf::View view = window->getView();
-            view_center = {view_center.x - 50.0f, view_center.y};
-            view.setCenter(view_center);
-            view_center = view_center;
-            window->setView(view);
-        }
-
-        if (event.key.code == sf::Keyboard::Right) {
-            sf::View view = window->getView();
-            view_center = {view_center.x + 50.0f, view_center.y};
-            view.setCenter(view_center);
-            view_center = view_center;
-            window->setView(view);
-        }
-
-        if (event.key.code == sf::Keyboard::Up) {
-            sf::View view = window->getView();
-            view_center = {view_center.x, view_center.y - 50.0f};
-            view.setCenter(view_center);
-            view_center = view_center;
-            window->setView(view);
-        }
-
-        if (event.key.code == sf::Keyboard::Down) {
-            sf::View view = window->getView();
-            view_center = {view_center.x, view_center.y + 50.0f};
-            view.setCenter(view_center);
-            view_center = view_center;
-            window->setView(view);
-        }
-    }
 
     renderer->setViewCenter(view_center);
     renderer->setViewSize(view_size);
@@ -173,16 +115,15 @@ Game::~Game()
 // Non-member functions
 ////////////////////////////////////////////////////////////
 
-float wait(std::chrono::system_clock::time_point t1, std::chrono::system_clock::time_point t2)
+float wait(std::chrono::system_clock::time_point &t1, std::chrono::system_clock::time_point &t2, float frametime)
 {
     using namespace std::chrono;
 
-    float time_between_frame = 1000.0;
     t1 = system_clock::now();
     duration<double, std::milli> work_time = t1 - t2;
 
-    if (work_time.count() < time_between_frame) {
-        duration<double, std::milli> delta_ms(time_between_frame - work_time.count());
+    if (work_time.count() < frametime) {
+        duration<double, std::milli> delta_ms(frametime - work_time.count());
         auto                         delta_ms_duration = duration_cast<milliseconds>(delta_ms);
         std::this_thread::sleep_for(milliseconds(delta_ms_duration.count()));
     }

@@ -88,13 +88,21 @@ sf::VertexArray GameRender::antsVertices(std::vector<Ant *> ants, Tile ***tiles,
 
 void GameRender::updateGraphics(Game *game)
 {
+    std::chrono::system_clock::time_point t1           = std::chrono::system_clock::now();
+    std::chrono::system_clock::time_point t2           = std::chrono::system_clock::now();
+    float                                 elapsed_time = 0.0;
+
     sf::Vector2f vcenter       = view_center.load();
     sf::Vector2f vsize         = view_size.load();
     sf::View     main_view(sf::FloatRect(vcenter.x, vcenter.y, vsize.x, vsize.y));
     Map          *map          = game->getMap();
     sf::Vector2i map_dimension = map->getDimension();
-    sf::Font     font_default;
+
+    sf::Font font_default;
     font_default.loadFromFile("assets/fonts/JetBrainsMono-Regular.ttf");
+    sf::Text text_ants_counter("", font_default);
+    text_ants_counter.setCharacterSize(24);
+    text_ants_counter.setFillColor(sf::Color::Black);
 
     TileDraw         tdraw;
     AntDraw          adraw;
@@ -111,18 +119,34 @@ void GameRender::updateGraphics(Game *game)
 
     // the rendering loop
     while (window.isOpen()) {
+        sf::Event event;
+        while (window.pollEvent(event)) {
+            handleGraphicEvent(event, elapsed_time);
+        }
+
         window.clear(sf::Color::White);
 
         vcenter = view_center.load();
         vsize   = view_size.load();
 
+        text_ants_counter.setString("Nb de fourmis: " + std::to_string(game->getAnts().size()));
+
         // draw map
         window.draw(tilesVertices(map->getTiles(), map_dimension.x, map_dimension.y), &tdraw.tile_texture);
         window.draw(antsVertices(game->getAnts(), map->getTiles(), map_dimension.x, map_dimension.y), ants_render);
+        window.draw(text_ants_counter);
+
+        elapsed_time = wait(t1, t2, 1.0);
 
         // end the current frame
         window.display();
     }
+}
+
+
+void GameRender::createText(const std::string &str, sf::Text &text) const
+{
+
 }
 
 void GameRender::startGraphics(Game *game)
@@ -137,10 +161,74 @@ void GameRender::startGraphics(Game *game)
     gthread.detach();
 }
 
+void GameRender::handleGraphicEvent(const sf::Event &event, float elapsed_time)
+{
+    sf::Vector2f vsize   = getViewSize().load();
+    sf::Vector2f vcenter = getViewCenter().load();
+    float        vzoom   = getViewZoom().load();
+
+    if (event.type == sf::Event::Closed)
+        window.close();
+
+    if (event.type == sf::Event::Resized) {
+        // resize my view
+        sf::View view = window.getView();
+        view.setSize({static_cast<float>(event.size.width), static_cast<float>(event.size.height)});
+        window.setView(view);
+        // and align shape
+    }
+
+    if (event.type == sf::Event::KeyPressed) {
+        if (event.key.code == sf::Keyboard::Add) {
+            sf::View view = window.getView();
+            view.zoom(vzoom - 0.02f);
+            window.setView(view);
+        }
+
+        if (event.key.code == sf::Keyboard::Subtract) {
+            sf::View view = window.getView();
+            view.zoom(vzoom + 0.02f);
+            window.setView(view);
+        }
+
+        if (event.key.code == sf::Keyboard::Left) {
+            sf::View view = window.getView();
+            vcenter = {vcenter.x - 50.0f, vcenter.y};
+            view.setCenter(vcenter);
+            window.setView(view);
+        }
+
+        if (event.key.code == sf::Keyboard::Right) {
+            sf::View view = window.getView();
+            vcenter = {vcenter.x + 50.0f, vcenter.y};
+            view.setCenter(vcenter);
+            window.setView(view);
+        }
+
+        if (event.key.code == sf::Keyboard::Up) {
+            sf::View view = window.getView();
+            vcenter = {vcenter.x, vcenter.y - 50.0f};
+            view.setCenter(vcenter);
+            window.setView(view);
+        }
+
+        if (event.key.code == sf::Keyboard::Down) {
+            sf::View view = window.getView();
+            vcenter = {vcenter.x, vcenter.y + 50.0f};
+            view.setCenter(vcenter);
+            window.setView(view);
+        }
+    }
+
+    setViewCenter(vcenter);
+    setViewSize(vsize);
+    setViewZoom(vzoom);
+}
 
 ////////////////////////////////////////////////////////////
 // Getters and setters
 ////////////////////////////////////////////////////////////
+
 
 const std::atomic<sf::Vector2f> &GameRender::getViewCenter() const
 {

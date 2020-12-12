@@ -21,8 +21,9 @@ void Scout::play_turn(Game *game)
     int moving_chance = rand() % 8 + 1;
 
     /* Initialize variables. */
-    int x_pos = this->position.getPos().x;
-    int y_pos = this->position.getPos().y;
+    sf::Vector2<int> ant_pos = this->position.getPos();
+    int x_pos = ant_pos.x;
+    int y_pos = ant_pos.y;
     auto map = game->getMap();
     int x_dimension = map->getDimension().x;
     int y_dimension = map->getDimension().y;
@@ -73,13 +74,13 @@ void Scout::play_turn(Game *game)
                 break;
         }
         if (0 <= future_x && future_x < x_dimension && 0 <= future_y && future_y < y_dimension) {
-            this->position.setPos({future_x, future_y});
-            tileDiscovered(game, future_x, future_y);
+            this->position.setPos({future_y, future_x});
+            tileDiscovered(game, future_y, future_x);
         }
     }
 }
 
 void Scout::tileDiscovered(Game *game, int x_pos, int y_pos)
 {
-    game->getMap()->getTiles()[x_pos][y_pos]->setDiscovered(true);
+    game->getMap()->getTiles()[y_pos][x_pos]->setDiscovered(true);
 }

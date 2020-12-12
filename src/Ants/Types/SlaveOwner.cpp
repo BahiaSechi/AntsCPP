@@ -17,8 +17,9 @@ void SlaveOwner::play_turn(Game *game) {
     int moving_chance = rand() % 8 + 1;
 
     /* Initialize variables. */
-    int x_pos = this->position.getPos().x;
-    int y_pos = this->position.getPos().y;
+    sf::Vector2<int> ant_pos = this->position.getPos();
+    int x_pos = ant_pos.x;
+    int y_pos = ant_pos.y;
     auto map = game->getMap();
     int x_dimension = map->getDimension().x;
     int y_dimension = map->getDimension().y;
@@ -67,6 +68,6 @@ void SlaveOwner::play_turn(Game *game) {
             break;
     }
     if (0 <= future_x && future_x < x_dimension && 0 <= future_y && future_y < y_dimension) {
-        this->position.setPos({future_x, future_y});
+        this->position.setPos({future_y, future_x});
     }
 }

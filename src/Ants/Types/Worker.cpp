@@ -17,9 +17,9 @@ void Worker::play_turn(Game *game) {
     int moving_chance = rand() % 8 + 1;
 
     /* Initialize variables. */
-    int x_pos = this->position.getPos().x;
-    int y_pos = this->position.getPos().y;
     sf::Vector2<int> ant_pos = this->position.getPos();
+    int x_pos = ant_pos.x;
+    int y_pos = ant_pos.y;
     std::stack<sf::Vector2i> stack = this->position.getPosStack();
     auto map = game->getMap();
     auto tiles = map->getTiles();
@@ -73,9 +73,9 @@ void Worker::play_turn(Game *game) {
                 break;
         }
         if ((0 <= future_x && future_x < x_dimension && 0 <= future_y && future_y < y_dimension)
-            && tiles[future_x][future_y]->isDiscovered()) {
-            this->position.setPos({future_x, future_y});
-            stack.push(ant_pos);
+            && tiles[future_y][future_x]->isDiscovered()) {
+            this->position.setPos({future_y, future_x});
+            stack.push(this->position.getPos());
         }
     } else {
 
@@ -85,9 +85,9 @@ void Worker::play_turn(Game *game) {
 
         if ((0 <= moving_to.x && moving_to.x < x_dimension && 0 <= moving_to.y
         && moving_to.y < y_dimension)) {
-            if (tiles[moving_to.x][moving_to.y]->isDiscovered()) {
+            if (tiles[moving_to.y][moving_to.x]->isDiscovered()) {
                 this->position.setPos(moving_to);
-                stack.push(ant_pos);
+                stack.push(this->position.getPos());
             }
         }
     }
@@ -96,8 +96,7 @@ void Worker::play_turn(Game *game) {
 
     if (this->has_food) {
         /* Put pheromones on actual position. */
-        tiles[x_pos][y_pos]->setPheromones(
-                tiles[x_pos][y_pos]->getPheromones() * 0.08);
+        tiles[y_pos][x_pos]->setPheromones(tiles[y_pos][x_pos]->getPheromones() * 0.08);
         /* Move to the previous position and continue while popping the
          * stack. */
         if (!stack.empty()) {

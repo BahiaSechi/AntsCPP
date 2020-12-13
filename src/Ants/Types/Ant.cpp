@@ -19,14 +19,18 @@
  */
 
 #include <Ants/Types/Ant.h>
+#include <iostream>
 
 
-Ant::Ant(int lifespan, const Position &position, const Alimentation &alimentation):
-lifespan(lifespan), alimentation(alimentation), position(position){}
+Ant::Ant(int lifespan, const Position &position, const Alimentation &alimentation) :
+        lifespan(lifespan), alimentation(alimentation), position(position)
+{}
 
-Ant::~Ant() {}
+Ant::~Ant()
+{}
 
-Tile *Ant::look_around(Game *game) {
+Tile *Ant::look_around(Game *game)
+{
 
     int x_pos = this->position.getPos().x;
     int y_pos = this->position.getPos().y;
@@ -34,17 +38,81 @@ Tile *Ant::look_around(Game *game) {
     auto tiles = *(game->getMap()->getTiles());
 
     Tile around[8] = {
-            tiles[y_pos-1][x_pos-1],
-            tiles[y_pos][x_pos-1],
-            tiles[y_pos+1][x_pos-1],
-            tiles[y_pos-1][x_pos],
-            tiles[y_pos+1][x_pos],
-            tiles[y_pos-1][x_pos+1],
-            tiles[y_pos][x_pos+1],
-            tiles[y_pos+1][x_pos+1],
+            tiles[y_pos - 1][x_pos - 1],
+            tiles[y_pos][x_pos - 1],
+            tiles[y_pos + 1][x_pos - 1],
+            tiles[y_pos - 1][x_pos],
+            tiles[y_pos + 1][x_pos],
+            tiles[y_pos - 1][x_pos + 1],
+            tiles[y_pos][x_pos + 1],
+            tiles[y_pos + 1][x_pos + 1],
     };
 
     return around;
+}
+
+sf::Vector2i Ant::basicMove(Game *game)
+{
+
+    auto ant_pos       = this->position.getPos();
+    int  x_pos         = ant_pos.x;
+    int  y_pos         = ant_pos.y;
+    int  moving_chance = rand() % 8 + 1;
+    int  future_x, future_y;
+    auto map           = game->getMap();
+    auto tiles         = map->getTiles();
+    int  x_dimension   = map->getDimension().x;
+    int  y_dimension   = map->getDimension().y;
+
+
+    switch (moving_chance) {
+        case 1: // NO
+            future_x = x_pos - 1;
+            future_y = y_pos - 1;
+            std::cout << "Nord ouest" << std::endl;
+            break;
+        case 2: // N
+            future_x = x_pos;
+            future_y = y_pos - 1;
+            std::cout << "Nord" << std::endl;
+            break;
+        case 3: // NE
+            future_x = x_pos + 1;
+            future_y = y_pos - 1;
+            std::cout << "Nord est" << std::endl;
+            break;
+        case 4: // O
+            future_x = x_pos - 1;
+            future_y = y_pos;
+            std::cout << "Ouest" << std::endl;
+            break;
+        case 5: // E
+            future_x = x_pos + 1;
+            future_y = y_pos;
+            std::cout << "Est" << std::endl;
+            break;
+        case 6: // SO
+            future_x = x_pos - 1;
+            future_y = y_pos + 1;
+            std::cout << "Sud ouest" << std::endl;
+            break;
+        case 7: // S
+            future_x = x_pos;
+            future_y = y_pos + 1;
+            std::cout << "Sud" << std::endl;
+            break;
+        case 8: // SE
+            future_x = x_pos + 1;
+            future_y = y_pos + 1;
+            std::cout << "Sud est" << std::endl;
+            break;
+    }
+    if ((0 <= future_x && future_x < x_dimension && 0 <= future_y && future_y < y_dimension)
+        && tiles[future_y][future_x]->isDiscovered()) {
+        this->position.setPos({future_y, future_x});
+    }
+
+    return this->position.getPos();
 }
 
 int Ant::getLifespan() const

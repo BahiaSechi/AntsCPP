@@ -41,6 +41,8 @@ public:
 
     Tile * look_around(Game *game);
 
+    sf::Vector2i basicMove(Game *game);
+
     int getLifespan() const;
 
     void setLifespan(int lifespan);

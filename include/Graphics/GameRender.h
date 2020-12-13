@@ -12,13 +12,17 @@
 #include <Game.h>
 
 class Game;
+
 class Ant;
+
 class Tile;
 
 class GameRender
 {
 private:
     sf::RenderWindow window;
+    sf::View         ant_view;
+    sf::View         gui_view;
 
     std::atomic<sf::Vector2f> view_center = std::atomic<sf::Vector2f>(sf::Vector2f(0.0f, 0.0f));
     std::atomic<sf::Vector2f> view_size   = std::atomic<sf::Vector2f>(sf::Vector2f(500.0f, 500.0f));
@@ -39,8 +43,6 @@ public:
     void updateGraphics(Game *game);
 
     void startGraphics(Game *game);
-
-    void createText(const std::string &str, sf::Text &text) const;
 
     void handleGraphicEvent(const sf::Event &event, float elapsed_time);
 

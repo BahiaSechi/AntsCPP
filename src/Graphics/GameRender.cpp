@@ -8,6 +8,7 @@
 
 #include <Graphics/TileDraw.h>
 #include <Graphics/AntDraw.h>
+#include <sstream>
 
 ////////////////////////////////////////////////////////////
 // Main methods
@@ -88,19 +89,23 @@ sf::VertexArray GameRender::antsVertices(std::vector<Ant *> ants, Tile ***tiles,
 
 void GameRender::updateGraphics(Game *game)
 {
+    // activate the window's context
+    window.setActive(true);
+    window.setVerticalSyncEnabled(true);
+
     std::chrono::system_clock::time_point t1           = std::chrono::system_clock::now();
     std::chrono::system_clock::time_point t2           = std::chrono::system_clock::now();
     float                                 elapsed_time = 0.0;
 
     sf::Vector2f vcenter       = view_center.load();
     sf::Vector2f vsize         = view_size.load();
-    sf::View     main_view(sf::FloatRect(vcenter.x, vcenter.y, vsize.x, vsize.y));
     Map          *map          = game->getMap();
     sf::Vector2i map_dimension = map->getDimension();
 
     sf::Font font_default;
     font_default.loadFromFile("assets/fonts/JetBrainsMono-Regular.ttf");
     sf::Text text_ants_counter("", font_default);
+    text_ants_counter.setPosition({20.f, 20.f});
     text_ants_counter.setCharacterSize(24);
     text_ants_counter.setFillColor(sf::Color::Black);
 
@@ -111,11 +116,9 @@ void GameRender::updateGraphics(Game *game)
 
     while (map->getTiles() == nullptr) {}
 
-    // activate the window's context
-    window.setActive(true);
-    window.setVerticalSyncEnabled(true);
-
     Tile *tile;
+
+    window.setView(ant_view);
 
     // the rendering loop
     while (window.isOpen()) {
@@ -129,11 +132,18 @@ void GameRender::updateGraphics(Game *game)
         vcenter = view_center.load();
         vsize   = view_size.load();
 
-        text_ants_counter.setString("Nb de fourmis: " + std::to_string(game->getAnts().size()));
+        std::stringstream ss;
+        ss << "Nombre de fourmis: " << game->getAnts().size() << '\n';
+        text_ants_counter.setString(ss.str());
 
-        // draw map
+        // draw ant stuff
+        window.setView(ant_view);
         window.draw(tilesVertices(map->getTiles(), map_dimension.x, map_dimension.y), &tdraw.tile_texture);
         window.draw(antsVertices(game->getAnts(), map->getTiles(), map_dimension.x, map_dimension.y), ants_render);
+
+
+        // draw ui
+        window.setView(gui_view);
         window.draw(text_ants_counter);
 
         elapsed_time = wait(t1, t2, 1.0);
@@ -141,24 +151,6 @@ void GameRender::updateGraphics(Game *game)
         // end the current frame
         window.display();
     }
-}
-
-
-void GameRender::createText(const std::string &str, sf::Text &text) const
-{
-
-}
-
-void GameRender::startGraphics(Game *game)
-{
-    sf::Vector2f        vsize = view_size.load();
-    sf::ContextSettings wsettings;
-    wsettings.antialiasingLevel = 8;
-
-    window.create(sf::VideoMode(vsize.x, vsize.y), "Cool", sf::Style::Default, wsettings);
-    window.setVerticalSyncEnabled(true);
-    std::thread gthread(&GameRender::updateGraphics, this, game);
-    gthread.detach();
 }
 
 void GameRender::handleGraphicEvent(const sf::Event &event, float elapsed_time)
@@ -172,57 +164,71 @@ void GameRender::handleGraphicEvent(const sf::Event &event, float elapsed_time)
 
     if (event.type == sf::Event::Resized) {
         // resize my view
-        sf::View view = window.getView();
-        view.setSize({static_cast<float>(event.size.width), static_cast<float>(event.size.height)});
-        window.setView(view);
+        ant_view.setSize({static_cast<float>(event.size.width), static_cast<float>(event.size.height)});
+        gui_view.setSize({static_cast<float>(event.size.width), static_cast<float>(event.size.height)});
+        gui_view.setCenter(event.size.width / 2, event.size.height / 2);
         // and align shape
     }
 
     if (event.type == sf::Event::KeyPressed) {
         if (event.key.code == sf::Keyboard::Add) {
             sf::View view = window.getView();
-            view.zoom(vzoom - 0.02f);
-            window.setView(view);
+            ant_view.zoom(vzoom - 0.02f);
         }
 
         if (event.key.code == sf::Keyboard::Subtract) {
             sf::View view = window.getView();
-            view.zoom(vzoom + 0.02f);
-            window.setView(view);
+            ant_view.zoom(vzoom + 0.02f);
         }
 
         if (event.key.code == sf::Keyboard::Left) {
             sf::View view = window.getView();
             vcenter = {vcenter.x - 50.0f, vcenter.y};
-            view.setCenter(vcenter);
-            window.setView(view);
+            ant_view.setCenter(vcenter);
         }
 
         if (event.key.code == sf::Keyboard::Right) {
             sf::View view = window.getView();
             vcenter = {vcenter.x + 50.0f, vcenter.y};
-            view.setCenter(vcenter);
-            window.setView(view);
+            ant_view.setCenter(vcenter);
         }
 
         if (event.key.code == sf::Keyboard::Up) {
             sf::View view = window.getView();
             vcenter = {vcenter.x, vcenter.y - 50.0f};
-            view.setCenter(vcenter);
-            window.setView(view);
+            ant_view.setCenter(vcenter);
         }
 
         if (event.key.code == sf::Keyboard::Down) {
             sf::View view = window.getView();
             vcenter = {vcenter.x, vcenter.y + 50.0f};
-            view.setCenter(vcenter);
-            window.setView(view);
+            ant_view.setCenter(vcenter);
         }
     }
 
     setViewCenter(vcenter);
     setViewSize(vsize);
     setViewZoom(vzoom);
+}
+
+void GameRender::startGraphics(Game *game)
+{
+    sf::Vector2f        vsize = view_size.load();
+    sf::Vector2f        vcenter = view_center.load();
+    sf::ContextSettings wsettings;
+    wsettings.antialiasingLevel = 8;
+
+    window.create(sf::VideoMode(vsize.x, vsize.y), "Cool", sf::Style::Default, wsettings);
+    window.setVerticalSyncEnabled(true);
+
+    ant_view = sf::View(sf::FloatRect(vcenter.x, vcenter.y, vsize.x, vsize.y));
+    ant_view.setCenter(vcenter);
+    gui_view = sf::View(sf::FloatRect(0, 0, vsize.x, vsize.y));
+
+    window.setView(ant_view);
+
+    std::thread gthread(&GameRender::updateGraphics, this, game);
+    gthread.detach();
 }
 
 ////////////////////////////////////////////////////////////

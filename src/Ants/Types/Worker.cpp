@@ -15,9 +15,6 @@ Worker::~Worker()
 
 void Worker::play_turn(Game *game)
 {
-    /* Initialize random seed: */
-    srand(time(NULL));
-
     /* Initialize variables. */
     auto ant_pos     = this->position.getPos();
     int  x_pos       = ant_pos.x;
@@ -53,8 +50,7 @@ void Worker::play_turn(Game *game)
         /* Move to the previous position and continue while popping the
          * stack. */
         if (!stack.empty()) {
-            this->position.setPos(stack.top());
-            stack.pop();
+            this->position.goBack();
             this->pheromones_stock *= 0.08;
         } else {
             this->pheromones_stock = 500;

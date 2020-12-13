@@ -51,9 +51,8 @@ Tile *Ant::look_around(Game *game)
     return around;
 }
 
-sf::Vector2i Ant::basicMove(Game *game)
+const sf::Vector2i &Ant::basicMove(Game *game)
 {
-
     auto ant_pos       = this->position.getPos();
     int  x_pos         = ant_pos.x;
     int  y_pos         = ant_pos.y;
@@ -69,44 +68,45 @@ sf::Vector2i Ant::basicMove(Game *game)
         case 1: // NO
             future_x = x_pos - 1;
             future_y = y_pos - 1;
-            std::cout << "Nord ouest" << std::endl;
+//            std::cout << "Nord ouest" << std::endl;
             break;
         case 2: // N
             future_x = x_pos;
             future_y = y_pos - 1;
-            std::cout << "Nord" << std::endl;
+//            std::cout << "Nord" << std::endl;
             break;
         case 3: // NE
             future_x = x_pos + 1;
             future_y = y_pos - 1;
-            std::cout << "Nord est" << std::endl;
+//            std::cout << "Nord est" << std::endl;
             break;
         case 4: // O
             future_x = x_pos - 1;
             future_y = y_pos;
-            std::cout << "Ouest" << std::endl;
+//            std::cout << "Ouest" << std::endl;
             break;
         case 5: // E
             future_x = x_pos + 1;
             future_y = y_pos;
-            std::cout << "Est" << std::endl;
+//            std::cout << "Est" << std::endl;
             break;
         case 6: // SO
             future_x = x_pos - 1;
             future_y = y_pos + 1;
-            std::cout << "Sud ouest" << std::endl;
+//            std::cout << "Sud ouest" << std::endl;
             break;
         case 7: // S
             future_x = x_pos;
             future_y = y_pos + 1;
-            std::cout << "Sud" << std::endl;
+//            std::cout << "Sud" << std::endl;
             break;
         case 8: // SE
             future_x = x_pos + 1;
             future_y = y_pos + 1;
-            std::cout << "Sud est" << std::endl;
+//            std::cout << "Sud est" << std::endl;
             break;
     }
+
     if ((0 <= future_x && future_x < x_dimension && 0 <= future_y && future_y < y_dimension)
         && tiles[future_y][future_x]->isDiscovered()) {
         this->position.setPos({future_y, future_x});

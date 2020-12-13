@@ -25,8 +25,6 @@ void Worker::play_turn(Game *game)
     int  x_dimension = map->getDimension().x;
     int  y_dimension = map->getDimension().y;
 
-    //TODO Mettre dans une fonction la fonction de deplacement mineure et une
-    // autre pour majeure
     if (!this->major) {
         basicMove(game);
     } else {

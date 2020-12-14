@@ -7,6 +7,8 @@
 
 #include <vector>
 #include <ostream>
+#include <mutex>
+
 #include <SFML/System/Vector2.hpp>
 #include <Board/Tile.h>
 
@@ -14,17 +16,23 @@ class Tile;
 
 class Tile;
 
-class Map {
+class Map
+{
 private:
     sf::Vector2i dimension;
-    Tile ***tiles;
-    int colony_food;
-    int big_food_source_count;
+    Tile         ***tiles;
+    int          colony_food;
+    int          big_food_source_count;
+    bool         is_generated;
+    std::mutex   mtx;
 
     int nbNeighbors(int y, int x);
 
 public:
     Map(int height, int width, int colony_food, int big_food_source_count);
+
+    void generate();
+
     ~Map();
 
     int getColonyFood() const;
@@ -39,7 +47,13 @@ public:
 
     void setTiles(Tile ***tiles);
 
+    Tile *setTile(int x, int y, Tile *tile);
+
+    Tile * getTile(int x, int y) const;
+
     void setColonyFood(int colonyFood);
+
+    bool isGenerated() const;
 };
 
 #endif //ANTSPROJECT_MAP_H

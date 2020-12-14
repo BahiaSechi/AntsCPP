@@ -39,7 +39,7 @@ public:
     virtual void play_turn(Game *game) = 0;
     virtual ~Ant();
 
-    Tile * look_around(Game *game);
+    Tile ** look_around(Game *game);
 
     const sf::Vector2i &basicMove(Game *game);
 

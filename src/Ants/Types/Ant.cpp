@@ -29,23 +29,23 @@ Ant::Ant(int lifespan, const Position &position, const Alimentation &alimentatio
 Ant::~Ant()
 {}
 
-Tile *Ant::look_around(Game *game)
+Tile **Ant::look_around(Game *game)
 {
 
     int x_pos = this->position.getPos().x;
     int y_pos = this->position.getPos().y;
 
-    auto tiles = *(game->getMap()->getTiles());
+    Map *map = game->getMap();
 
-    Tile around[8] = {
-            tiles[y_pos - 1][x_pos - 1],
-            tiles[y_pos][x_pos - 1],
-            tiles[y_pos + 1][x_pos - 1],
-            tiles[y_pos - 1][x_pos],
-            tiles[y_pos + 1][x_pos],
-            tiles[y_pos - 1][x_pos + 1],
-            tiles[y_pos][x_pos + 1],
-            tiles[y_pos + 1][x_pos + 1],
+    Tile *around[8] = {
+            map->getTile(x_pos - 1, y_pos - 1),
+            map->getTile(x_pos - 1, y_pos),
+            map->getTile(x_pos - 1, y_pos + 1),
+            map->getTile(x_pos, y_pos - 1),
+            map->getTile(x_pos, y_pos + 1),
+            map->getTile(x_pos + 1, y_pos - 1),
+            map->getTile(x_pos + 1, y_pos),
+            map->getTile(x_pos + 1, y_pos + 1),
     };
 
     return around;
@@ -59,7 +59,6 @@ const sf::Vector2i &Ant::basicMove(Game *game)
     int  moving_chance = rand() % 8 + 1;
     int  future_x, future_y;
     auto map           = game->getMap();
-    auto tiles         = map->getTiles();
     int  x_dimension   = map->getDimension().x;
     int  y_dimension   = map->getDimension().y;
 
@@ -108,8 +107,8 @@ const sf::Vector2i &Ant::basicMove(Game *game)
     }
 
     if ((0 <= future_x && future_x < x_dimension && 0 <= future_y && future_y < y_dimension)
-        && tiles[future_y][future_x]->isDiscovered()) {
-        this->position.setPos({future_y, future_x});
+        && map->getTile(future_x, future_y)->isDiscovered()) {
+        this->position.setPos({future_x, future_y});
     }
 
     return this->position.getPos();
@@ -144,48 +143,3 @@ void Ant::setAlimentation(const Alimentation &alimentation)
 {
     Ant::alimentation = alimentation;
 }
-
-//void Ant::move() {
-//
-//    /* Initialize random seed: */
-//    srand (time(NULL));
-//    int moving_chance = rand() % 8 + 1;
-//
-//    switch (moving_chance) {
-//        case 1:
-//        this->position.getTile().get
-//            break;
-//        case 2: // N
-//            this->position.setPos(this->position.getPos().x,
-//                                  this->position.getPos().y-1);
-//            break;
-//        case 3: // NE
-//            this->position.setPos(this->position.getPos().x+1,
-//                                  this->position.getPos().y-1);
-//            break;
-//        case 4: // O
-//            this->position.setPos(this->position.getPos().x-1,
-//                                  this->position.getPos().y);
-//            break;
-//        case 5: // E
-//            this->position.setPos(this->position.getPos().x+1,
-//                                  this->position.getPos().y);
-//            break;
-//        case 6: // SO
-//            this->position.setPos(this->position.getPos().x-1,
-//                                  this->position.getPos().y+1);
-//            break;
-//        case 7: // S
-//            this->position.setPos(this->position.getPos().x,
-//                                  this->position.getPos().y+1);
-//            break;
-//        case 8: // SE
-//            this->position.setPos(this->position.getPos().x+1,
-//                                  this->position.getPos().y+1);
-//            break;
-//    }
-//
-//    // Toute fourmi possede une memoire de son chemin est du centre de la colonie
-//
-//}
-

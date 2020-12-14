@@ -23,5 +23,5 @@ void Scout::play_turn(Game *game)
 
 void Scout::tileDiscovered(Game *game, int x_pos, int y_pos)
 {
-    game->getMap()->getTiles()[y_pos][x_pos]->setDiscovered(true);
+    game->getMap()->getTile(x_pos, y_pos)->setDiscovered(true);
 }

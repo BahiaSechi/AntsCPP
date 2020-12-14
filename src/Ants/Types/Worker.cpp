@@ -21,7 +21,6 @@ void Worker::play_turn(Game *game)
     int  y_pos       = ant_pos.y;
     auto stack       = this->position.getPosStack();
     auto map         = game->getMap();
-    auto tiles       = map->getTiles();
     int  x_dimension = map->getDimension().x;
     int  y_dimension = map->getDimension().y;
 
@@ -29,12 +28,12 @@ void Worker::play_turn(Game *game)
         basicMove(game);
     } else {
         /* Look around and move where there is a lot of pheromones. */
-        Tile *around   = this->look_around(game);
+        Tile **around   = this->look_around(game);
         auto moving_to = pheromone_around(around).getPos();
 
         if ((0 <= moving_to.x && moving_to.x < x_dimension && 0 <= moving_to.y
              && moving_to.y < y_dimension)) {
-            if (tiles[moving_to.y][moving_to.x]->isDiscovered()) {
+            if (map->getTile(moving_to.x, moving_to.y)->isDiscovered()) {
                 this->position.setPos(moving_to);
             }
         }
@@ -44,7 +43,7 @@ void Worker::play_turn(Game *game)
 
     if (this->has_food) {
         /* Put pheromones on actual position. */
-        tiles[y_pos][x_pos]->setPheromones(tiles[y_pos][x_pos]->getPheromones() * 0.08);
+        map->getTile(x_pos, y_pos)->setPheromones(map->getTile(x_pos, y_pos)->getPheromones() * 0.08);
         /* Move to the previous position and continue while popping the
          * stack. */
         if (!stack.empty()) {
@@ -58,17 +57,17 @@ void Worker::play_turn(Game *game)
     }
 }
 
-Tile Worker::pheromone_around(Tile *tiles_around)
+Tile Worker::pheromone_around(Tile **tiles_around)
 {
     float    max = 0.0;
     int      index;
     for (int i   = 0; i < 8; ++i) {
-        if (tiles_around[i].getPheromones() >= max) {
-            max   = tiles_around[i].getPheromones();
+        if ((*tiles_around[i]).getPheromones() >= max) {
+            max   = (*tiles_around[i]).getPheromones();
             index = i;
         }
     }
-    return tiles_around[index];
+    return *tiles_around[index];
 }
 
 

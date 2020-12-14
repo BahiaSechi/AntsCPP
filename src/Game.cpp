@@ -48,6 +48,8 @@ void Game::start(int turn_count = -1)
 
 void Game::onCreate()
 {
+    map->generate();
+
     ants.push_back(new Queen(
             true,
             100,
@@ -70,16 +72,7 @@ void Game::onLogicUpdate(float elapsed_time)
 
 void Game::handleLogicEvent(const sf::Event &event, float elapsed_time)
 {
-    sf::RenderWindow *window     = &renderer->getWindow();
-    sf::Vector2f     view_size   = renderer->getViewSize().load();
-    sf::Vector2f     view_center = renderer->getViewCenter().load();
-    float            view_zoom   = renderer->getViewZoom().load();
 
-
-
-    renderer->setViewCenter(view_center);
-    renderer->setViewSize(view_size);
-    renderer->setViewZoom(view_zoom);
 }
 
 void Game::saveToFile(int loop_count)

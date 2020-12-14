@@ -27,13 +27,12 @@ void Soldier::play_turn(Game *game)
     int  y_pos       = ant_pos.y;
     auto stack       = this->position.getPosStack();
     auto map         = game->getMap();
-    auto tiles       = map->getTiles();
     int  x_dimension = map->getDimension().x;
     int  y_dimension = map->getDimension().y;
     int  future_x, future_y;
 
     //TODO Verifier pas de fourmi esclavagiste sur la case
-    auto whos_here = tiles[y_pos][x_pos]->getAnts();
+    auto whos_here = map->getTile(x_pos, y_pos)->getAnts();
 
     const std::vector<Ant *>::iterator &is_slave_owner_here =
                                                std::find_if(whos_here.begin(), whos_here.end(), [whos_here](Ant *ant) {
@@ -48,7 +47,7 @@ void Soldier::play_turn(Game *game)
         basicMove(game);
     } else {
         //TODO Retour a la colonie
-        if (tiles[y_pos][x_pos]->getType() != tile_type::COLONY) {
+        if (map->getTile(x_pos, y_pos)->getType() != tile_type::COLONY) {
             this->position.goBack();
         } else {
             stack.empty();

@@ -14,18 +14,17 @@
 // Main methods
 ////////////////////////////////////////////////////////////
 
-sf::VertexArray GameRender::tilesVertices(Tile ***tiles, int map_x, int map_y)
+sf::VertexArray GameRender::tilesVertices(const Map &map, int map_x, int map_y)
 {
     sf::VertexArray tiles_vertices(sf::Quads, map_x * map_y * 4);
     int             i = 0;
-    Tile            *tile;
+    const Tile      *tile;
     TileDraw        tdraw;
     sf::Vector2i    ttexture_coord;
 
-
     for (int y = 0; y < map_y - 1; ++y) {
         for (int x = 0; x < map_x - 1; ++x) {
-            tile = tiles[y][x];
+            tile = map.getTile(x, y);
 
             tiles_vertices[i].position     = {x * 16.f, y * 16.f};
             tiles_vertices[i + 1].position = {(x + 1) * 16.f, y * 16.f};
@@ -93,14 +92,14 @@ void GameRender::updateGraphics(Game *game)
     window.setActive(true);
     window.setVerticalSyncEnabled(true);
 
-    std::chrono::system_clock::time_point t1           = std::chrono::system_clock::now();
-    std::chrono::system_clock::time_point t2           = std::chrono::system_clock::now();
-    float                                 elapsed_time = 0.0;
+    std::chrono::system_clock::time_point t1 = std::chrono::system_clock::now();
+    std::chrono::system_clock::time_point t2 = std::chrono::system_clock::now();
 
-    sf::Vector2f vcenter       = view_center.load();
-    sf::Vector2f vsize         = view_size.load();
-    Map          *map          = game->getMap();
-    sf::Vector2i map_dimension = map->getDimension();
+    float elapsed_time = 0.0;
+
+    sf::Vector2f vcenter = view_center;
+    sf::Vector2f vsize   = view_size;
+    auto         map     = game->getMap();
 
     sf::Font font_default;
     font_default.loadFromFile("assets/fonts/JetBrainsMono-Regular.ttf");
@@ -114,9 +113,9 @@ void GameRender::updateGraphics(Game *game)
     sf::RenderStates ants_render;
     ants_render.texture = &(adraw.ants_texture);
 
-    while (map->getTiles() == nullptr) {}
+    while (!map->isGenerated()) {}
 
-    Tile *tile;
+    sf::Vector2i map_dimension = map->getDimension();
 
     window.setView(ant_view);
 
@@ -129,16 +128,13 @@ void GameRender::updateGraphics(Game *game)
 
         window.clear(sf::Color::White);
 
-        vcenter = view_center.load();
-        vsize   = view_size.load();
-
         std::stringstream ss;
         ss << "Nombre de fourmis: " << game->getAnts().size() << '\n';
         text_ants_counter.setString(ss.str());
 
         // draw ant stuff
         window.setView(ant_view);
-        window.draw(tilesVertices(map->getTiles(), map_dimension.x, map_dimension.y), &tdraw.tile_texture);
+        window.draw(tilesVertices(*map, map_dimension.x, map_dimension.y), &tdraw.tile_texture);
         window.draw(antsVertices(game->getAnts(), map->getTiles(), map_dimension.x, map_dimension.y), ants_render);
 
 
@@ -155,9 +151,9 @@ void GameRender::updateGraphics(Game *game)
 
 void GameRender::handleGraphicEvent(const sf::Event &event, float elapsed_time)
 {
-    sf::Vector2f vsize   = getViewSize().load();
-    sf::Vector2f vcenter = getViewCenter().load();
-    float        vzoom   = getViewZoom().load();
+    sf::Vector2f vsize   = getViewSize();
+    sf::Vector2f vcenter = getViewCenter();
+    float        vzoom   = getViewZoom();
 
     if (event.type == sf::Event::Closed)
         window.close();
@@ -213,8 +209,8 @@ void GameRender::handleGraphicEvent(const sf::Event &event, float elapsed_time)
 
 void GameRender::startGraphics(Game *game)
 {
-    sf::Vector2f        vsize = view_size.load();
-    sf::Vector2f        vcenter = view_center.load();
+    sf::Vector2f        vsize   = view_size;
+    sf::Vector2f        vcenter = view_center;
     sf::ContextSettings wsettings;
     wsettings.antialiasingLevel = 8;
 
@@ -236,34 +232,34 @@ void GameRender::startGraphics(Game *game)
 ////////////////////////////////////////////////////////////
 
 
-const std::atomic<sf::Vector2f> &GameRender::getViewCenter() const
+const sf::Vector2f &GameRender::getViewCenter() const
 {
     return view_center;
 }
 
-void GameRender::setViewCenter(const std::atomic<sf::Vector2f> &viewCenter)
+void GameRender::setViewCenter(const sf::Vector2f &viewCenter)
 {
-    view_center.store(viewCenter);
+    view_center = viewCenter;
 }
 
-const std::atomic<sf::Vector2f> &GameRender::getViewSize() const
+const sf::Vector2f &GameRender::getViewSize() const
 {
     return view_size;
 }
 
-void GameRender::setViewSize(const std::atomic<sf::Vector2f> &viewSize)
+void GameRender::setViewSize(const sf::Vector2f &viewSize)
 {
-    view_size.store(viewSize);
+    view_size = viewSize;
 }
 
-const std::atomic<float> &GameRender::getViewZoom() const
+const float &GameRender::getViewZoom() const
 {
     return view_zoom;
 }
 
 void GameRender::setViewZoom(const std::atomic<float> &viewZoom)
 {
-    view_zoom.store(viewZoom);
+    view_zoom = viewZoom;
 }
 
 int GameRender::getTileSize() const

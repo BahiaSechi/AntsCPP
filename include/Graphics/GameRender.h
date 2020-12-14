@@ -8,12 +8,15 @@
 #include <atomic>
 
 #include <Ants/Types/Ant.h>
+#include <Board/Map.h>
 #include <Board/Tile.h>
 #include <Game.h>
 
+class Ant;
+
 class Game;
 
-class Ant;
+class Map;
 
 class Tile;
 
@@ -24,14 +27,14 @@ private:
     sf::View         ant_view;
     sf::View         gui_view;
 
-    std::atomic<sf::Vector2f> view_center = std::atomic<sf::Vector2f>(sf::Vector2f(0.0f, 0.0f));
-    std::atomic<sf::Vector2f> view_size   = std::atomic<sf::Vector2f>(sf::Vector2f(500.0f, 500.0f));
-    std::atomic<float>        view_zoom   = std::atomic<float>({1.0f});
+    sf::Vector2f view_center = sf::Vector2f(100.0f, 100.0f);
+    sf::Vector2f view_size   = sf::Vector2f(800.0f, 800.0f);
+    float        view_zoom   = 1.0f;
 
     int tile_size = 16;
 
 public:
-    sf::VertexArray tilesVertices(Tile ***tiles, int map_x, int map_y);
+    sf::VertexArray tilesVertices(const Map &map, int map_x, int map_y);
 
     sf::VertexArray antsVertices(std::vector<Ant *> ants, Tile ***tiles, int map_x, int map_y);
 
@@ -46,15 +49,15 @@ public:
 
     void handleGraphicEvent(const sf::Event &event, float elapsed_time);
 
-    const std::atomic<sf::Vector2f> &getViewCenter() const;
+    const sf::Vector2f &getViewCenter() const;
 
-    void setViewCenter(const std::atomic<sf::Vector2f> &viewCenter);
+    void setViewCenter(const sf::Vector2f &viewCenter);
 
-    const std::atomic<sf::Vector2f> &getViewSize() const;
+    const sf::Vector2f &getViewSize() const;
 
-    void setViewSize(const std::atomic<sf::Vector2f> &viewSize);
+    void setViewSize(const sf::Vector2f &viewSize);
 
-    const std::atomic<float> &getViewZoom() const;
+    const float &getViewZoom() const;
 
     void setViewZoom(const std::atomic<float> &viewZoom);
 

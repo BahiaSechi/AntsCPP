@@ -15,8 +15,13 @@ Soldier::~Soldier()
 
 }
 
-void Soldier::attac(SlaveOwner &slave_owner) const
-{}
+/*
+ * Soldier can attack one slave owner in the tile.
+ */
+void Soldier::rasenshuriken_no_jutsu(Ant *slave_owner) const
+{
+    delete &slave_owner;
+}
 
 void Soldier::play_turn(Game *game)
 {
@@ -27,20 +32,17 @@ void Soldier::play_turn(Game *game)
     int  y_pos       = ant_pos.y;
     auto stack       = this->position.getPosStack();
     auto map         = game->getMap();
-    int  x_dimension = map->getDimension().x;
-    int  y_dimension = map->getDimension().y;
-    int  future_x, future_y;
 
     //TODO Verifier pas de fourmi esclavagiste sur la case
     auto whos_here = map->getTile(x_pos, y_pos)->getAnts();
 
-    const std::vector<Ant *>::iterator &is_slave_owner_here =
-                                               std::find_if(whos_here.begin(), whos_here.end(), [whos_here](Ant *ant) {
-                                                   return typeid(*ant) == typeid(SlaveOwner);
-                                               });
+    auto is_slave_owner_here =
+            std::find_if(whos_here.begin(), whos_here.end(), [whos_here](Ant *ant) {
+                return typeid(*ant) == typeid(SlaveOwner);
+            });
 
     if (is_slave_owner_here != whos_here.end()) {
-        //TODO ATTACK
+        rasenshuriken_no_jutsu(*is_slave_owner_here);
     }
 
     if (expedition_time != 100) {

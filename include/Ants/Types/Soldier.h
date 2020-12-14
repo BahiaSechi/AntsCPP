@@ -18,7 +18,7 @@ public:
 
     void play_turn(Game *game) override;
 
-    void attac(SlaveOwner &slave_owner) const;
+    void rasenshuriken_no_jutsu(Ant *slave_owner) const;
 };
 
 #endif //ANTSPROJECT_SOLDIER_H

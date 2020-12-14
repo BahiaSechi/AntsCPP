@@ -14,25 +14,19 @@
 #include <Board/Tile.h>
 
 #include <SFML/Graphics.hpp>
+#include <Graphics/GameRender.h>
 
 class Ant;
+class GameRender;
 class Map;
 class Tile;
 
 class Game
 {
 private:
-    Map *map;
-
+    Map                *map;
     std::vector<Ant *> ants;
-
-    sf::RenderWindow window;
-
-    std::atomic<sf::Vector2f> view_center = std::atomic<sf::Vector2f>(sf::Vector2f(0.0f, 0.0f));
-    std::atomic<sf::Vector2f> view_size   = std::atomic<sf::Vector2f>(sf::Vector2f(500.0f, 500.0f));
-    std::atomic<float>        view_zoom   = std::atomic<float>({1.0f});
-
-    int tile_size = 16;
+    GameRender         *renderer;
 
 public:
     Game(int width, int height);
@@ -41,7 +35,7 @@ public:
 
     void onLogicUpdate(float elapsed_time);
 
-    void handleEvent(const sf::Event &event, float elapsed_time);
+    void handleLogicEvent(const sf::Event &event, float elapsed_time);
 
     void saveToFile(int loop_count);
 
@@ -56,33 +50,7 @@ public:
     void setAnts(const std::vector<Ant *> &ants);
 
     virtual ~Game();
-
-    const std::atomic<sf::Vector2f> &getViewCenter() const;
-
-    void setViewCenter(const sf::Vector2f &viewCenter);
-
-    const std::atomic<sf::Vector2f> &getViewSize() const;
-
-    void setViewSize(const sf::Vector2f &viewSize);
-
-    const std::atomic<float> &getViewZoom() const;
-
-    void setViewZoom(float viewZoom);
-
-    int getTileSize() const;
-
-    void setTileSize(int tileSize);
 };
-
-sf::VertexArray tilesVertices(Tile ***tiles, int map_x, int map_y);
-sf::VertexArray antsVertices(std::vector<Ant *> ants, Tile ***tiles, int map_x, int map_y);
-
-/**
- * Function called by a delegated thread to update graphics
- *
- * @param window
- */
-void updateGraphics(sf::RenderWindow &window, Game *game);
 
 /**
  * Given t1 and t2, wait a specific time to comply with the time between frame (value set in the definition)
@@ -91,7 +59,7 @@ void updateGraphics(sf::RenderWindow &window, Game *game);
  * @param t2
  * @return the work time
  */
-float wait(std::chrono::system_clock::time_point t1, std::chrono::system_clock::time_point t2);
+float wait(std::chrono::system_clock::time_point &t1, std::chrono::system_clock::time_point &t2, float frametime = 1000.0);
 
 
 #endif //ANTS_GAME_H

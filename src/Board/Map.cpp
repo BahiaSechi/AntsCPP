@@ -116,7 +116,7 @@ int Map::nbNeighbors(int y, int x)
 {
     sf::Vector2i dimension = this->getDimension();
 
-    if ((x - 1 < 0) || (x + 1 >= x) || (0 > y - 1) || (y + 1 >= y)) {
+    if ((x - 1 < 0) || (x + 1 >= dimension.x) || (0 > y - 1) || (y + 1 >= dimension.y)) {
         return 0;
     }
 

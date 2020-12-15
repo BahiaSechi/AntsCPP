@@ -14,6 +14,17 @@ Tile::Tile(std::vector<Ant *> ants, const sf::Vector2i &position, tile_type type
 {
 }
 
+bool Tile::pheromone_max() {
+    if (this->pheromones >= 1000) return true;
+    else return false;
+}
+
+
+void Tile::evaporation() {
+    this->pheromones *= 0.05;
+}
+
+
 tile_type Tile::getType() const
 {
     return type;
@@ -49,3 +60,4 @@ bool Tile::isDiscovered() const {
 void Tile::setDiscovered(bool discovered) {
     this->discovered = discovered;
 }
+

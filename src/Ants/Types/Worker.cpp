@@ -3,8 +3,6 @@
 //
 
 #include <Ants/Types/Worker.h>
-#include <ctime>
-#include <iostream>
 
 Worker::Worker(bool has_food, bool major, int pheromones_stock, int minor_lifespan, const Position &position) :
         Ant(1, position, Alimentation(0.1, 1))
@@ -23,12 +21,14 @@ void Worker::play_turn(Game *game)
     auto map         = game->getMap();
     int  x_dimension = map->getDimension().x;
     int  y_dimension = map->getDimension().y;
+    Tile * tile = map->getTile(x_pos, y_pos);
 
     if (!this->major) {
         basicMove(game);
     } else {
         /* Look around and move where there is a lot of pheromones. */
-        Tile **around   = this->look_around(game);
+        Tile **around   = game->getMap()->look_around(this->getPosition().getPos().x,
+                                                      this->getPosition().getPos().y);
         auto moving_to = pheromone_around(around).getPos();
 
         if ((0 <= moving_to.x && moving_to.x < x_dimension && 0 <= moving_to.y
@@ -43,7 +43,9 @@ void Worker::play_turn(Game *game)
 
     if (this->has_food) {
         /* Put pheromones on actual position. */
-        map->getTile(x_pos, y_pos)->setPheromones(map->getTile(x_pos, y_pos)->getPheromones() * 0.08);
+        if (!tile->pheromone_max()) {
+            tile->setPheromones(tile->getPheromones() * 0.08);
+        }
         /* Move to the previous position and continue while popping the
          * stack. */
         if (!stack.empty()) {

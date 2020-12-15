@@ -33,7 +33,7 @@ void Soldier::play_turn(Game *game)
     auto stack       = this->position.getPosStack();
     auto map         = game->getMap();
 
-    //TODO Verifier pas de fourmi esclavagiste sur la case
+    // Verify if there is no slave owner on tile.
     auto whos_here = map->getTile(x_pos, y_pos)->getAnts();
 
     auto is_slave_owner_here =
@@ -41,6 +41,7 @@ void Soldier::play_turn(Game *game)
                 return typeid(*ant) == typeid(SlaveOwner);
             });
 
+    // If there is one or several slave owners, kill one.
     if (is_slave_owner_here != whos_here.end()) {
         rasenshuriken_no_jutsu(*is_slave_owner_here);
     }
@@ -48,7 +49,7 @@ void Soldier::play_turn(Game *game)
     if (expedition_time != 100) {
         basicMove(game);
     } else {
-        //TODO Retour a la colonie
+        // Go back to the colony.
         if (map->getTile(x_pos, y_pos)->getType() != tile_type::COLONY) {
             this->position.goBack();
         } else {

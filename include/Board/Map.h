@@ -31,9 +31,13 @@ private:
 public:
     Map(int height, int width, int colony_food, int big_food_source_count);
 
+    ~Map();
+
     void generate();
 
-    ~Map();
+    Tile ** look_around(int x, int y) const;
+
+    void diffusion(Tile tile);
 
     int getColonyFood() const;
 

@@ -27,6 +27,10 @@ public:
     Tile(std::vector<Ant *> ants, const sf::Vector2i &position, tile_type type);
     ~Tile();
 
+    void evaporation();
+
+    bool pheromone_max();
+
     const sf::Vector2i &getPos() const;
 
     const std::vector<Ant *> &getAnts() const;

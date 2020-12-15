@@ -29,28 +29,6 @@ Ant::Ant(int lifespan, const Position &position, const Alimentation &alimentatio
 Ant::~Ant()
 {}
 
-Tile **Ant::look_around(Game *game)
-{
-
-    int x_pos = this->position.getPos().x;
-    int y_pos = this->position.getPos().y;
-
-    Map *map = game->getMap();
-
-    Tile *around[8] = {
-            map->getTile(x_pos - 1, y_pos - 1),
-            map->getTile(x_pos - 1, y_pos),
-            map->getTile(x_pos - 1, y_pos + 1),
-            map->getTile(x_pos, y_pos - 1),
-            map->getTile(x_pos, y_pos + 1),
-            map->getTile(x_pos + 1, y_pos - 1),
-            map->getTile(x_pos + 1, y_pos),
-            map->getTile(x_pos + 1, y_pos + 1),
-    };
-
-    return around;
-}
-
 const sf::Vector2i &Ant::basicMove(Game *game)
 {
     auto ant_pos       = this->position.getPos();

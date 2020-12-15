@@ -116,7 +116,7 @@ int Map::nbNeighbors(int y, int x)
 {
     sf::Vector2i dimension = this->getDimension();
 
-    if ((x - 1 < 0) || (x + 1 >= x) || (0 > y - 1) || (y + 1 >= y)) {
+    if ((x - 1 < 0) || (x + 1 >= dimension.x) || (0 > y - 1) || (y + 1 >= dimension.y)) {
         return 0;
     }
 
@@ -189,6 +189,35 @@ std::ostream &operator<<(std::ostream &os, const Map &map)
     return os;
 }
 
+Tile **Map::look_around(int x, int y) const {
+
+    int x_pos = x;
+    int y_pos = y;
+
+    Tile *around[8] = {
+            this->getTile(x_pos - 1, y_pos - 1),
+            this->getTile(x_pos - 1, y_pos),
+            this->getTile(x_pos - 1, y_pos + 1),
+            this->getTile(x_pos, y_pos - 1),
+            this->getTile(x_pos, y_pos + 1),
+            this->getTile(x_pos + 1, y_pos - 1),
+            this->getTile(x_pos + 1, y_pos),
+            this->getTile(x_pos + 1, y_pos + 1),
+    };
+
+    return around;
+}
+
+void Map::diffusion(Tile tile) {
+    Tile ** around = this->look_around(tile.getPos().x, tile.getPos().y);
+    for(int i = 0; i < 8; i++) {
+        if (!around[i]->pheromone_max()) {
+            around[i]->setPheromones(around[i]->getPheromones()*0.002);
+        }
+    }
+}
+
+
 const sf::Vector2i &Map::getDimension() const
 {
     return dimension;
@@ -235,3 +264,5 @@ Tile *Map::getTile(int x, int y) const
 {
     return tiles[y][x];
 }
+
+

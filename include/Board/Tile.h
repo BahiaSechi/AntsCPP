@@ -30,6 +30,10 @@ public:
 
     virtual ~Tile();
 
+    void evaporation();
+
+    bool pheromone_max();
+
     const sf::Vector2i &getPos() const;
 
     const std::vector<Ant *> &getAnts() const;

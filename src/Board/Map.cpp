@@ -85,7 +85,7 @@ void Map::generate()
                         }
                     } else if (tile_type_prob <= 3.002) {
                         // 0.02% chance of small food tile
-                        tiles[y][x] = new FoodTile({x, y});
+                        tiles[y][x] = new FoodTile({x, y}, false);
                     } else {
                         tiles[y][x] = new EmptyTile({x, y});
                     }
@@ -103,9 +103,9 @@ void Map::generate()
 //                delete [] tiles[y][x];
 //            }
 
-            tiles[y][x] = new FoodTile({x, y});
+            tiles[y][x] = new FoodTile({x, y}, false);
         } else {
-            tiles[y / 2][x] = new FoodTile({x, y});
+            tiles[y / 2][x] = new FoodTile({x, y}, false);
         }
     }
 
@@ -139,6 +139,26 @@ int Map::nbNeighbors(int y, int x)
         return tile->getType() != tile_type::EMPTY;
     });
 
+}
+
+
+bool Map::reduceFood(int x, int y, float amount)
+{
+    bool reduced = false;
+    auto tile = tiles[y][x];
+
+    if (tile->getType() == tile_type::FOOD) {
+        FoodTile *foodTile = dynamic_cast<FoodTile *>(tile);
+        if (foodTile->getFoodStock()) {
+            foodTile->setFoodStock(foodTile->getFoodStock() - amount);
+        }
+    } else if (tile->getType() == tile_type::COLONY) {
+        if (colony_food) {
+            colony_food -= amount;
+        }
+    }
+
+    return reduced;
 }
 
 std::ostream &operator<<(std::ostream &os, const Map &map)

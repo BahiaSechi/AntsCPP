@@ -7,10 +7,24 @@
 
 #include <Board/Tile.h>
 
-class FoodTile : public virtual Tile {
+class FoodTile : public virtual Tile
+{
+private:
+    int  food_stock;
+    bool big_source;
+
 public:
-    FoodTile(const sf::Vector2i &position);
+    FoodTile(const sf::Vector2i &position, bool big);
+
     virtual ~FoodTile();
+
+    int getFoodStock() const;
+
+    void setFoodStock(int foodStock);
+
+    bool isBigSource() const;
+
+    void setBigSource(bool bigSource);
 };
 
 

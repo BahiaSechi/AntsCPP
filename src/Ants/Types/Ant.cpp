@@ -114,6 +114,19 @@ const sf::Vector2i &Ant::basicMove(Game *game)
     return this->position.getPos();
 }
 
+bool Ant::tryToEat(Game *game)
+{
+    const sf::Vector2i &pos = this->position.getPos();
+    if (game->getMap()->reduceFood(pos.x, pos.y, this->alimentation.getDiet())) {
+        this->alimentation.eat();
+
+        return true;
+    }
+
+    this->alimentation.starve();
+    return false;
+}
+
 int Ant::getLifespan() const
 {
     return lifespan;

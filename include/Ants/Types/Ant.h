@@ -43,6 +43,8 @@ public:
 
     const sf::Vector2i &basicMove(Game *game);
 
+    bool tryToEat(Game *game);
+
     int getLifespan() const;
 
     void setLifespan(int lifespan);

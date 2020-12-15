@@ -10,6 +10,8 @@ class EmptyTile : public virtual Tile
 {
 public:
     EmptyTile(const sf::Vector2i &position);
+
+    ~EmptyTile() override;
 };
 
 #endif //ANTS_EMPTYTILE_H

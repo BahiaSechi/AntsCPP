@@ -7,7 +7,7 @@
 #include <Game.h>
 
 SlaveOwner::SlaveOwner(bool has_larva, const Position &position) :
-Ant(1, position,Alimentation(10, 0.1)) {}
+Ant(10, position,Alimentation(10, 0.1)) {}
 
 SlaveOwner::~SlaveOwner() { }
 

@@ -11,6 +11,8 @@ class ColonyTile : public virtual Tile
 {
 public:
     ColonyTile(const sf::Vector2i &position);
+
+    virtual ~ColonyTile();
 };
 
 #endif //ANTS_COLONYTILE_H

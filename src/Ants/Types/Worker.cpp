@@ -7,7 +7,7 @@
 #include <iostream>
 
 Worker::Worker(bool has_food, bool major, int pheromones_stock, int minor_lifespan, const Position &position) :
-        Ant(1, position, Alimentation(0.1, 1))
+        Ant(10, position, Alimentation(0.1, 1)), minor_lifespan(15)
 {}
 
 Worker::~Worker()
@@ -24,21 +24,6 @@ void Worker::play_turn(Game *game)
     int  x_dimension = map->getDimension().x;
     int  y_dimension = map->getDimension().y;
 
-    if (!this->major) {
-        basicMove(game);
-    } else {
-        /* Look around and move where there is a lot of pheromones. */
-        Tile **around   = this->look_around(game);
-        auto moving_to = pheromone_around(around).getPos();
-
-        if ((0 <= moving_to.x && moving_to.x < x_dimension && 0 <= moving_to.y
-             && moving_to.y < y_dimension)) {
-            if (map->getTile(moving_to.x, moving_to.y)->isDiscovered()) {
-                this->position.setPos(moving_to);
-            }
-        }
-    }
-
     //TODO Si plus de pheromones autour, on continue dans la même direction
 
     if (this->has_food) {
@@ -54,10 +39,32 @@ void Worker::play_turn(Game *game)
             map->setColonyFood(map->getColonyFood() + 1);
             this->has_food = false;
         }
+    } else {
+        if (!minor_lifespan)
+            this->major = true;
+
+        if (!this->major) {
+            basicMove(game);
+            --minor_lifespan;
+        } else {
+            /* Look around and move where there is a lot of pheromones. */
+            Tile **around        = this->look_around(game);
+            Tile *targetted_tile = pheromone_around(around);
+            auto moving_to       = targetted_tile->getPos();
+
+            if ((0 <= moving_to.x && moving_to.x < x_dimension && 0 <= moving_to.y
+                 && moving_to.y < y_dimension)) {
+                if (map->getTile(moving_to.x, moving_to.y)->isDiscovered()) {
+                    this->position.setPos(moving_to);
+                }
+            }
+        }
     }
+
+    this->tryToEat(game);
 }
 
-Tile Worker::pheromone_around(Tile **tiles_around)
+Tile *Worker::pheromone_around(Tile **tiles_around)
 {
     float    max = 0.0;
     int      index;
@@ -67,7 +74,7 @@ Tile Worker::pheromone_around(Tile **tiles_around)
             index = i;
         }
     }
-    return *tiles_around[index];
+    return tiles_around[index];
 }
 
 

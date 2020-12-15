@@ -52,7 +52,6 @@ void Game::onCreate()
 
     ants.push_back(new Queen(
             true,
-            100,
             0.4,
             Position({51, 51}, std::stack<sf::Vector2i>(), false)
     ));

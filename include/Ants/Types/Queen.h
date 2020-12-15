@@ -12,11 +12,10 @@ class Queen : public virtual Ant
 {
 private:
     bool  can_give_birth;
-    int   lifespan;
     float production_chance;
 
 public:
-    Queen(bool can_give_birth, int lifespan, float production_chance, const Position &position);
+    Queen(bool can_give_birth, float production_chance, const Position &position);
 
     void play_turn(Game *game) override;
 

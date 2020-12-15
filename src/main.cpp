@@ -24,10 +24,8 @@
 #ifndef ANTS_TEST
 int main()
 {
-    Game game(500, 500);
+    Game game(211, 201);
     game.start(-1);
-
-    std::cout << game.getMap() << std::endl;
 
     return 0;
 }

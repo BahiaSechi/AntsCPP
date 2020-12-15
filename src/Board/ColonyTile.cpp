@@ -23,3 +23,8 @@
 ColonyTile::ColonyTile(const sf::Vector2i &position)
         : Tile(std::vector<Ant *>(), position, tile_type::COLONY)
 {}
+
+ColonyTile::~ColonyTile()
+{
+
+}

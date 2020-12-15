@@ -7,7 +7,7 @@
 #include <iostream>
 
 Soldier::Soldier(int expedition_time, const Position &position) :
-        Ant(1, position, Alimentation(0.1, 1))
+        Ant(10, position, Alimentation(0.1, 1))
 {}
 
 Soldier::~Soldier()

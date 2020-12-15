@@ -7,3 +7,8 @@
 EmptyTile::EmptyTile(const sf::Vector2i &position)
         : Tile(std::vector<Ant *>(), position, tile_type::EMPTY)
 {}
+
+EmptyTile::~EmptyTile()
+{
+
+}

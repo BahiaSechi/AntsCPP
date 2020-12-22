@@ -10,6 +10,7 @@
 #include <Ants/Types/Ant.h>
 #include <Board/Map.h>
 #include <Board/Tile.h>
+#include <Graphics/AntDraw.h>
 #include <Game.h>
 
 class Ant;
@@ -31,12 +32,12 @@ private:
     sf::Vector2f view_size   = sf::Vector2f(800.0f, 800.0f);
     float        view_zoom   = 1.0f;
 
-    int tile_size = 16;
+    float tile_size = 16;
 
 public:
-    sf::VertexArray tilesVertices(const Map &map, int map_x, int map_y);
+    sf::VertexArray tilesVertices(Map *map, int map_x, int map_y);
 
-    sf::VertexArray antsVertices(std::vector<Ant *> ants, Tile ***tiles, int map_x, int map_y);
+    sf::VertexArray antsVertices(const std::vector<Ant *> ants, Tile ***tiles, const AntDraw &adraw);
 
     /**
      * Function called by a delegated thread to update graphics

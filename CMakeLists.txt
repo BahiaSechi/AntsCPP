@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.17)
 project(ants)
 
 set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_FLAGS Wpedantic Wall)
 
 if (UNIX)
     set (SFML_DIR "${PROJECT_SOURCE_DIR}/lib/SFML-2.5.1_linux/lib/cmake/SFML")

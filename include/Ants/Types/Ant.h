@@ -28,18 +28,23 @@
 class Game;
 class Tile;
 
+enum ant_type {
+    QUEEN, WORKER, SCOUT, SLAVEOWNER, SOLDIER
+};
+
 class Ant {
 protected:
     int lifespan;
     Position position;
     Alimentation alimentation;
+    ant_type type;
 
 public:
-    Ant(int lifespan, const Position &position, const Alimentation &alimentation);
+    Ant(int lifespan, const Position &position, const Alimentation &alimentation, ant_type type);
     virtual void play_turn(Game *game) = 0;
     virtual ~Ant();
 
-    const sf::Vector2i &basicMove(Game *game);
+    const sf::Vector2i &basicMove(Game *game, bool ignore_discovery = false);
 
     bool tryToEat(Game *game);
 
@@ -54,6 +59,8 @@ public:
     const Alimentation &getAlimentation() const;
 
     void setAlimentation(const Alimentation &alimentation);
+
+    ant_type getType() const;
 };
 
 

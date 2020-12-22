@@ -16,8 +16,7 @@
 ////////////////////////////////////////////////////////////
 
 Game::Game(int width, int height)
-        : map(new Map(height, width, 16, 2)), ants(std::vector<Ant *>())
-        , renderer(new GameRender())
+        : map(new Map(height, width, 16, 2)), ants(std::vector<Ant *>()), renderer(new GameRender())
 {
 }
 
@@ -29,7 +28,7 @@ void Game::start(int turn_count = -1)
     std::chrono::system_clock::time_point t2 = std::chrono::system_clock::now();
 
     float elapsed_time = 0.0;
-    int   loop_count   = 0;
+    loop_count = 0;
 
     renderer->startGraphics(this);
     sf::RenderWindow *window = &renderer->getWindow();
@@ -149,4 +148,9 @@ std::vector<Ant *> &Game::getAnts()
 void Game::setAnts(const std::vector<Ant *> &ants)
 {
     Game::ants = ants;
+}
+
+int Game::getLoopCount() const
+{
+    return loop_count;
 }

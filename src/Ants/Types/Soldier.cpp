@@ -5,9 +5,10 @@
 #include <Ants/Types/Soldier.h>
 #include <algorithm>
 #include <iostream>
+#include <constants.h>
 
 Soldier::Soldier(int expedition_time, const Position &position) :
-        Ant(10, position, Alimentation(0.1, 1))
+        Ant(Constants::Ant::LIFESPAN, position, Alimentation(0.1, 1), SOLDIER)
 {}
 
 Soldier::~Soldier()
@@ -46,7 +47,7 @@ void Soldier::play_turn(Game *game)
         rasenshuriken_no_jutsu(*is_slave_owner_here);
     }
 
-    if (expedition_time != 100) {
+    if (expedition_time != Constants::Soldier::MAX_EXPEDITION_TIME) {
         basicMove(game);
     } else {
         // Go back to the colony.

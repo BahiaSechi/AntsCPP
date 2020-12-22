@@ -35,7 +35,14 @@ public:
 
     void generate();
 
-    Tile ** look_around(int x, int y) const;
+    /**
+     * Find and return the tiles around the given pos. Attention, the returned array is dynamically allocated !
+     *
+     * @param x
+     * @param y
+     * @return Tiles around x and y, dynamically allocated
+     */
+    Tile **look_around(int x, int y);
 
     void diffusion(Tile tile);
 
@@ -53,9 +60,9 @@ public:
 
     void setTiles(Tile ***tiles);
 
-    Tile *setTile(int x, int y, Tile *tile);
+    void setTile(int x, int y, Tile *tile);
 
-    Tile * getTile(int x, int y) const;
+    Tile * getTile(int x, int y);
 
     void setColonyFood(int colonyFood);
 

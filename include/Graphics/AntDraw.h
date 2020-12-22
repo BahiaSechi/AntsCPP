@@ -10,11 +10,11 @@
 class AntDraw
 {
 public:
-    sf::Vector2i queen_texture;
-    sf::Vector2i scoot_texture;
-    sf::Vector2i slaveowner_texture;
-    sf::Vector2i soldier_texture;
-    sf::Vector2i worker_texture;
+    std::pair<sf::Vector2i, sf::Vector2i> queen_texture;
+    std::pair<sf::Vector2i, sf::Vector2i> scout_texture;
+    std::pair<sf::Vector2i, sf::Vector2i> slaveowner_texture;
+    std::pair<sf::Vector2i, sf::Vector2i> soldier_texture;
+    std::pair<sf::Vector2i, sf::Vector2i> worker_texture;
 
     sf::Texture ants_texture;
 

@@ -19,22 +19,26 @@
  */
 
 #include <Ants/Types/Ant.h>
-#include <iostream>
+#include <random>
 
 
-Ant::Ant(int lifespan, const Position &position, const Alimentation &alimentation) :
-        lifespan(lifespan), alimentation(alimentation), position(position)
+Ant::Ant(int lifespan, const Position &position, const Alimentation &alimentation, ant_type type) :
+        lifespan(lifespan), alimentation(alimentation), position(position), type(type)
 {}
 
 Ant::~Ant()
 {}
 
-const sf::Vector2i &Ant::basicMove(Game *game)
+const sf::Vector2i &Ant::basicMove(Game *game, bool ignore_discovery)
 {
+    std::random_device               rd;  //Will be used to obtain a seed for the random number engine
+    std::mt19937                     gen(rd()); //Standard mersenne_twister_engine seeded with rd()
+    std::uniform_real_distribution<> dis(1, 8);
+
     auto ant_pos       = this->position.getPos();
     int  x_pos         = ant_pos.x;
     int  y_pos         = ant_pos.y;
-    int  moving_chance = rand() % 8 + 1;
+    int  moving_chance = dis(gen);
     int  future_x, future_y;
     auto map           = game->getMap();
     int  x_dimension   = map->getDimension().x;
@@ -85,7 +89,8 @@ const sf::Vector2i &Ant::basicMove(Game *game)
     }
 
     if ((0 <= future_x && future_x < x_dimension && 0 <= future_y && future_y < y_dimension)
-        && map->getTile(future_x, future_y)->isDiscovered()) {
+        && (map->getTile(future_x, future_y)->isDiscovered() || ignore_discovery)
+        ) {
         this->position.setPos({future_x, future_y});
     }
 
@@ -101,8 +106,8 @@ bool Ant::tryToEat(Game *game)
         return true;
     }
 
-    this->alimentation.starve();
-    return false;
+
+    return this->alimentation.starve();
 }
 
 int Ant::getLifespan() const
@@ -133,4 +138,9 @@ const Alimentation &Ant::getAlimentation() const
 void Ant::setAlimentation(const Alimentation &alimentation)
 {
     Ant::alimentation = alimentation;
+}
+
+ant_type Ant::getType() const
+{
+    return type;
 }

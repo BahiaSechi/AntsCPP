@@ -26,10 +26,12 @@
 #include <Ants/Types/Scout.h>
 #include <Ants/Types/Worker.h>
 #include <Ants/Types/Soldier.h>
+#include <constants.h>
 
 Queen::Queen(bool can_give_birth, float production_chance, const Position &position)
         : can_give_birth(can_give_birth), production_chance(production_chance),
-          Ant(100, position, Alimentation(1, 1)){}
+          Ant(Constants::Queen::LIFESPAN, position, Alimentation(1, 1), QUEEN)
+{}
 
 Queen::~Queen()
 {}
@@ -48,13 +50,13 @@ Ant *Queen::giveBirth(bool enforce_scout = false) const
 
     if (birth_proba <= 80) {
         Position pos = Position(this->position.getPos(), std::stack<sf::Vector2i>(), true);
-        return new Worker(false, false, 500, 15, pos);
+        return new Worker(false, false, Constants::Worker::PHEROMONE_MAX, Constants::Worker::MINOR_LIFESPAN, pos);
     } else if (birth_proba <= 95) {
         Position pos = Position(this->position.getPos(), std::stack<sf::Vector2i>(), false);
-        return new Soldier(100, pos);
+        return new Soldier(Constants::Soldier::MAX_EXPEDITION_TIME, pos);
     } else {
         Position pos = Position(this->position.getPos(), std::stack<sf::Vector2i>(), false);
-        return new Scout(false, 2, pos);
+        return new Scout(false, Constants::Scout::MINOR_LIFESPAN, pos);
     }
 }
 

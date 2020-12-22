@@ -27,6 +27,7 @@ private:
     Map                *map;
     std::vector<Ant *> ants;
     GameRender         *renderer;
+    int loop_count;
 
 public:
     Game(int width, int height);
@@ -48,6 +49,8 @@ public:
     std::vector<Ant *> &getAnts();
 
     void setAnts(const std::vector<Ant *> &ants);
+
+    int getLoopCount() const;
 
     virtual ~Game();
 };

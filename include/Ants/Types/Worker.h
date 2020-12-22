@@ -20,7 +20,14 @@ public:
 
     void play_turn(Game *game) override;
 
-    Tile *pheromone_around(Tile **tiles_around);
+    /**
+     * Search the tiles around for a tile with a high level of pheromone.
+     * If one is found, return it otherwise the farest tile from the colony center with a little randomness.
+     *
+     * @param tiles_around
+     * @return Tile *
+     */
+    Tile *pheromone_around(Tile **tiles_around, sf::Vector2i colony_pos);
 
     ~Worker();
 };

@@ -16,7 +16,7 @@ Map::~Map()
 {
     for (int y = 0; y < dimension.y; ++y) {
         for (int x = 0; x < dimension.x; ++x) {
-            delete[] tiles[y][x];
+            delete tiles[y][x];
         }
         delete[] tiles[y];
     }
@@ -189,12 +189,12 @@ std::ostream &operator<<(std::ostream &os, const Map &map)
     return os;
 }
 
-Tile **Map::look_around(int x, int y) const {
+Tile **Map::look_around(int x, int y) {
 
     int x_pos = x;
     int y_pos = y;
 
-    Tile *around[8] = {
+    Tile **tiles_around = new Tile*[8]{
             this->getTile(x_pos - 1, y_pos - 1),
             this->getTile(x_pos - 1, y_pos),
             this->getTile(x_pos - 1, y_pos + 1),
@@ -205,7 +205,7 @@ Tile **Map::look_around(int x, int y) const {
             this->getTile(x_pos + 1, y_pos + 1),
     };
 
-    return around;
+    return tiles_around;
 }
 
 void Map::diffusion(Tile tile) {
@@ -254,15 +254,21 @@ bool Map::isGenerated() const
     return is_generated;
 }
 
-Tile *Map::setTile(int x, int y, Tile *tile)
+void Map::setTile(int x, int y, Tile *tile)
 {
     std::lock_guard<std::mutex> guard(mtx);
     tiles[y][x] = tile;
 }
 
-Tile *Map::getTile(int x, int y) const
+Tile *Map::getTile(int x, int y)
 {
-    return tiles[y][x];
+    sf::Vector2i dim = this->getDimension();
+
+    if (0 <= x && x < dim.x && 0 <= y && y < dim.y) {
+        return tiles[y][x];
+    } else {
+        return nullptr;
+    }
 }
 
 

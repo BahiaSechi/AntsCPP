@@ -7,14 +7,13 @@
 #include <atomic>
 
 #include <Graphics/TileDraw.h>
-#include <Graphics/AntDraw.h>
 #include <sstream>
 
 ////////////////////////////////////////////////////////////
 // Main methods
 ////////////////////////////////////////////////////////////
 
-sf::VertexArray GameRender::tilesVertices(const Map &map, int map_x, int map_y)
+sf::VertexArray GameRender::tilesVertices(Map *map, int map_x, int map_y)
 {
     sf::VertexArray tiles_vertices(sf::Quads, map_x * map_y * 4);
     int             i = 0;
@@ -24,12 +23,12 @@ sf::VertexArray GameRender::tilesVertices(const Map &map, int map_x, int map_y)
 
     for (int y = 0; y < map_y - 1; ++y) {
         for (int x = 0; x < map_x - 1; ++x) {
-            tile = map.getTile(x, y);
+            tile = map->getTile(x, y);
 
-            tiles_vertices[i].position     = {x * 16.f, y * 16.f};
-            tiles_vertices[i + 1].position = {(x + 1) * 16.f, y * 16.f};
-            tiles_vertices[i + 2].position = {(x + 1) * 16.f, (y + 1) * 16.f};
-            tiles_vertices[i + 3].position = {x * 16.f, (y + 1) * 16.f};
+            tiles_vertices[i].position     = {x * tile_size, y * tile_size};
+            tiles_vertices[i + 1].position = {(x + 1) * tile_size, y * tile_size};
+            tiles_vertices[i + 2].position = {(x + 1) * tile_size, (y + 1) * tile_size};
+            tiles_vertices[i + 3].position = {x * tile_size, (y + 1) * tile_size};
 
             switch (tile->getType()) {
                 case tile_type::EMPTY:
@@ -47,9 +46,9 @@ sf::VertexArray GameRender::tilesVertices(const Map &map, int map_x, int map_y)
             }
 
             tiles_vertices[i].texCoords     = {ttexture_coord.x + 0.f, ttexture_coord.y + 0.f};
-            tiles_vertices[i + 1].texCoords = {ttexture_coord.x + 16.f, ttexture_coord.y + 0.f};
-            tiles_vertices[i + 2].texCoords = {ttexture_coord.x + 16.f, ttexture_coord.y + 16.f};
-            tiles_vertices[i + 3].texCoords = {ttexture_coord.x + 0.f, ttexture_coord.y + 16.f};
+            tiles_vertices[i + 1].texCoords = {ttexture_coord.x + tile_size, ttexture_coord.y + 0.f};
+            tiles_vertices[i + 2].texCoords = {ttexture_coord.x + tile_size, ttexture_coord.y + tile_size};
+            tiles_vertices[i + 3].texCoords = {ttexture_coord.x + 0.f, ttexture_coord.y + tile_size};
 
             i += 4;
         }
@@ -58,27 +57,47 @@ sf::VertexArray GameRender::tilesVertices(const Map &map, int map_x, int map_y)
     return tiles_vertices;
 }
 
-sf::VertexArray GameRender::antsVertices(std::vector<Ant *> ants, Tile ***tiles, int map_x, int map_y)
+sf::VertexArray GameRender::antsVertices(const std::vector<Ant *> ants, Tile ***tiles, const AntDraw &adraw)
 {
     sf::VertexArray ants_vertices(sf::Quads, ants.size() * 4);
     int             i = 0;
     Tile            *tile;
-    sf::Vector2i    atexture_coord;
     sf::Vector2i    pos;
+
+    std::pair<sf::Vector2i, sf::Vector2i> atexture_coord;
 
     for (auto ant : ants) {
         pos  = ant->getPosition().getPos();
         tile = tiles[pos.y][pos.x];
 
-        ants_vertices[i].position     = {pos.x * 16.f, pos.y * 16.f};
-        ants_vertices[i + 1].position = {(pos.x + 1) * 16.f, pos.y * 16.f};
-        ants_vertices[i + 2].position = {(pos.x + 1) * 16.f, (pos.y + 1) * 16.f};
-        ants_vertices[i + 3].position = {pos.x * 16.f, (pos.y + 1) * 16.f};
+        ants_vertices[i].position     = {pos.x * tile_size, pos.y * tile_size};
+        ants_vertices[i + 1].position = {(pos.x + 1) * tile_size, pos.y * tile_size};
+        ants_vertices[i + 2].position = {(pos.x + 1) * tile_size, (pos.y + 1) * tile_size};
+        ants_vertices[i + 3].position = {pos.x * tile_size, (pos.y + 1) * tile_size};
 
-        ants_vertices[i].texCoords     = {atexture_coord.x + 0.f, atexture_coord.y + 0.f};
-        ants_vertices[i + 1].texCoords = {atexture_coord.x + 200.f, atexture_coord.y + 0.f};
-        ants_vertices[i + 2].texCoords = {atexture_coord.x + 200.f, atexture_coord.y + 250.f};
-        ants_vertices[i + 3].texCoords = {atexture_coord.x + 0.f, atexture_coord.y + 250.f};
+        switch (ant->getType()) {
+            case QUEEN:
+                atexture_coord = adraw.queen_texture;
+                break;
+            case SCOUT:
+                atexture_coord = adraw.scout_texture;
+                break;
+            case WORKER:
+                atexture_coord = adraw.worker_texture;
+                break;
+            case SLAVEOWNER:
+                atexture_coord = adraw.slaveowner_texture;
+                break;
+            case SOLDIER:
+                atexture_coord = adraw.soldier_texture;
+                break;
+        }
+
+        // + 0.f to cast to float
+        ants_vertices[i].texCoords     = {atexture_coord.first.x + 0.f, atexture_coord.first.y + 0.f};
+        ants_vertices[i + 1].texCoords = {atexture_coord.second.x + 0.f, atexture_coord.first.y + 0.f};
+        ants_vertices[i + 2].texCoords = {atexture_coord.second.x + 0.f, atexture_coord.second.y + 0.f};
+        ants_vertices[i + 3].texCoords = {atexture_coord.first.x + 0.f, atexture_coord.second.y + 0.f};
 
         i += 4;
     }
@@ -103,10 +122,15 @@ void GameRender::updateGraphics(Game *game)
 
     sf::Font font_default;
     font_default.loadFromFile("assets/fonts/JetBrainsMono-Regular.ttf");
-    sf::Text text_ants_counter("", font_default);
-    text_ants_counter.setPosition({20.f, 20.f});
-    text_ants_counter.setCharacterSize(24);
-    text_ants_counter.setFillColor(sf::Color::Black);
+    sf::Text t_ants_counter("", font_default);
+    t_ants_counter.setPosition({20.f, 20.f});
+    t_ants_counter.setCharacterSize(24);
+    t_ants_counter.setFillColor(sf::Color::Black);
+
+    sf::Text t_loop_counter("", font_default);
+    t_loop_counter.setPosition({20.f, 50.f});
+    t_loop_counter.setCharacterSize(24);
+    t_loop_counter.setFillColor(sf::Color::Black);
 
     TileDraw         tdraw;
     AntDraw          adraw;
@@ -130,17 +154,23 @@ void GameRender::updateGraphics(Game *game)
 
         std::stringstream ss;
         ss << "Nombre de fourmis: " << game->getAnts().size() << '\n';
-        text_ants_counter.setString(ss.str());
+        t_ants_counter.setString(ss.str());
+        ss.str("");
+
+        ss << "Tour numéro: " << game->getLoopCount() << '\n';
+        t_loop_counter.setString(ss.str());
+        ss.str("");
 
         // draw ant stuff
         window.setView(ant_view);
-        window.draw(tilesVertices(*map, map_dimension.x, map_dimension.y), &tdraw.tile_texture);
-        window.draw(antsVertices(game->getAnts(), map->getTiles(), map_dimension.x, map_dimension.y), ants_render);
+        window.draw(tilesVertices(game->getMap(), map_dimension.x, map_dimension.y), &tdraw.tile_texture);
+        window.draw(antsVertices(game->getAnts(), map->getTiles(), adraw), ants_render);
 
 
         // draw ui
         window.setView(gui_view);
-        window.draw(text_ants_counter);
+        window.draw(t_ants_counter);
+        window.draw(t_loop_counter);
 
         elapsed_time = wait(t1, t2, 1.0);
 

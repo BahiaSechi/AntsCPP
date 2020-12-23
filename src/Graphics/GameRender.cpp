@@ -135,6 +135,7 @@ void GameRender::updateGraphics(Game *game)
     sf::Vector2f vcenter = view_center;
     sf::Vector2f vsize   = view_size;
     auto         map     = game->getMap();
+    sf::Mouse    mouse;
 
     sf::Font font_default;
     font_default.loadFromFile("assets/fonts/JetBrainsMono-Regular.ttf");
@@ -147,6 +148,16 @@ void GameRender::updateGraphics(Game *game)
     t_loop_counter.setPosition({20.f, 50.f});
     t_loop_counter.setCharacterSize(24);
     t_loop_counter.setFillColor(sf::Color::Black);
+
+    sf::Text t_colony_pos("", font_default);
+    t_colony_pos.setPosition({20.f, 80.f});
+    t_colony_pos.setCharacterSize(24);
+    t_colony_pos.setFillColor(sf::Color::Black);
+
+    sf::Text t_mouse_target("", font_default);
+    t_mouse_target.setPosition({20.f, 110.f});
+    t_mouse_target.setCharacterSize(24);
+    t_mouse_target.setFillColor(sf::Color::Black);
 
     sf::Text t_help("", font_default);
     t_help.setCharacterSize(24);
@@ -183,6 +194,17 @@ void GameRender::updateGraphics(Game *game)
         t_loop_counter.setString(ss.str());
         ss.str("");
 
+        ss << "Position de la colony: (" << Constants::Map::COLONY_POS.x << "," << Constants::Map::COLONY_POS.y << ")"
+           << '\n';
+        t_colony_pos.setString(ss.str());
+        ss.str("");
+
+        ss << "Cible de la souris: (" << mouse.getPosition().x / Constants::Map::TILESIZE << ","
+           << mouse.getPosition().y / Constants::Map::TILESIZE << ")"
+           << '\n';
+        t_mouse_target.setString(ss.str());
+        ss.str("");
+
         t_help.setPosition({window.getSize().x - 520.f, window.getSize().y - 40.f});
         ss << "Fleches pour bouger, +/- pour zoomer" << '\n';
         t_help.setString(ss.str());
@@ -198,6 +220,8 @@ void GameRender::updateGraphics(Game *game)
         window.setView(gui_view);
         window.draw(t_ants_counter);
         window.draw(t_loop_counter);
+        window.draw(t_colony_pos);
+        window.draw(t_mouse_target);
         window.draw(t_help);
 
         elapsed_time = wait(t1, t2, 1.0);

@@ -49,7 +49,7 @@ private:
     sf::Vector2f view_size   = sf::Vector2f(800.0f, 800.0f);
     float        view_zoom   = 1.0f;
 
-    float tile_size = 16;
+    float tile_size = Constants::Map::TILESIZE;
 
 public:
     /**

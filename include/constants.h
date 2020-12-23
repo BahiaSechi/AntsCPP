@@ -30,8 +30,10 @@ namespace Constants
 
     namespace Map
     {
-        const sf::Vector2i DIMENSION = {211, 201};
         const sf::Vector2i COLONY_POS = {105, 100};
+        const sf::Vector2i DIMENSION = {211, 201};
+
+        const float TILESIZE = 16;
     }
 
     namespace Scout

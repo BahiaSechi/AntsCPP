@@ -277,7 +277,7 @@ void GameRender::startGraphics(Game *game)
 
     ant_view = sf::View(sf::FloatRect(vcenter.x, vcenter.y, vsize.x, vsize.y));
     ant_view.setCenter(vcenter);
-    gui_view = sf::View(sf::FloatRect(0, 0, vsize.x, vsize.y));
+    gui_view = sf::View(sf::FloatRect(vcenter.x, vcenter.y, vsize.x, vsize.y));
 
     window.setView(ant_view);
 

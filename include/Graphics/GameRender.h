@@ -28,6 +28,7 @@
 #include <Board/Tile.h>
 #include <Graphics/AntDraw.h>
 #include <Game.h>
+#include <constants.h>
 
 class Ant;
 
@@ -44,7 +45,7 @@ private:
     sf::View         ant_view;
     sf::View         gui_view;
 
-    sf::Vector2f view_center = sf::Vector2f(300.0f, 300.0f);
+    sf::Vector2f view_center = sf::Vector2f(Constants::Map::COLONY_POS.x + 0.f, Constants::Map::COLONY_POS.y + 0.f);
     sf::Vector2f view_size   = sf::Vector2f(800.0f, 800.0f);
     float        view_zoom   = 1.0f;
 

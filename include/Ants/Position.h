@@ -19,6 +19,10 @@ public:
     Position(const sf::Vector2i &pos, const std::stack<sf::Vector2i> &pos_stack,
              bool register_post);
 
+    /**
+     * Take the top of the stack and move the ant back to this pos.
+     * @return
+     */
     const sf::Vector2i &goBack();
 
     // Getters & setters

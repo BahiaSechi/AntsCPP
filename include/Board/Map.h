@@ -45,8 +45,21 @@ public:
      */
     Tile **look_around(int x, int y);
 
+    /**
+     * Spread pheromones accross tile surrounding.
+     *
+     * @param tile
+     */
     void diffusion(Tile tile);
 
+    /**
+     * Reduce the food stock of a tile.
+     *
+     * @param x
+     * @param y
+     * @param amount
+     * @return
+     */
     bool reduceFood(int x, int y, float amount);
 
     int getColonyFood() const;

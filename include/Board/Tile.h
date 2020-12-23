@@ -30,8 +30,15 @@ public:
 
     virtual ~Tile();
 
+    /**
+     * Slowly remove pheromones from the stock.
+     */
     void evaporation();
 
+    /**
+     * Return weither the stock is at its maximum.
+     * @return
+     */
     bool pheromone_max();
 
     const sf::Vector2i &getPos() const;

@@ -44,8 +44,21 @@ public:
     virtual void play_turn(Game *game) = 0;
     virtual ~Ant();
 
+    /**
+     * Basic movements implementation.
+     *
+     * @param game
+     * @param ignore_discovery Ignore the discovered state of tiles (for example : Scout)
+     * @return
+     */
     const sf::Vector2i &basicMove(Game *game, bool ignore_discovery = false);
 
+    /**
+     * Try to eat from the actual tile and return weither or not the ant is dead.
+     *
+     * @param game
+     * @return
+     */
     bool tryToEat(Game *game);
 
     int getLifespan() const;

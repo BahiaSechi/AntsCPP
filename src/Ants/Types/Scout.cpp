@@ -26,11 +26,11 @@ void Scout::play_turn(Game *game)
 
     if (major) {
         basicMove(game, true);
-        tileDiscovered(game, this->position.getPos().x, this->position.getPos().y);
+        discoverTile(game, this->position.getPos().x, this->position.getPos().y);
     }
 }
 
-void Scout::tileDiscovered(Game *game, int x_pos, int y_pos)
+void Scout::discoverTile(Game *game, int pos_x, int pos_y)
 {
-    game->getMap()->getTile(x_pos, y_pos)->setDiscovered(true);
+    game->getMap()->getTile(pos_x, pos_y)->setDiscovered(true);
 }

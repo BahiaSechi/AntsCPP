@@ -32,14 +32,36 @@ private:
 public:
     Game(int width, int height);
 
+    /**
+     * Called once when game starts.
+     */
     void onCreate();
 
+    /**
+     * Called every frame to update logic.
+     *
+     * @param elapsed_time
+     */
     void onLogicUpdate(float elapsed_time);
 
+    /**
+     * Handle logic related events (not for graphics).
+     *
+     * @param event
+     * @param elapsed_time
+     */
     void handleLogicEvent(const sf::Event &event, float elapsed_time);
 
+    /**
+     * Save game stats to evolution.txt.
+     */
     void saveToFile();
 
+    /**
+     * Start the game (onCreate and onUpdate).
+     *
+     * @param turn_count
+     */
     void start(int turn_count);
 
     Map *getMap() const;
@@ -56,7 +78,7 @@ public:
 };
 
 /**
- * Given t1 and t2, wait a specific time to comply with the time between frame (value set in the definition)
+ * Given t1 and t2, wait a specific time to comply with the time between frame (value set in the definition).
  *
  * @param t1
  * @param t2

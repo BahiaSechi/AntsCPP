@@ -16,9 +16,19 @@ public:
     Soldier(int expedition_time, const Position &position);
     ~Soldier() override;
 
+    /**
+     * While the soldier is minor, does not do much. Then, when major, go find and attack slave owners.
+     *
+     * @param game
+     */
     void play_turn(Game *game) override;
 
-    void rasenshuriken_no_jutsu(Ant *slave_owner) const;
+    /**
+     * Attack a slave owner.
+     *
+     * @param slave_owner
+     */
+    void rasenshuriken_no_jutsu(SlaveOwner *slave_owner) const;
 };
 
 #endif //ANTSPROJECT_SOLDIER_H

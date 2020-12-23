@@ -15,6 +15,11 @@ private:
 public:
     SlaveOwner(bool has_larva, const Position &position);
 
+    /**
+     * For now, do some basic movements.
+     *
+     * @param game
+     */
     void play_turn(Game *game) override;
 
     ~SlaveOwner() override;

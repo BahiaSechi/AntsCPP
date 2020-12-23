@@ -18,6 +18,12 @@ private:
 public:
     Worker(bool has_food, bool major, int pheromones_stock, int minor_lifespan, const Position &position);
 
+    /**
+     * While the worker is minor, do some basic movement. When it is major, go find some food.
+     * The major worker will try to go as far as possible from the colony to find food.
+     *
+     * @param game
+     */
     void play_turn(Game *game) override;
 
     /**

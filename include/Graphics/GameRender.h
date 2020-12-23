@@ -35,19 +35,46 @@ private:
     float tile_size = 16;
 
 public:
+    /**
+     * Generates the vertices to draw the tiles of the map.
+     *
+     * @param map
+     * @param map_x
+     * @param map_y
+     * @return
+     */
     sf::VertexArray tilesVertices(Map *map, int map_x, int map_y);
 
+    /**
+     * Generates the vertices to draw the ants.
+     *
+     * @param ants
+     * @param tiles
+     * @param adraw
+     * @return
+     */
     sf::VertexArray antsVertices(const std::vector<Ant *> ants, Tile ***tiles, const AntDraw &adraw);
 
     /**
-     * Function called by a delegated thread to update graphics
+     * Function called by a delegated thread to update graphics.
      *
      * @param window
      */
     void updateGraphics(Game *game);
 
+    /**
+     * Start the graphic side of the software, display the window and run updateGraphics in a new thread.
+     *
+     * @param game
+     */
     void startGraphics(Game *game);
 
+    /**
+     * Handle graphics related events like zooming or moving the camera.
+     *
+     * @param event
+     * @param elapsed_time
+     */
     void handleGraphicEvent(const sf::Event &event, float elapsed_time);
 
     const sf::Vector2f &getViewCenter() const;

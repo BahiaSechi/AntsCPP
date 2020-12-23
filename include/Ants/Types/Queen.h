@@ -17,12 +17,17 @@ private:
 public:
     Queen(bool can_give_birth, float production_chance, const Position &position);
 
+    /**
+     * The queen try to guve birth to two ants each turn. She does not move.
+     *
+     * @param game
+     */
     void play_turn(Game *game) override;
 
     ~Queen() override;
 
     /**
-     * Birth type chance : Worker 80%, Soldier 15%, Scout 5%
+     * Birth type chance : Worker 80%, Soldier 15%, Scout 5%.
      *
      * @param enforce_scout
      * @return A new Ant of one of the three types above

@@ -15,11 +15,15 @@ private:
 public:
     Scout(bool major, int minorLifespan, const Position &position);
 
+    /**
+     * While minor, stay in the colony. When major, go discover tiles.
+     * @param game
+     */
     void play_turn(Game *game) override;
 
     ~Scout() override;
 
-    static void tileDiscovered(Game *game, int pos_x, int pos_y);
+    void discoverTile(Game *game, int pos_x, int pos_y);
 };
 
 

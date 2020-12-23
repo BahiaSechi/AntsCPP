@@ -135,7 +135,8 @@ void GameRender::updateGraphics(Game *game)
     sf::Vector2f vcenter = view_center;
     sf::Vector2f vsize   = view_size;
     auto         map     = game->getMap();
-    sf::Mouse    mouse;
+    sf::Vector2f mouse_pos_view;
+    sf::Vector2u mouse_pos_grid;
 
     sf::Font font_default;
     font_default.loadFromFile("assets/fonts/JetBrainsMono-Regular.ttf");
@@ -183,6 +184,12 @@ void GameRender::updateGraphics(Game *game)
 
         window.clear(sf::Color::White);
 
+        mouse_pos_view = window.mapPixelToCoords(sf::Mouse::getPosition(window));
+        if (mouse_pos_view.x >= 0.f)
+            mouse_pos_grid.x = mouse_pos_view.x / tile_size;
+        if (mouse_pos_view.y >= 0.f)
+            mouse_pos_grid.y = mouse_pos_view.y / tile_size;
+
         vsize = view_size;
 
         std::stringstream ss;
@@ -199,9 +206,7 @@ void GameRender::updateGraphics(Game *game)
         t_colony_pos.setString(ss.str());
         ss.str("");
 
-        ss << "Cible de la souris: (" << mouse.getPosition().x / Constants::Map::TILESIZE << ","
-           << mouse.getPosition().y / Constants::Map::TILESIZE << ")"
-           << '\n';
+        ss << "Cible de la souris: (" << mouse_pos_grid.x << "," << mouse_pos_grid.y << ")" << '\n';
         t_mouse_target.setString(ss.str());
         ss.str("");
 

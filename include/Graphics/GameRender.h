@@ -28,7 +28,7 @@ private:
     sf::View         ant_view;
     sf::View         gui_view;
 
-    sf::Vector2f view_center = sf::Vector2f(100.0f, 100.0f);
+    sf::Vector2f view_center = sf::Vector2f(300.0f, 300.0f);
     sf::Vector2f view_size   = sf::Vector2f(800.0f, 800.0f);
     float        view_zoom   = 1.0f;
 

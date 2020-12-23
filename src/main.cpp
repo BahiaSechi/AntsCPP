@@ -25,7 +25,7 @@
 #ifndef ANTS_TEST
 int main()
 {
-    Game game(Constants::Map::COLONY_POS.x, Constants::Map::COLONY_POS.y);
+    Game game(Constants::Map::DIMENSION.x, Constants::Map::DIMENSION.y);
     game.start(-1);
 
     return 0;

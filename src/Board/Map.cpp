@@ -36,6 +36,7 @@ void Map::generate()
 {
     int width  = dimension.x;
     int height = dimension.y;
+    sf::Vector2i colony_pos = Constants::Map::COLONY_POS;
 
 
     tiles = new Tile **[height];
@@ -55,7 +56,7 @@ void Map::generate()
     for (int y = 0; y < height; ++y) {
         for (int x = 0; x < width; ++x) {
             if (tiles[y][x] == nullptr) {
-                if (y == Constants::Map::COLONY_POS.y && x == Constants::Map::COLONY_POS.x) {
+                if (y == colony_pos.y && x == colony_pos.x) {
                     tiles[y][x] = new ColonyTile({x, y});
                 } else {
                     tile_type_prob = dis(gen);

@@ -132,6 +132,10 @@ void GameRender::updateGraphics(Game *game)
     t_loop_counter.setCharacterSize(24);
     t_loop_counter.setFillColor(sf::Color::Black);
 
+    sf::Text t_help("", font_default);
+    t_help.setCharacterSize(24);
+    t_help.setFillColor(sf::Color::Black);
+
     TileDraw         tdraw;
     AntDraw          adraw;
     sf::RenderStates ants_render;
@@ -152,13 +156,20 @@ void GameRender::updateGraphics(Game *game)
 
         window.clear(sf::Color::White);
 
+        vsize = view_size;
+
         std::stringstream ss;
         ss << "Nombre de fourmis: " << game->getAnts().size() << '\n';
         t_ants_counter.setString(ss.str());
         ss.str("");
 
-        ss << "Tour numéro: " << game->getLoopCount() << '\n';
+        ss << "Tour numero: " << game->getLoopCount() << '\n';
         t_loop_counter.setString(ss.str());
+        ss.str("");
+
+        t_help.setPosition({window.getSize().x - 520.f, window.getSize().y - 40.f});
+        ss << "Fleches pour bouger, +/- pour zoomer" << '\n';
+        t_help.setString(ss.str());
         ss.str("");
 
         // draw ant stuff
@@ -171,6 +182,7 @@ void GameRender::updateGraphics(Game *game)
         window.setView(gui_view);
         window.draw(t_ants_counter);
         window.draw(t_loop_counter);
+        window.draw(t_help);
 
         elapsed_time = wait(t1, t2, 1.0);
 

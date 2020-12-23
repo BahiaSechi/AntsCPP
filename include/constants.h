@@ -12,6 +12,12 @@ namespace Constants
         const int LIFESPAN = 10;
     }
 
+    namespace Map
+    {
+        const sf::Vector2i DIMENSION = {211, 201};
+        const sf::Vector2i COLONY_POS = {105, 100};
+    }
+
     namespace Scout
     {
         const int MINOR_LIFESPAN = 2;

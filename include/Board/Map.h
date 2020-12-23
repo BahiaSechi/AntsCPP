@@ -18,6 +18,7 @@ class Map
 {
 private:
     sf::Vector2i dimension;
+    sf::Vector2i colony_pos;
     Tile         ***tiles;
     int          colony_food;
     int          big_food_source_count;

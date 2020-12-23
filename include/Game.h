@@ -38,7 +38,7 @@ public:
 
     void handleLogicEvent(const sf::Event &event, float elapsed_time);
 
-    void saveToFile(int loop_count);
+    void saveToFile();
 
     void start(int turn_count);
 

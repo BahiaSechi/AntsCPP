@@ -36,6 +36,7 @@ void Map::generate()
     int width  = dimension.x;
     int height = dimension.y;
 
+
     tiles = new Tile **[height];
 
     std::random_device               rd;  //Will be used to obtain a seed for the random number engine

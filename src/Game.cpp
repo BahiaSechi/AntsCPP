@@ -10,6 +10,7 @@
 #include <Graphics/TileDraw.h>
 #include <Graphics/AntDraw.h>
 #include <Graphics/GameRender.h>
+#include <constants.h>
 
 ////////////////////////////////////////////////////////////
 // Main methods
@@ -41,7 +42,7 @@ void Game::start(int turn_count = -1)
 
         elapsed_time = wait(t1, t2);
         onLogicUpdate(elapsed_time);
-        saveToFile(++loop_count);
+        saveToFile();
     }
 }
 
@@ -52,10 +53,10 @@ void Game::onCreate()
     ants.push_back(new Queen(
             true,
             0.4,
-            Position({51, 51}, std::stack<sf::Vector2i>(), false)
+            Position(Constants::Map::COLONY_POS, std::stack<sf::Vector2i>(), false)
     ));
 
-    saveToFile(-1);
+    saveToFile();
 }
 
 void Game::onLogicUpdate(float elapsed_time)
@@ -70,10 +71,9 @@ void Game::onLogicUpdate(float elapsed_time)
 
 void Game::handleLogicEvent(const sf::Event &event, float elapsed_time)
 {
-
 }
 
-void Game::saveToFile(int loop_count)
+void Game::saveToFile()
 {
     std::ofstream stat_file;
     stat_file.open("evolution.txt", std::ios::out | std::ios::app);

@@ -28,7 +28,7 @@ public:
      *
      * @param slave_owner
      */
-    void rasenshuriken_no_jutsu(SlaveOwner *slave_owner) const;
+    void rasenshuriken_no_jutsu(Ant *slave_owner) const;
 };
 
 #endif //ANTSPROJECT_SOLDIER_H

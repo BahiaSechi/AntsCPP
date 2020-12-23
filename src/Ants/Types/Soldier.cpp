@@ -19,7 +19,7 @@ Soldier::~Soldier()
 /*
  * Soldier can attack one slave owner in the tile.
  */
-void Soldier::rasenshuriken_no_jutsu(SlaveOwner *slave_owner) const
+void Soldier::rasenshuriken_no_jutsu(Ant *slave_owner) const
 {
     delete &slave_owner;
 }

@@ -20,11 +20,12 @@
 
 #include <iostream>
 #include <Game.h>
+#include <constants.h>
 
 #ifndef ANTS_TEST
 int main()
 {
-    Game game(211, 201);
+    Game game(Constants::Map::COLONY_POS.x, Constants::Map::COLONY_POS.y);
     game.start(-1);
 
     return 0;

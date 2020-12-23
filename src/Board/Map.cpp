@@ -11,6 +11,7 @@
 #include <Board/FoodTile.h>
 #include <Board/EmptyTile.h>
 #include <iostream>
+#include <constants.h>
 
 Map::~Map()
 {
@@ -54,7 +55,7 @@ void Map::generate()
     for (int y = 0; y < height; ++y) {
         for (int x = 0; x < width; ++x) {
             if (tiles[y][x] == nullptr) {
-                if (y == height / 2 && x == width / 2) {
+                if (y == Constants::Map::COLONY_POS.y && x == Constants::Map::COLONY_POS.x) {
                     tiles[y][x] = new ColonyTile({x, y});
                 } else {
                     tile_type_prob = dis(gen);
